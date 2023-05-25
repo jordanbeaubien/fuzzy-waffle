@@ -1,6 +1,6 @@
-###CMPT 291 - Spring 2023 Group Project C# .Net###
+#CMPT 291 - Spring 2023 Group Project C# .Net
 
-Milestone 1: (week of June 7th): Demo for Application screens 
+*Milestone 1: (week of June 7th): Demo for Application screens*
 (all needed User interfaces) and one screen connected to the database.
 
 1.   Car Screen. Connected to the database. In this screen, users should be    able to add/modify/delete and search cars.
