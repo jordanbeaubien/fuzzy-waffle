@@ -1,4 +1,4 @@
-#CMPT 291 - Spring 2023 Group Project C# .Net
+# CMPT 291 - Spring 2023 Group Project C# .Net
 
 *Milestone 1: (week of June 7th): Demo for Application screens*
 (all needed User interfaces) and one screen connected to the database.
