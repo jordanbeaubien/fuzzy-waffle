@@ -8,19 +8,24 @@
     "net6.0-windows7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\kevan\\.nuget\\packages\\": {}
+    "C:\\Users\\nealh\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kevan\\OneDrive\\Documents\\GitHub\\fuzzy-waffle\\CMPT291Project\\CMPT291Project\\CMPT291Project.csproj",
+      "projectUniqueName": "C:\\Users\\nealh\\source\\repos\\CMPT291Project\\CMPT291Project\\CMPT291Project.csproj",
       "projectName": "CMPT291Project",
-      "projectPath": "C:\\Users\\kevan\\OneDrive\\Documents\\GitHub\\fuzzy-waffle\\CMPT291Project\\CMPT291Project\\CMPT291Project.csproj",
-      "packagesPath": "C:\\Users\\kevan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kevan\\OneDrive\\Documents\\GitHub\\fuzzy-waffle\\CMPT291Project\\CMPT291Project\\obj\\",
+      "projectPath": "C:\\Users\\nealh\\source\\repos\\CMPT291Project\\CMPT291Project\\CMPT291Project.csproj",
+      "packagesPath": "C:\\Users\\nealh\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\nealh\\source\\repos\\CMPT291Project\\CMPT291Project\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\kevan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\nealh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
