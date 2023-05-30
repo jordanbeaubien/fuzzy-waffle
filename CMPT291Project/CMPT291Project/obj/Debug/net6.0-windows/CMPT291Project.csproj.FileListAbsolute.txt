@@ -14,5 +14,6 @@ C:\Users\nealh\source\repos\CMPT291Project\CMPT291Project\obj\Debug\net6.0-windo
 C:\Users\nealh\source\repos\CMPT291Project\CMPT291Project\obj\Debug\net6.0-windows\CMPT291Project.pdb
 C:\Users\nealh\source\repos\CMPT291Project\CMPT291Project\obj\Debug\net6.0-windows\CMPT291Project.genruntimeconfig.cache
 C:\Users\nealh\source\repos\CMPT291Project\CMPT291Project\obj\Debug\net6.0-windows\ref\CMPT291Project.dll
-C:\Users\nealh\source\repos\CMPT291Project\CMPT291Project\obj\Debug\net6.0-windows\CMPT291Project.Form2.resources
 C:\Users\nealh\source\repos\CMPT291Project\CMPT291Project\obj\Debug\net6.0-windows\CMPT291Project.form_login.resources
+C:\Users\nealh\source\repos\CMPT291Project\CMPT291Project\obj\Debug\net6.0-windows\CMPT291Project.Form2.resources
+C:\Users\nealh\source\repos\CMPT291Project\CMPT291Project\obj\Debug\net6.0-windows\CMPT291Project.Old_Main.resources
