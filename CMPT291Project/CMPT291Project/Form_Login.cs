@@ -17,13 +17,13 @@ namespace CMPT291Project
 
         private Form2 formMain;
 
-        public Form1() // Add argument "Form2 formMain" for login auth
+        public Form1(Form2 formMain) // Added argument "Form2 formMain" for login auth
         {
             InitializeComponent();
-            /*
+
             // Login addon
             this.formMain = formMain;
-            */
+
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -58,11 +58,10 @@ namespace CMPT291Project
                 Form2 F2 = new Form2();
                 F2.Show();
 
-                /*
                 // If login is successful:
                 formMain.IsUserAuthenticated = true;
                 this.Close();
-                */
+
             }
             else
             {

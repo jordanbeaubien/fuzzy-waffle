@@ -18,14 +18,13 @@ namespace CMPT291Project
         public SqlCommand sqlCommand;
         public SqlDataReader sqlReader;
 
-        /*
         public bool IsUserAuthenticated { get; set; } // Added login auth
-        */
+        
 
         public Form2()
         {
             InitializeComponent();
-            String connectionString = "Server = HAMMERPAD; Database = CMPT291Project; Trusted_Connection = yes";
+            String connectionString = "Server = KEVANO-SURFACE4; Database = CMPT291Project; Trusted_Connection = yes";
 
             SqlConnection sqlConnection = new SqlConnection(connectionString);
 
@@ -42,14 +41,12 @@ namespace CMPT291Project
                 this.Close();
             }
 
-            /*
             // Wire up the SelectedIndexChanged eevent of the TabControl
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
-            */
+
         }
 
 
-        /*
         // Login private code
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -59,7 +56,7 @@ namespace CMPT291Project
                 tabControl1.SelectedTab = tab_rental;
             }
         }
-        */
+
 
         private void tabPage1_Click(object sender, EventArgs e)
         {
