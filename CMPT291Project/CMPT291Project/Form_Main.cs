@@ -24,7 +24,8 @@ namespace CMPT291Project
         public Form2()
         {
             InitializeComponent();
-            String connectionString = "Server = KEVANO-SURFACE4; Database = CMPT291Project; Trusted_Connection = yes";
+            String connectionString = "Server = HAMMERPAD; Database = CMPT291Project; Trusted_Connection = yes";
+            // String connectionString = "Server = KEVANO-SURFACE4; Database = CMPT291Project; Trusted_Connection = yes";
 
             SqlConnection sqlConnection = new SqlConnection(connectionString);
 
