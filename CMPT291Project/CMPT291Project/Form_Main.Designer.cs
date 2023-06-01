@@ -45,11 +45,11 @@
             pickup_date_picker = new DateTimePicker();
             vehicle_type_label = new Label();
             tab_car = new TabPage();
+            type = new ComboBox();
             branch = new ComboBox();
             button_delete = new RadioButton();
             button_modify = new RadioButton();
             button_add = new RadioButton();
-            type = new TextBox();
             make = new TextBox();
             year = new TextBox();
             colour = new TextBox();
@@ -245,11 +245,11 @@
             // 
             // tab_car
             // 
+            tab_car.Controls.Add(type);
             tab_car.Controls.Add(branch);
             tab_car.Controls.Add(button_delete);
             tab_car.Controls.Add(button_modify);
             tab_car.Controls.Add(button_add);
-            tab_car.Controls.Add(type);
             tab_car.Controls.Add(make);
             tab_car.Controls.Add(year);
             tab_car.Controls.Add(colour);
@@ -275,13 +275,22 @@
             tab_car.UseVisualStyleBackColor = true;
             tab_car.Click += tabPage2_Click;
             // 
+            // type
+            // 
+            type.FormattingEnabled = true;
+            type.Location = new Point(155, 90);
+            type.Name = "type";
+            type.Size = new Size(121, 23);
+            type.TabIndex = 5;
+            type.SelectedIndexChanged += type_SelectedIndexChanged;
+            // 
             // branch
             // 
             branch.FormattingEnabled = true;
             branch.Location = new Point(155, 310);
             branch.Name = "branch";
             branch.Size = new Size(121, 23);
-            branch.TabIndex = 23;
+            branch.TabIndex = 11;
             // 
             // button_delete
             // 
@@ -289,10 +298,11 @@
             button_delete.Location = new Point(208, 27);
             button_delete.Name = "button_delete";
             button_delete.Size = new Size(58, 19);
-            button_delete.TabIndex = 22;
+            button_delete.TabIndex = 2;
             button_delete.TabStop = true;
             button_delete.Text = "Delete";
             button_delete.UseVisualStyleBackColor = true;
+            button_delete.CheckedChanged += button_delete_CheckedChanged;
             // 
             // button_modify
             // 
@@ -300,7 +310,7 @@
             button_modify.Location = new Point(272, 27);
             button_modify.Name = "button_modify";
             button_modify.Size = new Size(63, 19);
-            button_modify.TabIndex = 21;
+            button_modify.TabIndex = 3;
             button_modify.TabStop = true;
             button_modify.Text = "Modify";
             button_modify.UseVisualStyleBackColor = true;
@@ -311,53 +321,46 @@
             button_add.Location = new Point(155, 27);
             button_add.Name = "button_add";
             button_add.Size = new Size(47, 19);
-            button_add.TabIndex = 20;
+            button_add.TabIndex = 1;
             button_add.TabStop = true;
             button_add.Text = "Add";
             button_add.UseVisualStyleBackColor = true;
             button_add.CheckedChanged += button_add_CheckedChanged;
-            // 
-            // type
-            // 
-            type.Location = new Point(155, 95);
-            type.Name = "type";
-            type.Size = new Size(100, 23);
-            type.TabIndex = 19;
             // 
             // make
             // 
             make.Location = new Point(155, 127);
             make.Name = "make";
             make.Size = new Size(100, 23);
-            make.TabIndex = 18;
+            make.TabIndex = 6;
             // 
             // year
             // 
             year.Location = new Point(155, 193);
             year.Name = "year";
             year.Size = new Size(100, 23);
-            year.TabIndex = 17;
+            year.TabIndex = 8;
             // 
             // colour
             // 
             colour.Location = new Point(155, 231);
             colour.Name = "colour";
             colour.Size = new Size(100, 23);
-            colour.TabIndex = 16;
+            colour.TabIndex = 9;
             // 
             // license
             // 
             license.Location = new Point(155, 260);
             license.Name = "license";
             license.Size = new Size(100, 23);
-            license.TabIndex = 15;
+            license.TabIndex = 10;
             // 
             // model
             // 
             model.Location = new Point(155, 156);
             model.Name = "model";
             model.Size = new Size(100, 23);
-            model.TabIndex = 13;
+            model.TabIndex = 7;
             // 
             // vin
             // 
@@ -365,14 +368,14 @@
             vin.Location = new Point(155, 61);
             vin.Name = "vin";
             vin.Size = new Size(121, 23);
-            vin.TabIndex = 12;
+            vin.TabIndex = 4;
             // 
             // button_confirm
             // 
             button_confirm.Location = new Point(524, 270);
             button_confirm.Name = "button_confirm";
             button_confirm.Size = new Size(203, 101);
-            button_confirm.TabIndex = 11;
+            button_confirm.TabIndex = 12;
             button_confirm.Text = "Confirm";
             button_confirm.UseVisualStyleBackColor = true;
             button_confirm.Click += button_confirm_Click;
@@ -517,7 +520,6 @@
         private Label label6;
         private Label label5;
         private Label label4;
-        private TextBox type;
         private TextBox make;
         private TextBox year;
         private TextBox colour;
@@ -530,5 +532,6 @@
         private RadioButton button_modify;
         private RadioButton button_add;
         private ComboBox branch;
+        private ComboBox type;
     }
 }

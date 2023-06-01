@@ -42,6 +42,16 @@ namespace CMPT291Project
                 this.Close();
             }
 
+            using (sqlConnection)
+            {
+                sqlCommand.CommandText = "select type from CarType;";
+                sqlReader = sqlCommand.ExecuteReader();
+                while (sqlReader.Read())
+                {
+                    type.Items.Add(sqlReader["type"].ToString());
+                }
+                sqlReader.Close();
+            }
             /*
             // Wire up the SelectedIndexChanged eevent of the TabControl
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
@@ -93,7 +103,7 @@ namespace CMPT291Project
 
         private void tabPage2_Click(object sender, EventArgs e)
         {
- 
+
         }
 
         private void label1_Click_2(object sender, EventArgs e)
@@ -130,17 +140,27 @@ namespace CMPT291Project
         {
             if (button_add.Checked)
             {
-                sqlCommand.CommandText = "insert into Car values ('"+ vin.Text + "','" + 
-                    make.Text + "','" + model.Text + "'," + year.Text + ",'" + 
+                sqlCommand.CommandText = "insert into Car values ('" + vin.Text + "','" +
+                    make.Text + "','" + model.Text + "'," + year.Text + ",'" +
                     colour.Text + "','" + license.Text + "'," + branch.Text + ",'" + type.Text + "')";
 
                 MessageBox.Show(sqlCommand.CommandText);
-                
+
                 sqlCommand.ExecuteNonQuery();
             }
         }
 
         private void button_add_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void type_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void button_delete_CheckedChanged(object sender, EventArgs e)
         {
 
         }
