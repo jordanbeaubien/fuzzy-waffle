@@ -28,7 +28,7 @@ namespace CMPT291Project
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-           
+
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -49,7 +49,7 @@ namespace CMPT291Project
                 this.Hide();
                 Form2 F2 = new Form2();
                 F2.Show();
-                
+
             }
             else if (cb_type.Text == "Employee" && text_user.Text == "admin" && text_pw.Text == "admin")
             {
@@ -76,7 +76,7 @@ namespace CMPT291Project
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+
         }
 
         private void textBox1_TextChanged_1(object sender, EventArgs e)
