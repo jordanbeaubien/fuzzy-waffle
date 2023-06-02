@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CMPT291Project
 {
@@ -162,6 +163,23 @@ namespace CMPT291Project
                     MessageBox.Show("Couldn't delete that vehicle (check VIN).");
                 }
             }
+            else if (button_modify.Checked)
+            {
+                try
+                {
+                    sqlCommand.CommandText = "update Car set make = '" + make.Text + "', model = '" +
+                        model.Text + "', year = " + year.Text + ", colour = '" + colour.Text +
+                        "', license_plate = '" + license.Text + "', branch_id =" + branch.Text +
+                        ", type = '" + type.Text + "' where vin = '" + vin.Text + "';";
+                    MessageBox.Show(sqlCommand.CommandText);
+
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch
+                {
+                    MessageBox.Show("Couldn't modify that vehicle (check VIN).");
+                }
+            }
         }
 
         private void button_add_CheckedChanged(object sender, EventArgs e)
@@ -178,6 +196,15 @@ namespace CMPT291Project
             license.Clear();
             branch.Items.Clear();
             branch.Text = string.Empty;
+            valid_vin.Visible = false;
+
+            make.Enabled = true;
+            type.Enabled = true;
+            model.Enabled = true;
+            year.Enabled = true;
+            colour.Enabled = true;
+            license.Enabled = true;
+            branch.Enabled = true;
 
             using (sqlConnection)
             {
@@ -198,6 +225,9 @@ namespace CMPT291Project
                 sqlReader.Close();
 
             }
+
+            vin.DropDownStyle = ComboBoxStyle.Simple;
+            vin.DropDownHeight = 1;
         }
 
         private void type_SelectedIndexChanged(object sender, EventArgs e)
@@ -219,7 +249,15 @@ namespace CMPT291Project
             branch.Items.Clear();
             branch.Text = string.Empty;
             branch_info.Text = string.Empty;
+            valid_vin.Visible = false;
 
+            make.Enabled = false;
+            type.Enabled = false;
+            model.Enabled = false;
+            year.Enabled = false;
+            colour.Enabled = false;
+            license.Enabled = false;
+            branch.Enabled = false;
 
             using (sqlConnection)
             {
@@ -231,6 +269,11 @@ namespace CMPT291Project
                 }
                 sqlReader.Close();
             }
+
+            vin.DropDownStyle = ComboBoxStyle.DropDown;
+            vin.DropDownHeight = 106;
+            vin.AutoCompleteSource = AutoCompleteSource.ListItems;
+            vin.AutoCompleteMode = AutoCompleteMode.Suggest;
         }
 
         private void branch_info_Click(object sender, EventArgs e)
@@ -259,28 +302,33 @@ namespace CMPT291Project
 
         private void vin_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(button_delete.Checked)
+            if (button_delete.Checked || button_modify.Checked)
             {
+                type.Items.Clear();
+                type.Text = string.Empty;
+                make.Clear();
+                model.Clear();
+                year.Clear();
+                colour.Clear();
+                license.Clear();
+                branch.Items.Clear();
+                branch.Text = string.Empty;
+                branch_info.Text = string.Empty;
+
                 try
                 {
-                    sqlCommand.CommandText = "select * from Car";
+                    sqlCommand.CommandText = "select * from Car where vin = '" + vin.Text + "';";
                     sqlReader = sqlCommand.ExecuteReader();
                     while (sqlReader.Read())
                     {
                         make.Text = sqlReader["make"].ToString();
-                        make.Enabled = false;
                         type.Text = sqlReader["type"].ToString();
-                        type.Enabled = false;
-                        model.Text= sqlReader["model"].ToString();
-                        model.Enabled = false;
+                        model.Text = sqlReader["model"].ToString();
                         year.Text = sqlReader["year"].ToString();
-                        year.Enabled = false;   
                         colour.Text = sqlReader["colour"].ToString();
-                        colour.Enabled = false;
                         license.Text = sqlReader["license_plate"].ToString();
-                        license.Enabled = false;
                         branch.Text = sqlReader["branch_id"].ToString();
-                        branch.Enabled = false;
+
                     }
                     sqlReader.Close();
 
@@ -298,7 +346,101 @@ namespace CMPT291Project
                 {
                     MessageBox.Show("Error");
                 }
+
+                if (button_modify.Checked)
+                {
+                    make.Enabled = true;
+                    type.Enabled = true;
+                    model.Enabled = true;
+                    year.Enabled = true;
+                    colour.Enabled = true;
+                    license.Enabled = true;
+                    branch.Enabled = true;
+
+                    using (sqlConnection)
+                    {
+
+                            sqlCommand.CommandText = select_type;
+                            sqlReader = sqlCommand.ExecuteReader();
+                            while (sqlReader.Read())
+                            {
+                                type.Items.Add(sqlReader["type"].ToString());
+                            }
+                            sqlReader.Close();
+
+                            sqlCommand.CommandText = select_branch;
+                            sqlReader = sqlCommand.ExecuteReader();
+                            while (sqlReader.Read())
+                            {
+                                branch.Items.Add(sqlReader["branch_id"].ToString());
+                            }
+                            sqlReader.Close();
+
+                    }
+                }
             }
+        }
+
+        private void vin_Leave(object sender, EventArgs e)
+        {
+            if (button_modify.Checked || button_delete.Checked)
+            {
+                if (!vin.Items.Contains(vin.Text))
+                {
+                    valid_vin.Visible = true;
+                }
+                else
+                {
+                    valid_vin.Visible = false;
+                }
+            }
+        }
+
+        private void button_modify_CheckedChanged(object sender, EventArgs e)
+        {
+            vin.Items.Clear();
+            vin.Text = string.Empty;
+            type.Items.Clear();
+            type.Text = string.Empty;
+            make.Clear();
+            model.Clear();
+            year.Clear();
+            colour.Clear();
+            license.Clear();
+            branch.Items.Clear();
+            branch.Text = string.Empty;
+            branch_info.Text = string.Empty;
+            valid_vin.Visible = false;
+
+            make.Enabled = false;
+            type.Enabled = false;
+            model.Enabled = false;
+            year.Enabled = false;
+            colour.Enabled = false;
+            license.Enabled = false;
+            branch.Enabled = false;
+
+            using (sqlConnection)
+            {
+                sqlCommand.CommandText = select_vin;
+                sqlReader = sqlCommand.ExecuteReader();
+                while (sqlReader.Read())
+                {
+                    vin.Items.Add(sqlReader["vin"].ToString());
+                }
+                sqlReader.Close();
+            }
+            vin.DropDownStyle = ComboBoxStyle.DropDown;
+            vin.DropDownHeight = 106;
+            vin.AutoCompleteSource = AutoCompleteSource.ListItems;
+            vin.AutoCompleteMode = AutoCompleteMode.Suggest;
+
+
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

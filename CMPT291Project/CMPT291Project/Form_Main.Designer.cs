@@ -45,6 +45,7 @@
             pickup_date_picker = new DateTimePicker();
             vehicle_type_label = new Label();
             tab_car = new TabPage();
+            valid_vin = new Label();
             branch_info = new Label();
             type = new ComboBox();
             branch = new ComboBox();
@@ -246,6 +247,7 @@
             // 
             // tab_car
             // 
+            tab_car.Controls.Add(valid_vin);
             tab_car.Controls.Add(branch_info);
             tab_car.Controls.Add(type);
             tab_car.Controls.Add(branch);
@@ -277,14 +279,26 @@
             tab_car.UseVisualStyleBackColor = true;
             tab_car.Click += tabPage2_Click;
             // 
+            // valid_vin
+            // 
+            valid_vin.AutoSize = true;
+            valid_vin.ForeColor = Color.Red;
+            valid_vin.Location = new Point(297, 64);
+            valid_vin.Name = "valid_vin";
+            valid_vin.Size = new Size(62, 15);
+            valid_vin.TabIndex = 14;
+            valid_vin.Text = "Invalid Vin";
+            valid_vin.Visible = false;
+            valid_vin.Click += label9_Click;
+            // 
             // branch_info
             // 
             branch_info.AutoSize = true;
             branch_info.Location = new Point(155, 347);
             branch_info.Name = "branch_info";
-            branch_info.Size = new Size(137, 15);
+            branch_info.Size = new Size(110, 15);
             branch_info.TabIndex = 13;
-            branch_info.Text = "BRANCH INFORMATION";
+            branch_info.Text = "Branch Information";
             branch_info.Visible = false;
             branch_info.Click += branch_info_Click;
             // 
@@ -326,16 +340,15 @@
             button_modify.TabIndex = 3;
             button_modify.Text = "Modify";
             button_modify.UseVisualStyleBackColor = true;
+            button_modify.CheckedChanged += button_modify_CheckedChanged;
             // 
             // button_add
             // 
             button_add.AutoSize = true;
-            button_add.Checked = true;
             button_add.Location = new Point(155, 27);
             button_add.Name = "button_add";
             button_add.Size = new Size(47, 19);
             button_add.TabIndex = 1;
-            button_add.TabStop = true;
             button_add.Text = "Add";
             button_add.UseVisualStyleBackColor = true;
             button_add.CheckedChanged += button_add_CheckedChanged;
@@ -378,11 +391,13 @@
             // vin
             // 
             vin.FormattingEnabled = true;
+            vin.IntegralHeight = false;
             vin.Location = new Point(155, 61);
             vin.Name = "vin";
             vin.Size = new Size(121, 23);
             vin.TabIndex = 4;
             vin.SelectedIndexChanged += vin_SelectedIndexChanged;
+            vin.Leave += vin_Leave;
             // 
             // button_confirm
             // 
@@ -548,5 +563,6 @@
         private ComboBox branch;
         private ComboBox type;
         private Label branch_info;
+        private Label valid_vin;
     }
 }
