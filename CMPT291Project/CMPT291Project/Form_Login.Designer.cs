@@ -41,6 +41,7 @@
             // 
             // cb_type
             // 
+            cb_type.DropDownStyle = ComboBoxStyle.DropDownList;
             cb_type.FormattingEnabled = true;
             cb_type.Items.AddRange(new object[] { "Customer", "Employee" });
             cb_type.Location = new Point(115, 28);
@@ -109,7 +110,7 @@
             fileSystemWatcher1.EnableRaisingEvents = true;
             fileSystemWatcher1.SynchronizingObject = this;
             // 
-            // form_login
+            // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -121,7 +122,7 @@
             Controls.Add(text_pw);
             Controls.Add(text_user);
             Controls.Add(cb_type);
-            Name = "form_login";
+            Name = "Form1";
             Text = "Login Screen";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).EndInit();

@@ -382,6 +382,7 @@
             vin.Name = "vin";
             vin.Size = new Size(121, 23);
             vin.TabIndex = 4;
+            vin.SelectedIndexChanged += vin_SelectedIndexChanged;
             // 
             // button_confirm
             // 

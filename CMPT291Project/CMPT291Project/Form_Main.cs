@@ -168,13 +168,16 @@ namespace CMPT291Project
         {
 
             vin.Items.Clear();
+            vin.Text = string.Empty;
             type.Items.Clear();
+            type.Text = string.Empty;
             make.Clear();
             model.Clear();
             year.Clear();
             colour.Clear();
             license.Clear();
             branch.Items.Clear();
+            branch.Text = string.Empty;
 
             using (sqlConnection)
             {
@@ -204,7 +207,30 @@ namespace CMPT291Project
 
         private void button_delete_CheckedChanged(object sender, EventArgs e)
         {
+            vin.Items.Clear();
+            vin.Text = string.Empty;
+            type.Items.Clear();
+            type.Text = string.Empty;
+            make.Clear();
+            model.Clear();
+            year.Clear();
+            colour.Clear();
+            license.Clear();
+            branch.Items.Clear();
+            branch.Text = string.Empty;
+            branch_info.Text = string.Empty;
 
+
+            using (sqlConnection)
+            {
+                sqlCommand.CommandText = select_vin;
+                sqlReader = sqlCommand.ExecuteReader();
+                while (sqlReader.Read())
+                {
+                    vin.Items.Add(sqlReader["vin"].ToString());
+                }
+                sqlReader.Close();
+            }
         }
 
         private void branch_info_Click(object sender, EventArgs e)
@@ -218,7 +244,7 @@ namespace CMPT291Project
 
             using (sqlConnection)
             {
-                sqlCommand.CommandText = "select branch_id, building_number, street, city, province from Branch where branch_id = '" + 
+                sqlCommand.CommandText = "select branch_id, building_number, street, city, province from Branch where branch_id = '" +
                     branch.Text + "';";
                 sqlReader = sqlCommand.ExecuteReader();
                 while (sqlReader.Read())
@@ -228,6 +254,50 @@ namespace CMPT291Project
                 }
                 sqlReader.Close();
 
+            }
+        }
+
+        private void vin_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(button_delete.Checked)
+            {
+                try
+                {
+                    sqlCommand.CommandText = "select * from Car";
+                    sqlReader = sqlCommand.ExecuteReader();
+                    while (sqlReader.Read())
+                    {
+                        make.Text = sqlReader["make"].ToString();
+                        make.Enabled = false;
+                        type.Text = sqlReader["type"].ToString();
+                        type.Enabled = false;
+                        model.Text= sqlReader["model"].ToString();
+                        model.Enabled = false;
+                        year.Text = sqlReader["year"].ToString();
+                        year.Enabled = false;   
+                        colour.Text = sqlReader["colour"].ToString();
+                        colour.Enabled = false;
+                        license.Text = sqlReader["license_plate"].ToString();
+                        license.Enabled = false;
+                        branch.Text = sqlReader["branch_id"].ToString();
+                        branch.Enabled = false;
+                    }
+                    sqlReader.Close();
+
+                    sqlCommand.CommandText = "select branch_id, building_number, street, city, province from Branch where branch_id = '" +
+                    branch.Text + "';";
+                    sqlReader = sqlCommand.ExecuteReader();
+                    while (sqlReader.Read())
+                    {
+                        branch_info.Text = sqlReader["branch_id"].ToString() + " - " + sqlReader["building_number"].ToString() + " " +
+                            sqlReader["street"].ToString() + " " + sqlReader["city"].ToString() + " " + sqlReader["province"].ToString();
+                    }
+                    sqlReader.Close();
+                }
+                catch
+                {
+                    MessageBox.Show("Error");
+                }
             }
         }
     }
