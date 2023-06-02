@@ -18,6 +18,9 @@ namespace CMPT291Project
         public SqlCommand sqlCommand;
         public SqlDataReader sqlReader;
 
+        string select_vin = "select vin from Car;";
+        string select_type = "select type from CarType;";
+        string select_branch = "select branch_id, building_number, street, city, province from Branch;";
         /*
         public bool IsUserAuthenticated { get; set; } // Added login auth
         */
@@ -42,16 +45,6 @@ namespace CMPT291Project
                 this.Close();
             }
 
-            using (sqlConnection)
-            {
-                sqlCommand.CommandText = "select type from CarType;";
-                sqlReader = sqlCommand.ExecuteReader();
-                while (sqlReader.Read())
-                {
-                    type.Items.Add(sqlReader["type"].ToString());
-                }
-                sqlReader.Close();
-            }
             /*
             // Wire up the SelectedIndexChanged eevent of the TabControl
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
@@ -140,29 +133,102 @@ namespace CMPT291Project
         {
             if (button_add.Checked)
             {
-                sqlCommand.CommandText = "insert into Car values ('" + vin.Text + "','" +
-                    make.Text + "','" + model.Text + "'," + year.Text + ",'" +
-                    colour.Text + "','" + license.Text + "'," + branch.Text + ",'" + type.Text + "')";
+                try
+                {
+                    sqlCommand.CommandText = "insert into Car values ('" + vin.Text + "','" +
+                        make.Text + "','" + model.Text + "'," + year.Text + ",'" +
+                        colour.Text + "','" + license.Text + "'," + branch.Text + ",'" + type.Text + "')";
 
-                MessageBox.Show(sqlCommand.CommandText);
+                    MessageBox.Show(sqlCommand.CommandText);
 
-                sqlCommand.ExecuteNonQuery();
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch
+                {
+                    MessageBox.Show("Couldn't add that vehicle, ensure all information listed.");
+                }
+            }
+            else if (button_delete.Checked)
+            {
+                try
+                {
+                    sqlCommand.CommandText = "delete from Car where vin = '" + vin.Text + "';";
+                    MessageBox.Show(sqlCommand.CommandText);
+
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch
+                {
+                    MessageBox.Show("Couldn't delete that vehicle (check VIN).");
+                }
             }
         }
 
         private void button_add_CheckedChanged(object sender, EventArgs e)
         {
 
+            vin.Items.Clear();
+            type.Items.Clear();
+            make.Clear();
+            model.Clear();
+            year.Clear();
+            colour.Clear();
+            license.Clear();
+            branch.Items.Clear();
+
+            using (sqlConnection)
+            {
+                sqlCommand.CommandText = select_type;
+                sqlReader = sqlCommand.ExecuteReader();
+                while (sqlReader.Read())
+                {
+                    type.Items.Add(sqlReader["type"].ToString());
+                }
+                sqlReader.Close();
+
+                sqlCommand.CommandText = select_branch;
+                sqlReader = sqlCommand.ExecuteReader();
+                while (sqlReader.Read())
+                {
+                    branch.Items.Add(sqlReader["branch_id"].ToString());
+                }
+                sqlReader.Close();
+
+            }
         }
 
         private void type_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void button_delete_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void branch_info_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void branch_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            branch_info.Visible = true;
+
+            using (sqlConnection)
+            {
+                sqlCommand.CommandText = "select branch_id, building_number, street, city, province from Branch where branch_id = '" + 
+                    branch.Text + "';";
+                sqlReader = sqlCommand.ExecuteReader();
+                while (sqlReader.Read())
+                {
+                    branch_info.Text = sqlReader["branch_id"].ToString() + " - " + sqlReader["building_number"].ToString() + " " +
+                        sqlReader["street"].ToString() + " " + sqlReader["city"].ToString() + " " + sqlReader["province"].ToString();
+                }
+                sqlReader.Close();
+
+            }
         }
     }
 }

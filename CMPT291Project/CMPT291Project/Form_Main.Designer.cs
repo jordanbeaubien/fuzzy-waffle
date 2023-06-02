@@ -45,6 +45,7 @@
             pickup_date_picker = new DateTimePicker();
             vehicle_type_label = new Label();
             tab_car = new TabPage();
+            branch_info = new Label();
             type = new ComboBox();
             branch = new ComboBox();
             button_delete = new RadioButton();
@@ -245,6 +246,7 @@
             // 
             // tab_car
             // 
+            tab_car.Controls.Add(branch_info);
             tab_car.Controls.Add(type);
             tab_car.Controls.Add(branch);
             tab_car.Controls.Add(button_delete);
@@ -275,6 +277,17 @@
             tab_car.UseVisualStyleBackColor = true;
             tab_car.Click += tabPage2_Click;
             // 
+            // branch_info
+            // 
+            branch_info.AutoSize = true;
+            branch_info.Location = new Point(155, 347);
+            branch_info.Name = "branch_info";
+            branch_info.Size = new Size(137, 15);
+            branch_info.TabIndex = 13;
+            branch_info.Text = "BRANCH INFORMATION";
+            branch_info.Visible = false;
+            branch_info.Click += branch_info_Click;
+            // 
             // type
             // 
             type.FormattingEnabled = true;
@@ -291,6 +304,7 @@
             branch.Name = "branch";
             branch.Size = new Size(121, 23);
             branch.TabIndex = 11;
+            branch.SelectedIndexChanged += branch_SelectedIndexChanged;
             // 
             // button_delete
             // 
@@ -299,7 +313,6 @@
             button_delete.Name = "button_delete";
             button_delete.Size = new Size(58, 19);
             button_delete.TabIndex = 2;
-            button_delete.TabStop = true;
             button_delete.Text = "Delete";
             button_delete.UseVisualStyleBackColor = true;
             button_delete.CheckedChanged += button_delete_CheckedChanged;
@@ -311,13 +324,13 @@
             button_modify.Name = "button_modify";
             button_modify.Size = new Size(63, 19);
             button_modify.TabIndex = 3;
-            button_modify.TabStop = true;
             button_modify.Text = "Modify";
             button_modify.UseVisualStyleBackColor = true;
             // 
             // button_add
             // 
             button_add.AutoSize = true;
+            button_add.Checked = true;
             button_add.Location = new Point(155, 27);
             button_add.Name = "button_add";
             button_add.Size = new Size(47, 19);
@@ -533,5 +546,6 @@
         private RadioButton button_add;
         private ComboBox branch;
         private ComboBox type;
+        private Label branch_info;
     }
 }
