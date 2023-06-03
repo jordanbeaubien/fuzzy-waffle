@@ -41,36 +41,35 @@ namespace CMPT291Project
 
         }
 
+  
         private void button1_Click(object sender, EventArgs e)
         {
+
+            Console.WriteLine("cb_type: " + cb_type.Text);
+            Console.WriteLine("text_user: " + text_user.Text);
+            Console.WriteLine("text_pw: " + text_pw.Text);
+
             if (cb_type.Text == "Customer" && text_user.Text == "user" && text_pw.Text == "password")
             {
-
                 this.Hide();
-                Form2 F2 = new Form2();
-                F2.Show();
-                
+                formMain.Show();
             }
             else if (cb_type.Text == "Employee" && text_user.Text == "admin" && text_pw.Text == "admin")
             {
-
                 this.Hide();
-                Form2 F2 = new Form2();
-                F2.Show();
+                formMain.Show();
 
-                // If login is successful:
+                // If login is successful, give full access to all 3 tabs
                 formMain.IsUserAuthenticated = true;
-                this.Close();
 
             }
             else
             {
                 MessageBox.Show("Invalid username or password", "please try again", MessageBoxButtons.OK);
             }
-
-
-
         }
+
+
 
 
         private void Form1_Load(object sender, EventArgs e)

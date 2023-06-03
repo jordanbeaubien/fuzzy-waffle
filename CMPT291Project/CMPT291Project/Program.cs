@@ -11,13 +11,13 @@ namespace CMPT291Project
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            // Application.Run(new Form1());
 
+            // Enable colors, fonts, and other visual elements from OS
+            Application.EnableVisualStyles();
+            // False means better text rendering
+            Application.SetCompatibleTextRenderingDefault(false);
 
             // Login code added
-            // Application.EnableVisualStyles();
-            // Application.SetCompatibleTextRenderingDefault(false);
-
             Form2 formMain = new Form2();
             Form1 formLogin = new Form1(formMain);
 
