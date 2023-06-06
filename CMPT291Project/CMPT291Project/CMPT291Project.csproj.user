@@ -4,10 +4,10 @@
     <Compile Update="Form_Login.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Form_Main.cs">
+    <Compile Update="Old_Main.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Old_Main.cs">
+    <Compile Update="Form_Main.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

@@ -1,6 +1,6 @@
 ﻿namespace CMPT291Project
 {
-    partial class Form1
+    partial class form_login
     {
         /// <summary>
         ///  Required designer variable.
@@ -36,12 +36,12 @@
             label_pw = new Label();
             label_type = new Label();
             fileSystemWatcher1 = new FileSystemWatcher();
+            label_invalid = new TextBox();
             ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).BeginInit();
             SuspendLayout();
             // 
             // cb_type
             // 
-            cb_type.DropDownStyle = ComboBoxStyle.DropDownList;
             cb_type.FormattingEnabled = true;
             cb_type.Items.AddRange(new object[] { "Customer", "Employee" });
             cb_type.Location = new Point(115, 28);
@@ -110,11 +110,26 @@
             fileSystemWatcher1.EnableRaisingEvents = true;
             fileSystemWatcher1.SynchronizingObject = this;
             // 
-            // Form1
+            // label_invalid
+            // 
+            label_invalid.BackColor = SystemColors.Control;
+            label_invalid.BorderStyle = BorderStyle.None;
+            label_invalid.ForeColor = Color.Red;
+            label_invalid.Location = new Point(29, 135);
+            label_invalid.Name = "label_invalid";
+            label_invalid.ReadOnly = true;
+            label_invalid.Size = new Size(488, 16);
+            label_invalid.TabIndex = 7;
+            label_invalid.Tag = "";
+            label_invalid.Text = "CLEAR ON STARTUP";
+            label_invalid.TextChanged += textBox1_TextChanged_1;
+            // 
+            // form_login
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(668, 189);
+            Controls.Add(label_invalid);
             Controls.Add(label_type);
             Controls.Add(label_pw);
             Controls.Add(label_user);
@@ -122,7 +137,7 @@
             Controls.Add(text_pw);
             Controls.Add(text_user);
             Controls.Add(cb_type);
-            Name = "Form1";
+            Name = "form_login";
             Text = "Login Screen";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).EndInit();
@@ -140,5 +155,6 @@
         private Label label_pw;
         private Label label_type;
         private FileSystemWatcher fileSystemWatcher1;
+        private TextBox label_invalid;
     }
 }
