@@ -104,9 +104,9 @@ namespace CMPT291Project
                 
                 sqlReader.Close();
             }
-            catch
+            catch (Exception e_login)
             {
-                MessageBox.Show("Error");
+                MessageBox.Show(e_login.ToString(), "Error");
             }
         }
 

@@ -31,13 +31,15 @@
             vehicle_type_combo_box = new ComboBox();
             tabControl1 = new TabControl();
             tab_rental = new TabPage();
+            price = new Label();
+            duration = new Label();
+            label_price = new Label();
+            label_duration = new Label();
+            button_quote = new Button();
             dropoff_location_details = new Label();
             pickup_location_details = new Label();
             label_available = new Label();
             confirm_button = new Button();
-            quote_button = new Button();
-            quoted_price_label = new Label();
-            quoted_price_textbox = new TextBox();
             return_same_loc_checkbox = new CheckBox();
             dropoff_location_combo = new ComboBox();
             pickup_location_combo = new ComboBox();
@@ -91,8 +93,9 @@
             // 
             // vehicle_type_combo_box
             // 
+            vehicle_type_combo_box.DropDownStyle = ComboBoxStyle.DropDownList;
             vehicle_type_combo_box.FormattingEnabled = true;
-            vehicle_type_combo_box.Location = new Point(137, 205);
+            vehicle_type_combo_box.Location = new Point(137, 229);
             vehicle_type_combo_box.Margin = new Padding(3, 2, 3, 2);
             vehicle_type_combo_box.Name = "vehicle_type_combo_box";
             vehicle_type_combo_box.Size = new Size(219, 23);
@@ -112,13 +115,15 @@
             // 
             // tab_rental
             // 
+            tab_rental.Controls.Add(price);
+            tab_rental.Controls.Add(duration);
+            tab_rental.Controls.Add(label_price);
+            tab_rental.Controls.Add(label_duration);
+            tab_rental.Controls.Add(button_quote);
             tab_rental.Controls.Add(dropoff_location_details);
             tab_rental.Controls.Add(pickup_location_details);
             tab_rental.Controls.Add(label_available);
             tab_rental.Controls.Add(confirm_button);
-            tab_rental.Controls.Add(quote_button);
-            tab_rental.Controls.Add(quoted_price_label);
-            tab_rental.Controls.Add(quoted_price_textbox);
             tab_rental.Controls.Add(return_same_loc_checkbox);
             tab_rental.Controls.Add(dropoff_location_combo);
             tab_rental.Controls.Add(pickup_location_combo);
@@ -139,6 +144,56 @@
             tab_rental.Text = "Rental";
             tab_rental.UseVisualStyleBackColor = true;
             tab_rental.Click += tabPage1_Click;
+            // 
+            // price
+            // 
+            price.AutoSize = true;
+            price.Location = new Point(137, 361);
+            price.Name = "price";
+            price.Size = new Size(38, 15);
+            price.TabIndex = 26;
+            price.Text = "PRICE";
+            price.Visible = false;
+            // 
+            // duration
+            // 
+            duration.AutoSize = true;
+            duration.Location = new Point(137, 328);
+            duration.Name = "duration";
+            duration.Size = new Size(108, 15);
+            duration.TabIndex = 25;
+            duration.Text = "RENTAL DURATION";
+            duration.Visible = false;
+            // 
+            // label_price
+            // 
+            label_price.AutoSize = true;
+            label_price.Location = new Point(35, 361);
+            label_price.Name = "label_price";
+            label_price.Size = new Size(79, 15);
+            label_price.TabIndex = 24;
+            label_price.Text = "Quoted Price:";
+            label_price.Visible = false;
+            // 
+            // label_duration
+            // 
+            label_duration.AutoSize = true;
+            label_duration.Location = new Point(22, 328);
+            label_duration.Name = "label_duration";
+            label_duration.Size = new Size(92, 15);
+            label_duration.TabIndex = 23;
+            label_duration.Text = "Rental Duration:";
+            label_duration.Visible = false;
+            // 
+            // button_quote
+            // 
+            button_quote.Location = new Point(137, 275);
+            button_quote.Name = "button_quote";
+            button_quote.Size = new Size(219, 39);
+            button_quote.TabIndex = 22;
+            button_quote.Text = "Get Price";
+            button_quote.UseVisualStyleBackColor = true;
+            button_quote.Click += button_quote_Click;
             // 
             // dropoff_location_details
             // 
@@ -165,7 +220,7 @@
             // 
             label_available.AutoSize = true;
             label_available.ForeColor = Color.Red;
-            label_available.Location = new Point(137, 177);
+            label_available.Location = new Point(137, 189);
             label_available.Name = "label_available";
             label_available.Size = new Size(117, 15);
             label_available.TabIndex = 19;
@@ -175,42 +230,12 @@
             // 
             // confirm_button
             // 
-            confirm_button.Location = new Point(535, 312);
+            confirm_button.Location = new Point(404, 229);
             confirm_button.Name = "confirm_button";
-            confirm_button.Size = new Size(155, 48);
+            confirm_button.Size = new Size(333, 147);
             confirm_button.TabIndex = 18;
             confirm_button.Text = "Confirm Booking";
             confirm_button.UseVisualStyleBackColor = true;
-            // 
-            // quote_button
-            // 
-            quote_button.Location = new Point(137, 239);
-            quote_button.Name = "quote_button";
-            quote_button.Size = new Size(204, 46);
-            quote_button.TabIndex = 17;
-            quote_button.Text = "Get Price";
-            quote_button.UseVisualStyleBackColor = true;
-            quote_button.Click += button1_Click;
-            // 
-            // quoted_price_label
-            // 
-            quoted_price_label.AutoSize = true;
-            quoted_price_label.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            quoted_price_label.Location = new Point(35, 324);
-            quoted_price_label.Name = "quoted_price_label";
-            quoted_price_label.Size = new Size(100, 21);
-            quoted_price_label.TabIndex = 16;
-            quoted_price_label.Text = "Quoted Price";
-            quoted_price_label.Click += label1_Click_1;
-            // 
-            // quoted_price_textbox
-            // 
-            quoted_price_textbox.Font = new Font("Segoe UI", 16F, FontStyle.Regular, GraphicsUnit.Point);
-            quoted_price_textbox.Location = new Point(155, 314);
-            quoted_price_textbox.Margin = new Padding(3, 2, 3, 2);
-            quoted_price_textbox.Name = "quoted_price_textbox";
-            quoted_price_textbox.Size = new Size(126, 36);
-            quoted_price_textbox.TabIndex = 15;
             // 
             // return_same_loc_checkbox
             // 
@@ -267,7 +292,7 @@
             // 
             // search_button
             // 
-            search_button.Location = new Point(137, 127);
+            search_button.Location = new Point(137, 131);
             search_button.Margin = new Padding(3, 2, 3, 2);
             search_button.Name = "search_button";
             search_button.Size = new Size(219, 36);
@@ -279,7 +304,7 @@
             // dropoff_date_label
             // 
             dropoff_date_label.AutoSize = true;
-            dropoff_date_label.Location = new Point(22, 92);
+            dropoff_date_label.Location = new Point(39, 88);
             dropoff_date_label.Name = "dropoff_date_label";
             dropoff_date_label.Size = new Size(75, 15);
             dropoff_date_label.TabIndex = 5;
@@ -287,17 +312,18 @@
             // 
             // dropoff_date_picker
             // 
-            dropoff_date_picker.Location = new Point(137, 88);
+            dropoff_date_picker.Location = new Point(137, 82);
             dropoff_date_picker.Margin = new Padding(3, 2, 3, 2);
             dropoff_date_picker.Name = "dropoff_date_picker";
             dropoff_date_picker.Size = new Size(219, 23);
             dropoff_date_picker.TabIndex = 4;
+            dropoff_date_picker.Value = new DateTime(2023, 6, 6, 17, 51, 31, 0);
             dropoff_date_picker.ValueChanged += dropoff_date_picker_ValueChanged;
             // 
             // pickup_date_label
             // 
             pickup_date_label.AutoSize = true;
-            pickup_date_label.Location = new Point(22, 38);
+            pickup_date_label.Location = new Point(44, 44);
             pickup_date_label.Name = "pickup_date_label";
             pickup_date_label.Size = new Size(70, 15);
             pickup_date_label.TabIndex = 3;
@@ -315,7 +341,7 @@
             // vehicle_type_label
             // 
             vehicle_type_label.AutoSize = true;
-            vehicle_type_label.Location = new Point(35, 208);
+            vehicle_type_label.Location = new Point(43, 232);
             vehicle_type_label.Name = "vehicle_type_label";
             vehicle_type_label.Size = new Size(71, 15);
             vehicle_type_label.TabIndex = 1;
@@ -478,9 +504,9 @@
             // 
             // button_confirm
             // 
-            button_confirm.Location = new Point(524, 270);
+            button_confirm.Location = new Point(414, 201);
             button_confirm.Name = "button_confirm";
-            button_confirm.Size = new Size(203, 101);
+            button_confirm.Size = new Size(313, 170);
             button_confirm.TabIndex = 12;
             button_confirm.Text = "Confirm";
             button_confirm.UseVisualStyleBackColor = true;
@@ -681,8 +707,6 @@
         private Label pickup_date_label;
         private DateTimePicker pickup_date_picker;
         private CheckBox return_same_loc_checkbox;
-        private TextBox quoted_price_textbox;
-        private Label quoted_price_label;
         private Label label_vin;
         private Label label2;
         private Label label1;
@@ -707,7 +731,6 @@
         private Label branch_info;
         private Label valid_vin;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private Button quote_button;
         private Button confirm_button;
         private System.ComponentModel.BackgroundWorker backgroundWorker2;
         private Label label_available;
@@ -719,5 +742,10 @@
         private Label label_query;
         private ComboBox combo_query_option;
         private Label label_query_option;
+        private Button button_quote;
+        private Label price;
+        private Label duration;
+        private Label label_price;
+        private Label label_duration;
     }
 }
