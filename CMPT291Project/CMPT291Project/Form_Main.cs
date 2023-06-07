@@ -47,7 +47,7 @@ namespace CMPT291Project
 
             // Wire up the SelectedIndexChanged eevent of the TabControl
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
-
+         
             dropoff_location_combo.Enabled = false;
 
             sqlCommand.CommandText = select_branch;
