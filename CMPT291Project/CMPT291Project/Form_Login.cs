@@ -77,7 +77,7 @@ namespace CMPT291Project
                 sqlReader = sqlCommand.ExecuteReader();
                 sqlReader.Read();
                 
-                if (sqlReader["existing"].ToString() != "0")
+                if (sqlReader["existing"].ToString() == "1")
                 {
                     if (cb_type.Text == "Customer")
                     {
@@ -109,7 +109,6 @@ namespace CMPT291Project
                 MessageBox.Show(e_login.ToString(), "Error");
             }
         }
-
 
         private void Form1_Load(object sender, EventArgs e)
         {
