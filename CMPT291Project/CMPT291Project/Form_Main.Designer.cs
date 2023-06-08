@@ -30,9 +30,16 @@
         {
             vehicle_type_combo_box = new ComboBox();
             tabControl1 = new TabControl();
-            tabPage1 = new TabPage();
-            quoted_price_label = new Label();
-            quoted_price_textbox = new TextBox();
+            tab_rental = new TabPage();
+            price = new Label();
+            duration = new Label();
+            label_price = new Label();
+            label_duration = new Label();
+            button_quote = new Button();
+            dropoff_location_details = new Label();
+            pickup_location_details = new Label();
+            label_available = new Label();
+            confirm_button = new Button();
             return_same_loc_checkbox = new CheckBox();
             dropoff_location_combo = new ComboBox();
             pickup_location_combo = new ComboBox();
@@ -44,20 +51,56 @@
             pickup_date_label = new Label();
             pickup_date_picker = new DateTimePicker();
             vehicle_type_label = new Label();
-            tabPage2 = new TabPage();
-            tabPage3 = new TabPage();
+            tab_car = new TabPage();
+            valid_vin = new Label();
+            branch_info = new Label();
+            type = new ComboBox();
+            branch = new ComboBox();
+            button_delete = new RadioButton();
+            button_modify = new RadioButton();
+            button_add = new RadioButton();
+            make = new TextBox();
+            year = new TextBox();
+            colour = new TextBox();
+            license = new TextBox();
+            model = new TextBox();
+            vin = new ComboBox();
+            button_confirm = new Button();
+            label3 = new Label();
+            label8 = new Label();
+            label7 = new Label();
+            label6 = new Label();
+            label5 = new Label();
+            label4 = new Label();
+            label2 = new Label();
+            label1 = new Label();
+            label_vin = new Label();
+            tab_query = new TabPage();
+            combo_query_option = new ComboBox();
+            label_query_option = new Label();
+            label_query = new Label();
+            button_query = new Button();
+            combo_query = new ComboBox();
+            data_query = new DataGridView();
+            backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
             tabControl1.SuspendLayout();
-            tabPage1.SuspendLayout();
+            tab_rental.SuspendLayout();
+            tab_car.SuspendLayout();
+            tab_query.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)data_query).BeginInit();
             SuspendLayout();
             // 
             // vehicle_type_combo_box
             // 
+            vehicle_type_combo_box.DropDownStyle = ComboBoxStyle.DropDownList;
             vehicle_type_combo_box.FormattingEnabled = true;
-            vehicle_type_combo_box.Location = new Point(137, 182);
+            vehicle_type_combo_box.Location = new Point(137, 229);
             vehicle_type_combo_box.Margin = new Padding(3, 2, 3, 2);
             vehicle_type_combo_box.Name = "vehicle_type_combo_box";
             vehicle_type_combo_box.Size = new Size(219, 23);
             vehicle_type_combo_box.TabIndex = 0;
+            vehicle_type_combo_box.SelectedIndexChanged += vehicle_type_combo_box_SelectedIndexChanged;
             // 
             // tabControl1
             // 
@@ -72,55 +115,132 @@
             // 
             // tabPage1
             // 
-            tabPage1.Controls.Add(quoted_price_label);
-            tabPage1.Controls.Add(quoted_price_textbox);
-            tabPage1.Controls.Add(return_same_loc_checkbox);
-            tabPage1.Controls.Add(dropoff_location_combo);
-            tabPage1.Controls.Add(pickup_location_combo);
-            tabPage1.Controls.Add(dropoff_location_label);
-            tabPage1.Controls.Add(pickup_location_label);
-            tabPage1.Controls.Add(search_button);
-            tabPage1.Controls.Add(dropoff_date_label);
-            tabPage1.Controls.Add(dropoff_date_picker);
-            tabPage1.Controls.Add(pickup_date_label);
-            tabPage1.Controls.Add(pickup_date_picker);
-            tabPage1.Controls.Add(vehicle_type_label);
-            tabPage1.Controls.Add(vehicle_type_combo_box);
-            tabPage1.Location = new Point(4, 24);
-            tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3, 3, 3, 3);
-            tabPage1.Size = new Size(771, 402);
-            tabPage1.TabIndex = 0;
-            tabPage1.Text = "Car Rental";
-            tabPage1.UseVisualStyleBackColor = true;
-            tabPage1.Click += tabPage1_Click;
+            tab_rental.Controls.Add(price);
+            tab_rental.Controls.Add(duration);
+            tab_rental.Controls.Add(label_price);
+            tab_rental.Controls.Add(label_duration);
+            tab_rental.Controls.Add(button_quote);
+            tab_rental.Controls.Add(dropoff_location_details);
+            tab_rental.Controls.Add(pickup_location_details);
+            tab_rental.Controls.Add(label_available);
+            tab_rental.Controls.Add(confirm_button);
+            tab_rental.Controls.Add(return_same_loc_checkbox);
+            tab_rental.Controls.Add(dropoff_location_combo);
+            tab_rental.Controls.Add(pickup_location_combo);
+            tab_rental.Controls.Add(dropoff_location_label);
+            tab_rental.Controls.Add(pickup_location_label);
+            tab_rental.Controls.Add(search_button);
+            tab_rental.Controls.Add(dropoff_date_label);
+            tab_rental.Controls.Add(dropoff_date_picker);
+            tab_rental.Controls.Add(pickup_date_label);
+            tab_rental.Controls.Add(pickup_date_picker);
+            tab_rental.Controls.Add(vehicle_type_label);
+            tab_rental.Controls.Add(vehicle_type_combo_box);
+            tab_rental.Location = new Point(4, 24);
+            tab_rental.Name = "tab_rental";
+            tab_rental.Padding = new Padding(3);
+            tab_rental.Size = new Size(771, 402);
+            tab_rental.TabIndex = 0;
+            tab_rental.Text = "Rental";
+            tab_rental.UseVisualStyleBackColor = true;
+            tab_rental.Click += tabPage1_Click;
             // 
-            // quoted_price_label
+            // price
             // 
-            quoted_price_label.AutoSize = true;
-            quoted_price_label.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            quoted_price_label.Location = new Point(562, 276);
-            quoted_price_label.Name = "quoted_price_label";
-            quoted_price_label.Size = new Size(100, 21);
-            quoted_price_label.TabIndex = 16;
-            quoted_price_label.Text = "Quoted Price";
-            quoted_price_label.Click += label1_Click_1;
+            price.AutoSize = true;
+            price.Location = new Point(137, 361);
+            price.Name = "price";
+            price.Size = new Size(38, 15);
+            price.TabIndex = 26;
+            price.Text = "PRICE";
+            price.Visible = false;
             // 
-            // quoted_price_textbox
+            // duration
             // 
-            quoted_price_textbox.Font = new Font("Segoe UI", 16F, FontStyle.Regular, GraphicsUnit.Point);
-            quoted_price_textbox.Location = new Point(552, 299);
-            quoted_price_textbox.Margin = new Padding(3, 2, 3, 2);
-            quoted_price_textbox.Name = "quoted_price_textbox";
-            quoted_price_textbox.Size = new Size(126, 36);
-            quoted_price_textbox.TabIndex = 15;
+            duration.AutoSize = true;
+            duration.Location = new Point(137, 328);
+            duration.Name = "duration";
+            duration.Size = new Size(108, 15);
+            duration.TabIndex = 25;
+            duration.Text = "RENTAL DURATION";
+            duration.Visible = false;
+            // 
+            // label_price
+            // 
+            label_price.AutoSize = true;
+            label_price.Location = new Point(35, 361);
+            label_price.Name = "label_price";
+            label_price.Size = new Size(79, 15);
+            label_price.TabIndex = 24;
+            label_price.Text = "Quoted Price:";
+            label_price.Visible = false;
+            // 
+            // label_duration
+            // 
+            label_duration.AutoSize = true;
+            label_duration.Location = new Point(22, 328);
+            label_duration.Name = "label_duration";
+            label_duration.Size = new Size(92, 15);
+            label_duration.TabIndex = 23;
+            label_duration.Text = "Rental Duration:";
+            label_duration.Visible = false;
+            // 
+            // button_quote
+            // 
+            button_quote.Location = new Point(137, 275);
+            button_quote.Name = "button_quote";
+            button_quote.Size = new Size(219, 39);
+            button_quote.TabIndex = 22;
+            button_quote.Text = "Get Price";
+            button_quote.UseVisualStyleBackColor = true;
+            button_quote.Click += button_quote_Click;
+            // 
+            // dropoff_location_details
+            // 
+            dropoff_location_details.AutoSize = true;
+            dropoff_location_details.Location = new Point(388, 152);
+            dropoff_location_details.Name = "dropoff_location_details";
+            dropoff_location_details.Size = new Size(164, 15);
+            dropoff_location_details.TabIndex = 21;
+            dropoff_location_details.Text = "DROPOFF LOCATION DETAILS";
+            dropoff_location_details.Visible = false;
+            // 
+            // pickup_location_details
+            // 
+            pickup_location_details.AutoSize = true;
+            pickup_location_details.Location = new Point(388, 63);
+            pickup_location_details.Name = "pickup_location_details";
+            pickup_location_details.Size = new Size(152, 15);
+            pickup_location_details.TabIndex = 20;
+            pickup_location_details.Text = "PICKUP LOCATION DETAILS";
+            pickup_location_details.Visible = false;
+            // 
+            // label_available
+            // 
+            label_available.AutoSize = true;
+            label_available.ForeColor = Color.Red;
+            label_available.Location = new Point(137, 189);
+            label_available.Name = "label_available";
+            label_available.Size = new Size(117, 15);
+            label_available.TabIndex = 19;
+            label_available.Text = "No vehicles available";
+            label_available.Visible = false;
+            // 
+            // confirm_button
+            // 
+            confirm_button.Location = new Point(404, 229);
+            confirm_button.Name = "confirm_button";
+            confirm_button.Size = new Size(333, 147);
+            confirm_button.TabIndex = 18;
+            confirm_button.Text = "Confirm Booking";
+            confirm_button.UseVisualStyleBackColor = true;
             // 
             // return_same_loc_checkbox
             // 
             return_same_loc_checkbox.AutoSize = true;
             return_same_loc_checkbox.Checked = true;
             return_same_loc_checkbox.CheckState = CheckState.Checked;
-            return_same_loc_checkbox.Location = new Point(388, 127);
+            return_same_loc_checkbox.Location = new Point(383, 93);
             return_same_loc_checkbox.Margin = new Padding(3, 2, 3, 2);
             return_same_loc_checkbox.Name = "return_same_loc_checkbox";
             return_same_loc_checkbox.RightToLeft = RightToLeft.Yes;
@@ -128,15 +248,17 @@
             return_same_loc_checkbox.TabIndex = 14;
             return_same_loc_checkbox.Text = "Return to same location";
             return_same_loc_checkbox.UseVisualStyleBackColor = true;
+            return_same_loc_checkbox.CheckedChanged += return_same_loc_checkbox_CheckedChanged;
             // 
             // dropoff_location_combo
             // 
             dropoff_location_combo.FormattingEnabled = true;
-            dropoff_location_combo.Location = new Point(518, 88);
+            dropoff_location_combo.Location = new Point(518, 127);
             dropoff_location_combo.Margin = new Padding(3, 2, 3, 2);
             dropoff_location_combo.Name = "dropoff_location_combo";
             dropoff_location_combo.Size = new Size(219, 23);
             dropoff_location_combo.TabIndex = 12;
+            dropoff_location_combo.SelectedIndexChanged += dropoff_location_combo_SelectedIndexChanged;
             // 
             // pickup_location_combo
             // 
@@ -146,11 +268,12 @@
             pickup_location_combo.Name = "pickup_location_combo";
             pickup_location_combo.Size = new Size(219, 23);
             pickup_location_combo.TabIndex = 11;
+            pickup_location_combo.SelectedIndexChanged += pickup_location_combo_SelectedIndexChanged;
             // 
             // dropoff_location_label
             // 
             dropoff_location_label.AutoSize = true;
-            dropoff_location_label.Location = new Point(388, 92);
+            dropoff_location_label.Location = new Point(388, 130);
             dropoff_location_label.Name = "dropoff_location_label";
             dropoff_location_label.Size = new Size(97, 15);
             dropoff_location_label.TabIndex = 10;
@@ -167,10 +290,10 @@
             // 
             // search_button
             // 
-            search_button.Location = new Point(137, 262);
+            search_button.Location = new Point(137, 131);
             search_button.Margin = new Padding(3, 2, 3, 2);
             search_button.Name = "search_button";
-            search_button.Size = new Size(219, 89);
+            search_button.Size = new Size(219, 36);
             search_button.TabIndex = 6;
             search_button.Text = "Search For Availability";
             search_button.UseVisualStyleBackColor = true;
@@ -179,7 +302,7 @@
             // dropoff_date_label
             // 
             dropoff_date_label.AutoSize = true;
-            dropoff_date_label.Location = new Point(22, 92);
+            dropoff_date_label.Location = new Point(39, 88);
             dropoff_date_label.Name = "dropoff_date_label";
             dropoff_date_label.Size = new Size(75, 15);
             dropoff_date_label.TabIndex = 5;
@@ -187,16 +310,18 @@
             // 
             // dropoff_date_picker
             // 
-            dropoff_date_picker.Location = new Point(137, 88);
+            dropoff_date_picker.Location = new Point(137, 82);
             dropoff_date_picker.Margin = new Padding(3, 2, 3, 2);
             dropoff_date_picker.Name = "dropoff_date_picker";
             dropoff_date_picker.Size = new Size(219, 23);
             dropoff_date_picker.TabIndex = 4;
+            dropoff_date_picker.Value = new DateTime(2023, 6, 6, 17, 51, 31, 0);
+            dropoff_date_picker.ValueChanged += dropoff_date_picker_ValueChanged;
             // 
             // pickup_date_label
             // 
             pickup_date_label.AutoSize = true;
-            pickup_date_label.Location = new Point(22, 38);
+            pickup_date_label.Location = new Point(44, 44);
             pickup_date_label.Name = "pickup_date_label";
             pickup_date_label.Size = new Size(70, 15);
             pickup_date_label.TabIndex = 3;
@@ -213,12 +338,11 @@
             // vehicle_type_label
             // 
             vehicle_type_label.AutoSize = true;
-            vehicle_type_label.Location = new Point(22, 184);
+            vehicle_type_label.Location = new Point(43, 232);
             vehicle_type_label.Name = "vehicle_type_label";
             vehicle_type_label.Size = new Size(71, 15);
             vehicle_type_label.TabIndex = 1;
             vehicle_type_label.Text = "Vehicle Type";
-            vehicle_type_label.Click += label1_Click;
             // 
             // tabPage2
             // 
@@ -232,13 +356,285 @@
             // 
             // tabPage3
             // 
-            tabPage3.Location = new Point(4, 24);
-            tabPage3.Name = "tabPage3";
-            tabPage3.Padding = new Padding(3, 3, 3, 3);
-            tabPage3.Size = new Size(771, 402);
-            tabPage3.TabIndex = 2;
-            tabPage3.Text = "tabPage3";
-            tabPage3.UseVisualStyleBackColor = true;
+            valid_vin.AutoSize = true;
+            valid_vin.ForeColor = Color.Red;
+            valid_vin.Location = new Point(297, 64);
+            valid_vin.Name = "valid_vin";
+            valid_vin.Size = new Size(62, 15);
+            valid_vin.TabIndex = 14;
+            valid_vin.Text = "Invalid Vin";
+            valid_vin.Visible = false;
+            // 
+            // branch_info
+            // 
+            branch_info.AutoSize = true;
+            branch_info.Location = new Point(155, 347);
+            branch_info.Name = "branch_info";
+            branch_info.Size = new Size(110, 15);
+            branch_info.TabIndex = 13;
+            branch_info.Text = "Branch Information";
+            branch_info.Visible = false;
+            branch_info.Click += branch_info_Click;
+            // 
+            // type
+            // 
+            type.FormattingEnabled = true;
+            type.Location = new Point(155, 90);
+            type.Name = "type";
+            type.Size = new Size(121, 23);
+            type.TabIndex = 5;
+            type.SelectedIndexChanged += type_SelectedIndexChanged;
+            // 
+            // branch
+            // 
+            branch.FormattingEnabled = true;
+            branch.Location = new Point(155, 310);
+            branch.Name = "branch";
+            branch.Size = new Size(121, 23);
+            branch.TabIndex = 11;
+            branch.SelectedIndexChanged += branch_SelectedIndexChanged;
+            // 
+            // button_delete
+            // 
+            button_delete.AutoSize = true;
+            button_delete.Location = new Point(208, 27);
+            button_delete.Name = "button_delete";
+            button_delete.Size = new Size(58, 19);
+            button_delete.TabIndex = 2;
+            button_delete.Text = "Delete";
+            button_delete.UseVisualStyleBackColor = true;
+            button_delete.CheckedChanged += button_delete_CheckedChanged;
+            // 
+            // button_modify
+            // 
+            button_modify.AutoSize = true;
+            button_modify.Location = new Point(272, 27);
+            button_modify.Name = "button_modify";
+            button_modify.Size = new Size(63, 19);
+            button_modify.TabIndex = 3;
+            button_modify.Text = "Modify";
+            button_modify.UseVisualStyleBackColor = true;
+            button_modify.CheckedChanged += button_modify_CheckedChanged;
+            // 
+            // button_add
+            // 
+            button_add.AutoSize = true;
+            button_add.Location = new Point(155, 27);
+            button_add.Name = "button_add";
+            button_add.Size = new Size(47, 19);
+            button_add.TabIndex = 1;
+            button_add.Text = "Add";
+            button_add.UseVisualStyleBackColor = true;
+            button_add.CheckedChanged += button_add_CheckedChanged;
+            // 
+            // make
+            // 
+            make.Location = new Point(155, 127);
+            make.Name = "make";
+            make.Size = new Size(100, 23);
+            make.TabIndex = 6;
+            // 
+            // year
+            // 
+            year.Location = new Point(155, 193);
+            year.Name = "year";
+            year.Size = new Size(100, 23);
+            year.TabIndex = 8;
+            // 
+            // colour
+            // 
+            colour.Location = new Point(155, 231);
+            colour.Name = "colour";
+            colour.Size = new Size(100, 23);
+            colour.TabIndex = 9;
+            // 
+            // license
+            // 
+            license.Location = new Point(155, 260);
+            license.Name = "license";
+            license.Size = new Size(100, 23);
+            license.TabIndex = 10;
+            // 
+            // model
+            // 
+            model.Location = new Point(155, 156);
+            model.Name = "model";
+            model.Size = new Size(100, 23);
+            model.TabIndex = 7;
+            // 
+            // vin
+            // 
+            vin.FormattingEnabled = true;
+            vin.IntegralHeight = false;
+            vin.Location = new Point(155, 61);
+            vin.Name = "vin";
+            vin.Size = new Size(121, 23);
+            vin.TabIndex = 4;
+            vin.SelectedIndexChanged += vin_SelectedIndexChanged;
+            vin.Leave += vin_Leave;
+            // 
+            // button_confirm
+            // 
+            button_confirm.Location = new Point(414, 201);
+            button_confirm.Name = "button_confirm";
+            button_confirm.Size = new Size(313, 170);
+            button_confirm.TabIndex = 12;
+            button_confirm.Text = "Confirm";
+            button_confirm.UseVisualStyleBackColor = true;
+            button_confirm.Click += button_confirm_Click;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(104, 29);
+            label3.Name = "label3";
+            label3.Size = new Size(45, 15);
+            label3.TabIndex = 10;
+            label3.Text = "Action:";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(115, 98);
+            label8.Name = "label8";
+            label8.Size = new Size(34, 15);
+            label8.TabIndex = 8;
+            label8.Text = "Type:";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(105, 234);
+            label7.Name = "label7";
+            label7.Size = new Size(46, 15);
+            label7.TabIndex = 7;
+            label7.Text = "Colour:";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(117, 201);
+            label6.Name = "label6";
+            label6.Size = new Size(32, 15);
+            label6.TabIndex = 6;
+            label6.Text = "Year:";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(71, 270);
+            label5.Name = "label5";
+            label5.Size = new Size(78, 15);
+            label5.TabIndex = 5;
+            label5.Text = "License Plate:";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(88, 313);
+            label4.Name = "label4";
+            label4.Size = new Size(61, 15);
+            label4.TabIndex = 4;
+            label4.Text = "Branch ID:";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(113, 133);
+            label2.Name = "label2";
+            label2.Size = new Size(39, 15);
+            label2.TabIndex = 2;
+            label2.Text = "Make:";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(105, 164);
+            label1.Name = "label1";
+            label1.Size = new Size(44, 15);
+            label1.TabIndex = 1;
+            label1.Text = "Model:";
+            // 
+            // label_vin
+            // 
+            label_vin.AutoSize = true;
+            label_vin.Location = new Point(120, 64);
+            label_vin.Name = "label_vin";
+            label_vin.Size = new Size(29, 15);
+            label_vin.TabIndex = 0;
+            label_vin.Text = "VIN:";
+            // 
+            // tab_query
+            // 
+            tab_query.Controls.Add(combo_query_option);
+            tab_query.Controls.Add(label_query_option);
+            tab_query.Controls.Add(label_query);
+            tab_query.Controls.Add(button_query);
+            tab_query.Controls.Add(combo_query);
+            tab_query.Controls.Add(data_query);
+            tab_query.Location = new Point(4, 24);
+            tab_query.Name = "tab_query";
+            tab_query.Padding = new Padding(3);
+            tab_query.Size = new Size(771, 402);
+            tab_query.TabIndex = 2;
+            tab_query.Text = "Query";
+            tab_query.UseVisualStyleBackColor = true;
+            // 
+            // combo_query_option
+            // 
+            combo_query_option.FormattingEnabled = true;
+            combo_query_option.Location = new Point(101, 364);
+            combo_query_option.Name = "combo_query_option";
+            combo_query_option.Size = new Size(402, 23);
+            combo_query_option.TabIndex = 5;
+            combo_query_option.SelectedIndexChanged += combo_query_option_SelectedIndexChanged;
+            // 
+            // label_query_option
+            // 
+            label_query_option.AutoSize = true;
+            label_query_option.Location = new Point(13, 367);
+            label_query_option.Name = "label_query_option";
+            label_query_option.Size = new Size(82, 15);
+            label_query_option.TabIndex = 4;
+            label_query_option.Text = "Query Option:";
+            // 
+            // label_query
+            // 
+            label_query.AutoSize = true;
+            label_query.Location = new Point(6, 338);
+            label_query.Name = "label_query";
+            label_query.Size = new Size(89, 15);
+            label_query.TabIndex = 3;
+            label_query.Text = "Selected Query:";
+            // 
+            // button_query
+            // 
+            button_query.Location = new Point(645, 344);
+            button_query.Name = "button_query";
+            button_query.Size = new Size(103, 38);
+            button_query.TabIndex = 2;
+            button_query.Text = "Run Query";
+            button_query.UseVisualStyleBackColor = true;
+            button_query.Click += button_query_Click;
+            // 
+            // combo_query
+            // 
+            combo_query.FormattingEnabled = true;
+            combo_query.Location = new Point(101, 335);
+            combo_query.Name = "combo_query";
+            combo_query.Size = new Size(402, 23);
+            combo_query.TabIndex = 1;
+            combo_query.SelectedIndexChanged += combo_query_SelectedIndexChanged;
+            // 
+            // data_query
+            // 
+            data_query.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            data_query.Location = new Point(6, 6);
+            data_query.Name = "data_query";
+            data_query.RowTemplate.Height = 25;
+            data_query.Size = new Size(748, 315);
+            data_query.TabIndex = 0;
+            data_query.CellContentClick += dataGridView1_CellContentClick;
             // 
             // Form2
             // 
@@ -249,8 +645,13 @@
             Name = "Form2";
             Text = "Form_Main";
             tabControl1.ResumeLayout(false);
-            tabPage1.ResumeLayout(false);
-            tabPage1.PerformLayout();
+            tab_rental.ResumeLayout(false);
+            tab_rental.PerformLayout();
+            tab_car.ResumeLayout(false);
+            tab_car.PerformLayout();
+            tab_query.ResumeLayout(false);
+            tab_query.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)data_query).EndInit();
             ResumeLayout(false);
         }
 
@@ -272,7 +673,45 @@
         private Label pickup_date_label;
         private DateTimePicker pickup_date_picker;
         private CheckBox return_same_loc_checkbox;
-        private TextBox quoted_price_textbox;
-        private Label quoted_price_label;
+        private Label label_vin;
+        private Label label2;
+        private Label label1;
+        private Label label8;
+        private Label label7;
+        private Label label6;
+        private Label label5;
+        private Label label4;
+        private TextBox make;
+        private TextBox year;
+        private TextBox colour;
+        private TextBox license;
+        private TextBox model;
+        private ComboBox vin;
+        private Button button_confirm;
+        private Label label3;
+        private RadioButton button_delete;
+        private RadioButton button_modify;
+        private RadioButton button_add;
+        private ComboBox branch;
+        private ComboBox type;
+        private Label branch_info;
+        private Label valid_vin;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private Button confirm_button;
+        private System.ComponentModel.BackgroundWorker backgroundWorker2;
+        private Label label_available;
+        private DataGridView data_query;
+        private Label dropoff_location_details;
+        private Label pickup_location_details;
+        private ComboBox combo_query;
+        private Button button_query;
+        private Label label_query;
+        private ComboBox combo_query_option;
+        private Label label_query_option;
+        private Button button_quote;
+        private Label price;
+        private Label duration;
+        private Label label_price;
+        private Label label_duration;
     }
 }

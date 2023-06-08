@@ -1,11 +1,50 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.SqlClient;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView;
+using System.Reflection;
+
 namespace CMPT291Project
 {
-    public partial class form_login : Form
+   
+    public partial class Form1 : Form
     {
+        public SqlConnection sqlConnection;
+        public SqlCommand sqlCommand;
+        public SqlDataReader sqlReader;
+        
+        private Form2 formMain;
 
-        public form_login()
+        public Form1(Form2 formMain) // Added argument "Form2 formMain" for login auth
         {
             InitializeComponent();
+            // Login addon
+            this.formMain = formMain;
+
+            String connectionString = "Server = .; Database = CMPT291Project; Trusted_Connection = yes";
+
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            
+            try
+            {
+                sqlConnection.Open(); // Open connection
+                sqlCommand = new SqlCommand();
+                sqlCommand.Connection = sqlConnection; // Link the command stream to the connection
+            }
+
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString(), "Error");
+                this.Close();
+            }
+            
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -25,22 +64,50 @@ namespace CMPT291Project
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (cb_type.Text == "Customer" && text_user.Text == "user" && text_pw.Text == "password")
-            {
-                Form2 F2 = new Form2();
-                F2.Show();
-            }
-            else if (cb_type.Text == "Employee" && text_user.Text == "admin" && text_pw.Text == "admin")
-            {
-                Form2 F2 = new Form2();
-                F2.Show();
-            }
-            else
-            {
-                MessageBox.Show("Invalid username or password", "please try again", MessageBoxButtons.OK);
-                label_invalid.Text = "Invalid Username or Password, please try again.";
-            }
 
+            Console.WriteLine("cb_type " + cb_type.Text);
+            Console.WriteLine("text_user: " + text_user.Text);
+            Console.WriteLine("text_pw: " + text_pw.Text);
+
+            try
+            {
+                sqlCommand.CommandText = "select count(*) as existing from Login where user_type = '" + cb_type.Text + "' and username = '" +
+                    text_user.Text + "' and password = '" + text_pw.Text + "';";
+                MessageBox.Show(sqlCommand.CommandText);
+                sqlReader = sqlCommand.ExecuteReader();
+                sqlReader.Read();
+                
+                if (sqlReader["existing"].ToString() == "1")
+                {
+                    if (cb_type.Text == "Customer")
+                    {
+                        //sqlReader.Close();
+                        this.Hide();
+                        formMain.Show();
+
+                    }
+                    else if (cb_type.Text == "Employee")
+                    {
+                        //sqlReader.Close();
+                        this.Hide();
+                        formMain.Show();
+
+                        // If login is successful:
+                        formMain.IsUserAuthenticated = true;
+                      
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Invalid username or password", "Please try again", MessageBoxButtons.OK);
+                }
+                
+                sqlReader.Close();
+            }
+            catch (Exception e_login)
+            {
+                MessageBox.Show(e_login.ToString(), "Error");
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
