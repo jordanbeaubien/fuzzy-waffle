@@ -77,7 +77,7 @@ namespace CMPT291Project
                 sqlReader = sqlCommand.ExecuteReader();
                 sqlReader.Read();
                 
-                if (sqlReader["existing"].ToString() != "0")
+                if (sqlReader["existing"].ToString() == "1")
                 {
                     if (cb_type.Text == "Customer")
                     {

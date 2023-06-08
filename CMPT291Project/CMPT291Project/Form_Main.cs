@@ -25,6 +25,12 @@ namespace CMPT291Project
         string select_branch = "select branch_id, building_number, street, city, province from Branch;";
         public bool IsUserAuthenticated { get; set; } // Added login auth
 
+        int rental_days;
+        int rental_weeks;
+        int rental_months;
+        int rental_diff_branch;
+        int cost;
+
         public Form2()
         {
             InitializeComponent();
@@ -95,21 +101,6 @@ namespace CMPT291Project
         }
 
         private void tabPage1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void search_button_Click(object sender, EventArgs e)
         {
 
         }
@@ -203,31 +194,6 @@ namespace CMPT291Project
             price.Visible = false;
         }
         private void tabPage2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click_2(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click_3(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
         {
 
         }
@@ -580,12 +546,6 @@ namespace CMPT291Project
 
         }
 
-        private void label9_Click(object sender, EventArgs e)
-        {
-
-        }
-
-
         private void pickup_location_combo_SelectedIndexChanged(object sender, EventArgs e)
         {
             vehicle_type_combo_box.Items.Clear();
@@ -680,17 +640,7 @@ namespace CMPT291Project
             price.Visible = false;
         }
 
-        private void label9_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void dropoff_location_details_Click(object sender, EventArgs e)
         {
 
         }
@@ -768,20 +718,14 @@ namespace CMPT291Project
 
         private void button_quote_Click(object sender, EventArgs e)
         {
-            TimeSpan rental_duration = dropoff_date_picker.Value - pickup_date_picker.Value;
-            int rental_days;
-            int rental_weeks = 0;
-            int rental_months = 0;
-            int cost = 0;
+            TimeSpan rental_duration = dropoff_date_picker.Value.Date - pickup_date_picker.Value.Date;
+            
+            rental_days = rental_duration.Days + 1;
+            rental_weeks = 0;
+            rental_months = 0;
+            rental_diff_branch = 0;
+            cost = 0;
 
-            if (dropoff_date_picker.Value.ToString("yyyy-MM-dd") == pickup_date_picker.Value.ToString("yyyy-MM-dd"))
-            {
-                rental_days = 1;
-            }
-            else
-            {
-                rental_days = rental_duration.Days + 2;
-            }
             for (; rental_days >= 30; rental_months += 1, rental_days -= 30) ;
             for (; rental_days >= 7; rental_weeks += 1, rental_days -= 7) ;
             if (vehicle_type_combo_box.Text.Length > 0)
@@ -789,12 +733,19 @@ namespace CMPT291Project
                 label_duration.Visible = true;
                 duration.Text = rental_months.ToString() + " months, " + rental_weeks.ToString() + " weeks, " + rental_days.ToString() + " days";
                 duration.Visible = true;
-                sqlCommand.CommandText = "select daily_rate, weekly_rate, monthly_rate from CarType where type = '" + vehicle_type_combo_box.Text.ToString() + "';";
+                sqlCommand.CommandText = "select daily_rate, weekly_rate, monthly_rate, dif_branch_ret_price from CarType where type = '" + 
+                    vehicle_type_combo_box.Text.ToString() + "';";
+                if (pickup_location_combo.Text != dropoff_location_combo.Text)
+                {
+                    rental_diff_branch = 1;
+                }
+
                 try
                 {
                     sqlReader = sqlCommand.ExecuteReader();
                     sqlReader.Read();
-                    cost = sqlReader.GetInt32("daily_rate") * rental_days + sqlReader.GetInt32("weekly_rate") * rental_weeks + sqlReader.GetInt32("monthly_rate") * rental_months;
+                    cost = sqlReader.GetInt32("daily_rate") * rental_days + sqlReader.GetInt32("weekly_rate") * rental_weeks + 
+                        sqlReader.GetInt32("monthly_rate") * rental_months + sqlReader.GetInt32("dif_branch_ret_price") * rental_diff_branch;
                     sqlReader.Close();
                     label_price.Visible = true;
                     price.Text = "$" + cost.ToString() + ".00";

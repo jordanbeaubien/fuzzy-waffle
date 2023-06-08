@@ -204,7 +204,6 @@
             dropoff_location_details.TabIndex = 21;
             dropoff_location_details.Text = "DROPOFF LOCATION DETAILS";
             dropoff_location_details.Visible = false;
-            dropoff_location_details.Click += dropoff_location_details_Click;
             // 
             // pickup_location_details
             // 
@@ -226,7 +225,6 @@
             label_available.TabIndex = 19;
             label_available.Text = "No vehicles available";
             label_available.Visible = false;
-            label_available.Click += label9_Click_1;
             // 
             // confirm_button
             // 
@@ -346,7 +344,6 @@
             vehicle_type_label.Size = new Size(71, 15);
             vehicle_type_label.TabIndex = 1;
             vehicle_type_label.Text = "Vehicle Type";
-            vehicle_type_label.Click += label1_Click;
             // 
             // tab_car
             // 
@@ -392,7 +389,6 @@
             valid_vin.TabIndex = 14;
             valid_vin.Text = "Invalid Vin";
             valid_vin.Visible = false;
-            valid_vin.Click += label9_Click;
             // 
             // branch_info
             // 
@@ -565,7 +561,6 @@
             label4.Size = new Size(61, 15);
             label4.TabIndex = 4;
             label4.Text = "Branch ID:";
-            label4.Click += label4_Click;
             // 
             // label2
             // 
@@ -575,7 +570,6 @@
             label2.Size = new Size(39, 15);
             label2.TabIndex = 2;
             label2.Text = "Make:";
-            label2.Click += label2_Click;
             // 
             // label1
             // 
@@ -585,7 +579,6 @@
             label1.Size = new Size(44, 15);
             label1.TabIndex = 1;
             label1.Text = "Model:";
-            label1.Click += label1_Click_3;
             // 
             // label_vin
             // 
@@ -595,7 +588,6 @@
             label_vin.Size = new Size(29, 15);
             label_vin.TabIndex = 0;
             label_vin.Text = "VIN:";
-            label_vin.Click += label1_Click_2;
             // 
             // tab_query
             // 
