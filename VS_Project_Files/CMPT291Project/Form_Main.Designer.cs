@@ -100,9 +100,10 @@
             // 
             vehicle_type_combo_box.DropDownStyle = ComboBoxStyle.DropDownList;
             vehicle_type_combo_box.FormattingEnabled = true;
-            vehicle_type_combo_box.Location = new Point(171, 225);
+            vehicle_type_combo_box.Location = new Point(150, 169);
+            vehicle_type_combo_box.Margin = new Padding(3, 2, 3, 2);
             vehicle_type_combo_box.Name = "vehicle_type_combo_box";
-            vehicle_type_combo_box.Size = new Size(250, 28);
+            vehicle_type_combo_box.Size = new Size(219, 23);
             vehicle_type_combo_box.TabIndex = 0;
             vehicle_type_combo_box.SelectedIndexChanged += vehicle_type_combo_box_SelectedIndexChanged;
             // 
@@ -111,11 +112,10 @@
             tabControl1.Controls.Add(tab_rental);
             tabControl1.Controls.Add(tab_car);
             tabControl1.Controls.Add(tab_query);
-            tabControl1.Location = new Point(11, 13);
-            tabControl1.Margin = new Padding(3, 4, 3, 4);
+            tabControl1.Location = new Point(10, 10);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(960, 540);
+            tabControl1.Size = new Size(840, 405);
             tabControl1.TabIndex = 0;
             // 
             // tab_rental
@@ -144,11 +144,10 @@
             tab_rental.Controls.Add(pickup_date_picker);
             tab_rental.Controls.Add(vehicle_type_label);
             tab_rental.Controls.Add(vehicle_type_combo_box);
-            tab_rental.Location = new Point(4, 29);
-            tab_rental.Margin = new Padding(3, 4, 3, 4);
+            tab_rental.Location = new Point(4, 24);
             tab_rental.Name = "tab_rental";
-            tab_rental.Padding = new Padding(3, 4, 3, 4);
-            tab_rental.Size = new Size(952, 507);
+            tab_rental.Padding = new Padding(3);
+            tab_rental.Size = new Size(832, 377);
             tab_rental.TabIndex = 0;
             tab_rental.Text = "Rental";
             tab_rental.Click += tabPage1_Click;
@@ -157,9 +156,9 @@
             // 
             price.AutoSize = true;
             price.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            price.Location = new Point(450, 409);
+            price.Location = new Point(394, 307);
             price.Name = "price";
-            price.Size = new Size(62, 28);
+            price.Size = new Size(51, 21);
             price.TabIndex = 26;
             price.Text = "PRICE";
             price.Visible = false;
@@ -169,9 +168,9 @@
             // 
             duration.AutoSize = true;
             duration.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            duration.Location = new Point(314, 270);
+            duration.Location = new Point(275, 202);
             duration.Name = "duration";
-            duration.Size = new Size(158, 23);
+            duration.Size = new Size(128, 19);
             duration.TabIndex = 25;
             duration.Text = "RENTAL DURATION";
             duration.Visible = false;
@@ -180,9 +179,9 @@
             // 
             label_price.AutoSize = true;
             label_price.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label_price.Location = new Point(307, 409);
+            label_price.Location = new Point(269, 307);
             label_price.Name = "label_price";
-            label_price.Size = new Size(130, 28);
+            label_price.Size = new Size(103, 21);
             label_price.TabIndex = 24;
             label_price.Text = "Quoted Price:";
             label_price.Visible = false;
@@ -191,19 +190,18 @@
             // 
             label_duration.AutoSize = true;
             label_duration.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label_duration.Location = new Point(171, 270);
+            label_duration.Location = new Point(150, 202);
             label_duration.Name = "label_duration";
-            label_duration.Size = new Size(134, 23);
+            label_duration.Size = new Size(108, 19);
             label_duration.TabIndex = 23;
             label_duration.Text = "Rental Duration:";
             label_duration.Visible = false;
             // 
             // button_quote
             // 
-            button_quote.Location = new Point(171, 401);
-            button_quote.Margin = new Padding(3, 4, 3, 4);
+            button_quote.Location = new Point(150, 301);
             button_quote.Name = "button_quote";
-            button_quote.Size = new Size(130, 50);
+            button_quote.Size = new Size(114, 38);
             button_quote.TabIndex = 22;
             button_quote.Text = "Get Price";
             button_quote.UseVisualStyleBackColor = true;
@@ -213,9 +211,9 @@
             // 
             dropoff_location_details.AutoSize = true;
             dropoff_location_details.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            dropoff_location_details.Location = new Point(640, 252);
+            dropoff_location_details.Location = new Point(560, 189);
             dropoff_location_details.Name = "dropoff_location_details";
-            dropoff_location_details.Size = new Size(237, 23);
+            dropoff_location_details.Size = new Size(196, 19);
             dropoff_location_details.TabIndex = 21;
             dropoff_location_details.Text = "DROPOFF LOCATION DETAILS";
             dropoff_location_details.Visible = false;
@@ -224,9 +222,9 @@
             // 
             pickup_location_details.AutoSize = true;
             pickup_location_details.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            pickup_location_details.Location = new Point(640, 150);
+            pickup_location_details.Location = new Point(560, 112);
             pickup_location_details.Name = "pickup_location_details";
-            pickup_location_details.Size = new Size(221, 23);
+            pickup_location_details.Size = new Size(181, 19);
             pickup_location_details.TabIndex = 20;
             pickup_location_details.Text = "PICKUP LOCATION DETAILS";
             pickup_location_details.Visible = false;
@@ -236,9 +234,9 @@
             label_available.AutoSize = true;
             label_available.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             label_available.ForeColor = Color.Red;
-            label_available.Location = new Point(307, 332);
+            label_available.Location = new Point(269, 249);
             label_available.Name = "label_available";
-            label_available.Size = new Size(194, 28);
+            label_available.Size = new Size(155, 21);
             label_available.TabIndex = 19;
             label_available.Text = "No vehicles available";
             label_available.Visible = false;
@@ -246,10 +244,9 @@
             // confirm_button
             // 
             confirm_button.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point);
-            confirm_button.Location = new Point(581, 314);
-            confirm_button.Margin = new Padding(3, 4, 3, 4);
+            confirm_button.Location = new Point(497, 225);
             confirm_button.Name = "confirm_button";
-            confirm_button.Size = new Size(309, 137);
+            confirm_button.Size = new Size(270, 103);
             confirm_button.TabIndex = 18;
             confirm_button.Text = "Confirm Booking";
             confirm_button.UseVisualStyleBackColor = true;
@@ -260,10 +257,11 @@
             return_same_loc_checkbox.AutoSize = true;
             return_same_loc_checkbox.Checked = true;
             return_same_loc_checkbox.CheckState = CheckState.Checked;
-            return_same_loc_checkbox.Location = new Point(640, 191);
+            return_same_loc_checkbox.Location = new Point(560, 143);
+            return_same_loc_checkbox.Margin = new Padding(3, 2, 3, 2);
             return_same_loc_checkbox.Name = "return_same_loc_checkbox";
             return_same_loc_checkbox.RightToLeft = RightToLeft.Yes;
-            return_same_loc_checkbox.Size = new Size(189, 24);
+            return_same_loc_checkbox.Size = new Size(152, 19);
             return_same_loc_checkbox.TabIndex = 14;
             return_same_loc_checkbox.Text = "Return to same location";
             return_same_loc_checkbox.UseVisualStyleBackColor = true;
@@ -272,18 +270,20 @@
             // dropoff_location_combo
             // 
             dropoff_location_combo.FormattingEnabled = true;
-            dropoff_location_combo.Location = new Point(640, 221);
+            dropoff_location_combo.Location = new Point(560, 166);
+            dropoff_location_combo.Margin = new Padding(3, 2, 3, 2);
             dropoff_location_combo.Name = "dropoff_location_combo";
-            dropoff_location_combo.Size = new Size(250, 28);
+            dropoff_location_combo.Size = new Size(219, 23);
             dropoff_location_combo.TabIndex = 12;
             dropoff_location_combo.SelectedIndexChanged += dropoff_location_combo_SelectedIndexChanged;
             // 
             // pickup_location_combo
             // 
             pickup_location_combo.FormattingEnabled = true;
-            pickup_location_combo.Location = new Point(640, 119);
+            pickup_location_combo.Location = new Point(560, 89);
+            pickup_location_combo.Margin = new Padding(3, 2, 3, 2);
             pickup_location_combo.Name = "pickup_location_combo";
-            pickup_location_combo.Size = new Size(250, 28);
+            pickup_location_combo.Size = new Size(219, 23);
             pickup_location_combo.TabIndex = 11;
             pickup_location_combo.SelectedIndexChanged += pickup_location_combo_SelectedIndexChanged;
             // 
@@ -291,9 +291,9 @@
             // 
             dropoff_location_label.AutoSize = true;
             dropoff_location_label.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            dropoff_location_label.Location = new Point(496, 225);
+            dropoff_location_label.Location = new Point(434, 169);
             dropoff_location_label.Name = "dropoff_location_label";
-            dropoff_location_label.Size = new Size(138, 23);
+            dropoff_location_label.Size = new Size(112, 19);
             dropoff_location_label.TabIndex = 10;
             dropoff_location_label.Text = "Dropoff Location";
             // 
@@ -301,17 +301,18 @@
             // 
             pickup_location_label.AutoSize = true;
             pickup_location_label.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            pickup_location_label.Location = new Point(504, 119);
+            pickup_location_label.Location = new Point(441, 89);
             pickup_location_label.Name = "pickup_location_label";
-            pickup_location_label.Size = new Size(130, 23);
+            pickup_location_label.Size = new Size(105, 19);
             pickup_location_label.TabIndex = 8;
             pickup_location_label.Text = "Pickup Location";
             // 
             // search_button
             // 
-            search_button.Location = new Point(171, 323);
+            search_button.Location = new Point(150, 242);
+            search_button.Margin = new Padding(3, 2, 3, 2);
             search_button.Name = "search_button";
-            search_button.Size = new Size(130, 53);
+            search_button.Size = new Size(114, 40);
             search_button.TabIndex = 6;
             search_button.Text = "Search For Availability";
             search_button.UseVisualStyleBackColor = true;
@@ -321,17 +322,18 @@
             // 
             dropoff_date_label.AutoSize = true;
             dropoff_date_label.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            dropoff_date_label.Location = new Point(53, 167);
+            dropoff_date_label.Location = new Point(46, 125);
             dropoff_date_label.Name = "dropoff_date_label";
-            dropoff_date_label.Size = new Size(109, 23);
+            dropoff_date_label.Size = new Size(89, 19);
             dropoff_date_label.TabIndex = 5;
             dropoff_date_label.Text = "Dropoff Date";
             // 
             // dropoff_date_picker
             // 
-            dropoff_date_picker.Location = new Point(171, 163);
+            dropoff_date_picker.Location = new Point(150, 122);
+            dropoff_date_picker.Margin = new Padding(3, 2, 3, 2);
             dropoff_date_picker.Name = "dropoff_date_picker";
-            dropoff_date_picker.Size = new Size(250, 27);
+            dropoff_date_picker.Size = new Size(219, 23);
             dropoff_date_picker.TabIndex = 4;
             dropoff_date_picker.Value = new DateTime(2023, 6, 6, 17, 51, 31, 0);
             dropoff_date_picker.ValueChanged += dropoff_date_picker_ValueChanged;
@@ -340,17 +342,18 @@
             // 
             pickup_date_label.AutoSize = true;
             pickup_date_label.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            pickup_date_label.Location = new Point(61, 121);
+            pickup_date_label.Location = new Point(53, 91);
             pickup_date_label.Name = "pickup_date_label";
-            pickup_date_label.Size = new Size(101, 23);
+            pickup_date_label.Size = new Size(82, 19);
             pickup_date_label.TabIndex = 3;
             pickup_date_label.Text = "Pickup Date";
             // 
             // pickup_date_picker
             // 
-            pickup_date_picker.Location = new Point(171, 117);
+            pickup_date_picker.Location = new Point(150, 88);
+            pickup_date_picker.Margin = new Padding(3, 2, 3, 2);
             pickup_date_picker.Name = "pickup_date_picker";
-            pickup_date_picker.Size = new Size(250, 27);
+            pickup_date_picker.Size = new Size(219, 23);
             pickup_date_picker.TabIndex = 2;
             pickup_date_picker.ValueChanged += pickup_date_picker_ValueChanged;
             // 
@@ -358,9 +361,9 @@
             // 
             vehicle_type_label.AutoSize = true;
             vehicle_type_label.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            vehicle_type_label.Location = new Point(61, 226);
+            vehicle_type_label.Location = new Point(53, 170);
             vehicle_type_label.Name = "vehicle_type_label";
-            vehicle_type_label.Size = new Size(104, 23);
+            vehicle_type_label.Size = new Size(83, 19);
             vehicle_type_label.TabIndex = 1;
             vehicle_type_label.Text = "Vehicle Type";
             // 
@@ -393,11 +396,10 @@
             tab_car.Controls.Add(label2);
             tab_car.Controls.Add(label1);
             tab_car.Controls.Add(label_vin);
-            tab_car.Location = new Point(4, 29);
-            tab_car.Margin = new Padding(3, 4, 3, 4);
+            tab_car.Location = new Point(4, 24);
             tab_car.Name = "tab_car";
-            tab_car.Padding = new Padding(3, 4, 3, 4);
-            tab_car.Size = new Size(952, 507);
+            tab_car.Padding = new Padding(3);
+            tab_car.Size = new Size(832, 377);
             tab_car.TabIndex = 1;
             tab_car.Text = "Cars";
             tab_car.UseVisualStyleBackColor = true;
@@ -407,9 +409,9 @@
             // 
             label_branch_date_current.AutoSize = true;
             label_branch_date_current.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label_branch_date_current.Location = new Point(674, 157);
+            label_branch_date_current.Location = new Point(590, 118);
             label_branch_date_current.Name = "label_branch_date_current";
-            label_branch_date_current.Size = new Size(104, 23);
+            label_branch_date_current.Size = new Size(84, 19);
             label_branch_date_current.TabIndex = 18;
             label_branch_date_current.Text = "Branch Date";
             label_branch_date_current.Visible = false;
@@ -417,10 +419,9 @@
             // combo_branch_transfer
             // 
             combo_branch_transfer.FormattingEnabled = true;
-            combo_branch_transfer.Location = new Point(674, 184);
-            combo_branch_transfer.Margin = new Padding(3, 4, 3, 4);
+            combo_branch_transfer.Location = new Point(590, 138);
             combo_branch_transfer.Name = "combo_branch_transfer";
-            combo_branch_transfer.Size = new Size(205, 28);
+            combo_branch_transfer.Size = new Size(180, 23);
             combo_branch_transfer.TabIndex = 17;
             combo_branch_transfer.SelectedIndexChanged += combo_branch_transfer_SelectedIndexChanged;
             // 
@@ -428,9 +429,9 @@
             // 
             label_branch_info_transfer.AutoSize = true;
             label_branch_info_transfer.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label_branch_info_transfer.Location = new Point(674, 216);
+            label_branch_info_transfer.Location = new Point(590, 162);
             label_branch_info_transfer.Name = "label_branch_info_transfer";
-            label_branch_info_transfer.Size = new Size(158, 23);
+            label_branch_info_transfer.Size = new Size(127, 19);
             label_branch_info_transfer.TabIndex = 16;
             label_branch_info_transfer.Text = "Branch Information";
             label_branch_info_transfer.Visible = false;
@@ -440,9 +441,9 @@
             // 
             label_branch_transfer.AutoSize = true;
             label_branch_transfer.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label_branch_transfer.Location = new Point(462, 189);
+            label_branch_transfer.Location = new Point(404, 142);
             label_branch_transfer.Name = "label_branch_transfer";
-            label_branch_transfer.Size = new Size(206, 23);
+            label_branch_transfer.Size = new Size(164, 19);
             label_branch_transfer.TabIndex = 15;
             label_branch_transfer.Text = "Initial / Tranfer Branch ID:";
             // 
@@ -451,9 +452,9 @@
             valid_vin.AutoSize = true;
             valid_vin.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             valid_vin.ForeColor = Color.Red;
-            valid_vin.Location = new Point(191, 145);
+            valid_vin.Location = new Point(167, 109);
             valid_vin.Name = "valid_vin";
-            valid_vin.Size = new Size(90, 23);
+            valid_vin.Size = new Size(73, 19);
             valid_vin.TabIndex = 14;
             valid_vin.Text = "Invalid Vin";
             valid_vin.Visible = false;
@@ -462,9 +463,9 @@
             // 
             label_branch_info_current.AutoSize = true;
             label_branch_info_current.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label_branch_info_current.Location = new Point(674, 130);
+            label_branch_info_current.Location = new Point(590, 98);
             label_branch_info_current.Name = "label_branch_info_current";
-            label_branch_info_current.Size = new Size(158, 23);
+            label_branch_info_current.Size = new Size(127, 19);
             label_branch_info_current.TabIndex = 13;
             label_branch_info_current.Text = "Branch Information";
             label_branch_info_current.Visible = false;
@@ -473,20 +474,18 @@
             // type
             // 
             type.FormattingEnabled = true;
-            type.Location = new Point(191, 183);
-            type.Margin = new Padding(3, 4, 3, 4);
+            type.Location = new Point(167, 137);
             type.Name = "type";
-            type.Size = new Size(235, 28);
+            type.Size = new Size(206, 23);
             type.TabIndex = 5;
             type.SelectedIndexChanged += type_SelectedIndexChanged;
             // 
             // combo_branch_current
             // 
             combo_branch_current.FormattingEnabled = true;
-            combo_branch_current.Location = new Point(674, 98);
-            combo_branch_current.Margin = new Padding(3, 4, 3, 4);
+            combo_branch_current.Location = new Point(590, 74);
             combo_branch_current.Name = "combo_branch_current";
-            combo_branch_current.Size = new Size(205, 28);
+            combo_branch_current.Size = new Size(180, 23);
             combo_branch_current.TabIndex = 11;
             combo_branch_current.SelectedIndexChanged += branch_current_SelectedIndexChanged;
             // 
@@ -494,10 +493,9 @@
             // 
             button_delete.AutoSize = true;
             button_delete.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            button_delete.Location = new Point(259, 48);
-            button_delete.Margin = new Padding(3, 4, 3, 4);
+            button_delete.Location = new Point(227, 36);
             button_delete.Name = "button_delete";
-            button_delete.Size = new Size(80, 27);
+            button_delete.Size = new Size(66, 23);
             button_delete.TabIndex = 2;
             button_delete.Text = "Delete";
             button_delete.UseVisualStyleBackColor = true;
@@ -507,10 +505,9 @@
             // 
             button_modify.AutoSize = true;
             button_modify.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            button_modify.Location = new Point(343, 48);
-            button_modify.Margin = new Padding(3, 4, 3, 4);
+            button_modify.Location = new Point(300, 36);
             button_modify.Name = "button_modify";
-            button_modify.Size = new Size(83, 27);
+            button_modify.Size = new Size(70, 23);
             button_modify.TabIndex = 3;
             button_modify.Text = "Modify";
             button_modify.UseVisualStyleBackColor = true;
@@ -520,10 +517,9 @@
             // 
             button_add.AutoSize = true;
             button_add.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            button_add.Location = new Point(191, 48);
-            button_add.Margin = new Padding(3, 4, 3, 4);
+            button_add.Location = new Point(167, 36);
             button_add.Name = "button_add";
-            button_add.Size = new Size(62, 27);
+            button_add.Size = new Size(52, 23);
             button_add.TabIndex = 1;
             button_add.Text = "Add";
             button_add.UseVisualStyleBackColor = true;
@@ -531,52 +527,46 @@
             // 
             // make
             // 
-            make.Location = new Point(191, 243);
-            make.Margin = new Padding(3, 4, 3, 4);
+            make.Location = new Point(167, 182);
             make.Name = "make";
-            make.Size = new Size(148, 27);
+            make.Size = new Size(130, 23);
             make.TabIndex = 6;
             // 
             // year
             // 
-            year.Location = new Point(191, 335);
-            year.Margin = new Padding(3, 4, 3, 4);
+            year.Location = new Point(167, 251);
             year.Name = "year";
-            year.Size = new Size(148, 27);
+            year.Size = new Size(130, 23);
             year.TabIndex = 8;
             // 
             // colour
             // 
-            colour.Location = new Point(191, 376);
-            colour.Margin = new Padding(3, 4, 3, 4);
+            colour.Location = new Point(167, 282);
             colour.Name = "colour";
-            colour.Size = new Size(148, 27);
+            colour.Size = new Size(130, 23);
             colour.TabIndex = 9;
             // 
             // license
             // 
-            license.Location = new Point(191, 426);
-            license.Margin = new Padding(3, 4, 3, 4);
+            license.Location = new Point(167, 320);
             license.Name = "license";
-            license.Size = new Size(148, 27);
+            license.Size = new Size(130, 23);
             license.TabIndex = 10;
             // 
             // model
             // 
-            model.Location = new Point(191, 289);
-            model.Margin = new Padding(3, 4, 3, 4);
+            model.Location = new Point(167, 217);
             model.Name = "model";
-            model.Size = new Size(148, 27);
+            model.Size = new Size(130, 23);
             model.TabIndex = 7;
             // 
             // vin
             // 
             vin.FormattingEnabled = true;
             vin.IntegralHeight = false;
-            vin.Location = new Point(191, 98);
-            vin.Margin = new Padding(3, 4, 3, 4);
+            vin.Location = new Point(167, 74);
             vin.Name = "vin";
-            vin.Size = new Size(235, 28);
+            vin.Size = new Size(206, 23);
             vin.TabIndex = 4;
             vin.SelectedIndexChanged += vin_SelectedIndexChanged;
             vin.Leave += vin_Leave;
@@ -584,10 +574,9 @@
             // button_confirm
             // 
             button_confirm.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            button_confirm.Location = new Point(529, 299);
-            button_confirm.Margin = new Padding(3, 4, 3, 4);
+            button_confirm.Location = new Point(463, 224);
             button_confirm.Name = "button_confirm";
-            button_confirm.Size = new Size(350, 154);
+            button_confirm.Size = new Size(306, 116);
             button_confirm.TabIndex = 12;
             button_confirm.Text = "Confirm";
             button_confirm.UseVisualStyleBackColor = true;
@@ -597,9 +586,9 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(93, 50);
+            label3.Location = new Point(81, 38);
             label3.Name = "label3";
-            label3.Size = new Size(63, 23);
+            label3.Size = new Size(51, 19);
             label3.TabIndex = 10;
             label3.Text = "Action:";
             // 
@@ -607,9 +596,9 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label8.Location = new Point(107, 184);
+            label8.Location = new Point(94, 138);
             label8.Name = "label8";
-            label8.Size = new Size(49, 23);
+            label8.Size = new Size(40, 19);
             label8.TabIndex = 8;
             label8.Text = "Type:";
             // 
@@ -617,9 +606,9 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label7.Location = new Point(91, 380);
+            label7.Location = new Point(80, 285);
             label7.Name = "label7";
-            label7.Size = new Size(65, 23);
+            label7.Size = new Size(53, 19);
             label7.TabIndex = 7;
             label7.Text = "Colour:";
             // 
@@ -627,9 +616,9 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label6.Location = new Point(110, 339);
+            label6.Location = new Point(96, 254);
             label6.Name = "label6";
-            label6.Size = new Size(46, 23);
+            label6.Size = new Size(38, 19);
             label6.TabIndex = 6;
             label6.Text = "Year:";
             // 
@@ -637,9 +626,9 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label5.Location = new Point(44, 426);
+            label5.Location = new Point(38, 320);
             label5.Name = "label5";
-            label5.Size = new Size(112, 23);
+            label5.Size = new Size(90, 19);
             label5.TabIndex = 5;
             label5.Text = "License Plate:";
             // 
@@ -647,9 +636,9 @@
             // 
             label_branch_current.AutoSize = true;
             label_branch_current.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label_branch_current.Location = new Point(529, 103);
+            label_branch_current.Location = new Point(463, 77);
             label_branch_current.Name = "label_branch_current";
-            label_branch_current.Size = new Size(139, 23);
+            label_branch_current.Size = new Size(113, 19);
             label_branch_current.TabIndex = 4;
             label_branch_current.Text = "Latest Branch ID:";
             // 
@@ -657,9 +646,9 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(101, 247);
+            label2.Location = new Point(88, 185);
             label2.Name = "label2";
-            label2.Size = new Size(55, 23);
+            label2.Size = new Size(46, 19);
             label2.TabIndex = 2;
             label2.Text = "Make:";
             // 
@@ -667,9 +656,9 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(94, 293);
+            label1.Location = new Point(82, 220);
             label1.Name = "label1";
-            label1.Size = new Size(62, 23);
+            label1.Size = new Size(51, 19);
             label1.TabIndex = 1;
             label1.Text = "Model:";
             // 
@@ -677,9 +666,9 @@
             // 
             label_vin.AutoSize = true;
             label_vin.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label_vin.Location = new Point(113, 99);
+            label_vin.Location = new Point(99, 74);
             label_vin.Name = "label_vin";
-            label_vin.Size = new Size(43, 23);
+            label_vin.Size = new Size(35, 19);
             label_vin.TabIndex = 0;
             label_vin.Text = "VIN:";
             // 
@@ -691,11 +680,10 @@
             tab_query.Controls.Add(button_query);
             tab_query.Controls.Add(combo_query);
             tab_query.Controls.Add(data_query);
-            tab_query.Location = new Point(4, 29);
-            tab_query.Margin = new Padding(3, 4, 3, 4);
+            tab_query.Location = new Point(4, 24);
             tab_query.Name = "tab_query";
-            tab_query.Padding = new Padding(3, 4, 3, 4);
-            tab_query.Size = new Size(952, 507);
+            tab_query.Padding = new Padding(3);
+            tab_query.Size = new Size(832, 377);
             tab_query.TabIndex = 2;
             tab_query.Text = "Query";
             tab_query.UseVisualStyleBackColor = true;
@@ -703,37 +691,35 @@
             // combo_query_option
             // 
             combo_query_option.FormattingEnabled = true;
-            combo_query_option.Location = new Point(158, 469);
-            combo_query_option.Margin = new Padding(3, 4, 3, 4);
+            combo_query_option.Location = new Point(138, 352);
             combo_query_option.Name = "combo_query_option";
-            combo_query_option.Size = new Size(459, 28);
+            combo_query_option.Size = new Size(402, 23);
             combo_query_option.TabIndex = 5;
             combo_query_option.SelectedIndexChanged += combo_query_option_SelectedIndexChanged;
             // 
             // label_query_option
             // 
             label_query_option.AutoSize = true;
-            label_query_option.Location = new Point(48, 472);
+            label_query_option.Location = new Point(42, 354);
             label_query_option.Name = "label_query_option";
-            label_query_option.Size = new Size(101, 20);
+            label_query_option.Size = new Size(82, 15);
             label_query_option.TabIndex = 4;
             label_query_option.Text = "Query Option:";
             // 
             // label_query
             // 
             label_query.AutoSize = true;
-            label_query.Location = new Point(40, 434);
+            label_query.Location = new Point(35, 326);
             label_query.Name = "label_query";
-            label_query.Size = new Size(112, 20);
+            label_query.Size = new Size(89, 15);
             label_query.TabIndex = 3;
             label_query.Text = "Selected Query:";
             // 
             // button_query
             // 
-            button_query.Location = new Point(662, 431);
-            button_query.Margin = new Padding(3, 4, 3, 4);
+            button_query.Location = new Point(579, 323);
             button_query.Name = "button_query";
-            button_query.Size = new Size(245, 61);
+            button_query.Size = new Size(214, 46);
             button_query.TabIndex = 2;
             button_query.Text = "Run Query";
             button_query.UseVisualStyleBackColor = true;
@@ -742,32 +728,29 @@
             // combo_query
             // 
             combo_query.FormattingEnabled = true;
-            combo_query.Location = new Point(158, 431);
-            combo_query.Margin = new Padding(3, 4, 3, 4);
+            combo_query.Location = new Point(138, 323);
             combo_query.Name = "combo_query";
-            combo_query.Size = new Size(459, 28);
+            combo_query.Size = new Size(402, 23);
             combo_query.TabIndex = 1;
             combo_query.SelectedIndexChanged += combo_query_SelectedIndexChanged;
             // 
             // data_query
             // 
             data_query.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            data_query.Location = new Point(7, 8);
-            data_query.Margin = new Padding(3, 4, 3, 4);
+            data_query.Location = new Point(6, 6);
             data_query.Name = "data_query";
             data_query.RowHeadersWidth = 51;
             data_query.RowTemplate.Height = 25;
-            data_query.Size = new Size(939, 408);
+            data_query.Size = new Size(822, 306);
             data_query.TabIndex = 0;
             data_query.CellContentClick += dataGridView1_CellContentClick;
             // 
             // Form2
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(982, 567);
+            ClientSize = new Size(859, 425);
             Controls.Add(tabControl1);
-            Margin = new Padding(3, 4, 3, 4);
             Name = "Form2";
             Text = "Form_Main";
             Load += Form2_Load;
