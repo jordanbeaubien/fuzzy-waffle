@@ -179,7 +179,7 @@ namespace CMPT291Project
             string query0 = "Name and Address of Customers who Spent Over $1000 Last Year";
             string query1 = "Number of Rentals by Car Type from Branches in Specified City";
             string query2 = "Branches that See Less Than 100 Rentals or Returns for 3 Years in a Row";
-            string query3 = "Percentage Share of rentals by all Branches";
+            string query3 = "Percentage Share of Rentals by all Branches";
             string query4 = "Stock of All Vehicles Across All Locations";
 
             combo_query.Items.Add(query0);
@@ -920,7 +920,7 @@ namespace CMPT291Project
                     break;
 
 
-                case 3: // string query3 = "Percentage Share of rentals by all Branches";
+                case 3: // string query3 = "Percentage Share of Rentals by all Branches";
                     sqlCommand.CommandText = "select count(*) as '# of Rentals', CT.Type from " +
                         "Rental as R, Car as C, CarType as CT, Branch as B " +
                         "where R.vin=C.vin and CT.type=C.type and B.branch_id=C.branch_id " +
