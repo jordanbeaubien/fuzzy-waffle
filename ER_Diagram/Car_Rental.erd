@@ -1,0 +1,142 @@
+erdiagram Car_Rental
+notation=default
+
+
+entity Customer {
+    cust_id key
+    first_name
+    last_name
+    house_number
+    street
+    city
+    province
+    dob
+    driver_license
+}
+
+entity Branch {
+    branch_id key
+    building_number
+    street
+    city
+    province
+    phone_number
+    email
+    Vehicle_Stock derived
+}
+
+entity Employee {
+    emp_id key
+    first_name
+    last_name
+    house_number
+    street
+    city
+    province
+    dob
+    postion
+    salary
+    branch_id
+}
+
+entity Type {
+    type_id key
+    daily_rate
+    weekly_rate
+    monthly_rate
+    different_branch_return_price
+    features
+    passengers
+    baggage_space
+}
+
+
+entity Car {
+    vin key
+    make
+    model
+    year
+    colour
+    license_plate
+    type_id
+    branch_id
+}
+
+entity Rental {
+    reservation_id key
+    from_date
+    to_date
+    cust_id
+    renting_branch_id
+    returning_branch_id
+    vin
+    price derived
+}
+
+entity Customer_Phone_Number {
+    cust_id key
+    phone_number
+    type_id
+}
+
+entity Customer_Email_Address {
+    cust_id key
+    email_address
+    type_id
+}
+
+entity Employee_Phone_Number {
+    emp_id key
+    phone_number
+    type_id
+}
+
+entity Employee_Email_Address {
+    emp_id key
+    email_address
+    type_id
+}
+
+relationship Emp_Branch {
+    Employee[N] -> Branch[1]
+}
+
+relationship Car_Type {
+   Car[N] -> Type[1]
+}
+
+relationship Car_Branch {
+   Car[N] -> Branch[1]
+}
+
+relationship Rental_Cust {
+   Rental[N] -> Customer[1]
+}
+
+relationship Rental_Branch_From {
+   Rental[N] -> Branch[1]
+}
+
+relationship Rental_Branch_To {
+   Rental[N] -> Branch[1]
+}
+
+relationship Rental_Car {
+   Rental[N] -> Car[1]
+}
+
+relationship Cust_Ph {
+   Customer_Phone_Number[N] -> Customer[1]
+}
+
+relationship Cust_Email {
+   Customer_Email_Address[N] -> Customer[1]
+}
+
+relationship Emp_Ph {
+   Employee_Phone_Number[N] -> Employee[1]
+}
+
+relationship Emp_Email {
+   Employee_Email_Address[N] -> Employee[1]
+}
