@@ -253,6 +253,7 @@
             confirm_button.TabIndex = 18;
             confirm_button.Text = "Confirm Booking";
             confirm_button.UseVisualStyleBackColor = true;
+            confirm_button.Click += confirm_button_Click;
             // 
             // return_same_loc_checkbox
             // 

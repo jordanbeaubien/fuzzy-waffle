@@ -11,6 +11,8 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Microsoft.VisualBasic;
+using System.Security.AccessControl;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView;
 
 namespace CMPT291Project
 {
@@ -67,6 +69,7 @@ namespace CMPT291Project
 
             dropoff_location_combo.Enabled = false;
 
+            // Populate all combo boxes with branch_id from database
             sqlCommand.CommandText = select_branch;
             try
             {
@@ -84,9 +87,98 @@ namespace CMPT291Project
                 MessageBox.Show(e_getbranchid.ToString(), "Error");
             }
 
+
+            // INITIALIZE ALL VIEWS AT STARTUP
+
+
+            // Check if pricebyrental View already exists (used for query0)
+            sqlCommand.CommandText = "SELECT OBJECT_ID('pricebyrental', 'V')";
+            object view_check_query0 = sqlCommand.ExecuteScalar();
+            if (view_check_query0 == DBNull.Value)
+            {
+                // If pricebyrental view does not exist, run SQL code to create the view
+                sqlCommand.CommandText = "CREATE VIEW pricebyrental AS (select reservation_id, CASE when branch_id_return is not null " +
+                    "then (select CASE when branch_id_pickup <> branch_id_return then dif_branch_ret_price else 0 END) +CASE when " +
+                    "DATEDIFF(day, from_date, to_date)< 7 then daily_rate *DATEDIFF(day, from_date, to_date) when " +
+                    "DATEDIFF(day, from_date, to_date)>= 7 AND DATEDIFF(day, from_date, to_date)< 30 then weekly_rate " +
+                    "*DATEDIFF(week, from_date, to_date) when DATEDIFF(day, from_date, to_date)>= 30 then monthly_rate " +
+                    "*DATEDIFF(month, from_date, to_date) END else null END as price from rental as R, Car as C, CarType as CT " +
+                    "where R.vin = C.vin AND C.type = CT.type)";
+                try
+                {
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch (Exception e_start_view_query0)
+                {
+                    MessageBox.Show(e_start_view_query0.ToString(), "Error");
+                }
+
+            }
+            else
+            {
+                // If the view exists, do nothing
+            }
+
+
+            // No views for query1
+
+            // Check if rentalsbybranchyr View already exists (used for query0)
+            sqlCommand.CommandText = "SELECT OBJECT_ID('rentalsbybranchyr', 'V')";
+            object view_check_query2 = sqlCommand.ExecuteScalar();
+            if (view_check_query0 == DBNull.Value)
+            {
+                // If rentalsbybranchyr view does not exist, run SQL code to create the view
+                sqlCommand.CommandText = "CREATE VIEW rentalsbybranchyr AS\r\n(select sum(times) as times, branch_id, year " +
+                    "from((select count(*) as times, branch_id_return as branch_id, year(from_date) as year from Branch, Rental " +
+                    "where branch_id=branch_id_return group by year(from_date), branch_id_return) UNION ALL " +
+                    "(select count(*) as times, branch_id_pickup as branch_id, year(from_date) as year from Branch, Rental " +
+                    "where branch_id=branch_id_pickup group by year(from_date), branch_id_pickup)) as X group by year, branch_id)";
+                try
+                {
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch (Exception e_start_view_query2)
+                {
+                    MessageBox.Show(e_start_view_query2.ToString(), "Error");
+                }
+
+            }
+            else
+            {
+                // If the view exists, do nothing
+            }
+
+
+            // Check if vehstockbybranch View already exists (used for query4)
+            sqlCommand.CommandText = "SELECT OBJECT_ID('vehstockbybranch', 'V')";
+            object view_check_query4 = sqlCommand.ExecuteScalar();
+            if (view_check_query4 == DBNull.Value)
+            {
+                // If vehstockbybranch view does not exist, run SQL code to create the view
+                sqlCommand.CommandText = "CREATE VIEW vehstockbybranch AS (select branch_id, "
+                + "(select count(*) as from (select C5.vin from Car as C5 where C5.branch_id=B.branch_id AND C5.vin not in "
+                + "(select C1.vin from Car as C1, Rental as R1 where C1.vin=R1.vin AND to_date>GETDATE() AND from_date<GETDATE())) "
+                + "as X) as vehicle_stock from Branch as B)";
+                try
+                {
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch (Exception e_start_view_query4)
+                {
+                    MessageBox.Show(e_start_view_query4.ToString(), "Error");
+                }
+
+            }
+            else
+            {
+                // If the view exists, do nothing
+            }
+            
+
+            // Add all 5 queries to combo drop down menu on Query tab
             string query0 = "Name and Address of Customers who Spent Over $1000 Last Year";
             string query1 = "Number of Rentals by Car Type from Branches in Specified City";
-            string query2 = "Percentage of Cartypes That Get Returned to Different Branches";
+            string query2 = "Branches that See Less Than 100 Rentals or Returns for 3 Years in a Row";
             string query3 = "Percentage Share of rentals by all Branches";
             string query4 = "Stock of All Vehicles Across All Locations";
 
@@ -199,7 +291,7 @@ namespace CMPT291Project
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            //   if cb_type
+            
         }
 
         private void button_confirm_Click(object sender, EventArgs e)
@@ -741,7 +833,94 @@ namespace CMPT291Project
         {
             switch (combo_query.SelectedIndex)
             {
-                case 1:
+
+                case 0: // string query0 = "Name and Address of Customers who Spent Over $1000 Last Year";
+                    sqlCommand.CommandText = "select X.customer_id, spent, first_name, last_name, house_number, street, city from " +
+                        "(select sum(price) as spent, R.customer_id from pricebyrental as P, (select * from Rental where year(from_date)=year(GETDATE())-1) as R " +
+                        "where R.reservation_id=P.reservation_id group by R.customer_id) as X, Customer as C where X.customer_id=C.customer_id and X.spent>=1000";
+                    try
+                    {
+                        MessageBox.Show(sqlCommand.CommandText);
+                        sqlReader = sqlCommand.ExecuteReader();
+                        data_query.Columns.Clear();
+                        data_query.Columns.Add("first_name", "First Name");
+                        data_query.Columns.Add("last_name", "Last Name");
+                        data_query.Columns.Add("house_number", "House Number");
+                        data_query.Columns.Add("street", "Street");
+                        data_query.Columns.Add("city", "City");
+                        data_query.Columns.Add("province", "Province");
+                        data_query.Rows.Clear();
+                        while (sqlReader.Read())
+                        {
+                            data_query.Rows.Add(sqlReader["First Name"].ToString(), sqlReader["Last Name"].ToString(), sqlReader["House Number"].ToString(),
+                                sqlReader["Street"].ToString(), sqlReader["City"].ToString(), sqlReader["Province"].ToString());
+                        }
+
+                        sqlReader.Close();
+                    }
+                    catch (Exception e_executeQ0)
+                    {
+                        MessageBox.Show(e_executeQ0.ToString(), "Error");
+                    }
+                    break;
+
+
+                    
+
+                case 1: // string query1 = "Number of Rentals by Car Type from Branches in Specified City";
+                    sqlCommand.CommandText = "select C.type as 'car_type', R.branch_id_pickup as 'branch_id', count(*) as 'num_rentals' " +
+                        "from Rental R, Car C where C.vin=R.vin and R.branch_id_pickup " +
+                        "in (select branch_id from Branch where city='" + combo_query_option.Text + "') " +
+                        "group by R.branch_id_pickup, C.type;";   
+                    try
+                    {
+                        MessageBox.Show(sqlCommand.CommandText);
+                        sqlReader = sqlCommand.ExecuteReader();
+                        data_query.Columns.Clear();
+                        data_query.Columns.Add("num_rentals", "# of Rentals");
+                        data_query.Columns.Add("car_type", "Car Type");
+                        data_query.Rows.Clear();
+                        while (sqlReader.Read())
+                        {
+                            data_query.Rows.Add(sqlReader["num_rentals"].ToString(), sqlReader["car_type"].ToString());
+                        }
+
+                        sqlReader.Close();
+                    }
+                    catch (Exception e_executeQ1)
+                    {
+                        MessageBox.Show(e_executeQ1.ToString(), "Error");
+                    }
+                    break;
+
+
+                case 2: // string query2 = "Branches that See Less Than 100 Rentals or Returns for 3 Years in a Row";
+                    sqlCommand.CommandText = "select year, branch_id from rentalsbybranchyr as X1 where X1.times < 100 AND X1.year " +
+                        "IN(select year+1 from rentalsbybranchyr as X2 where X2.branch_id = X1.branch_id AND X2.times < 100 AND X2.year " +
+                        "IN(select year+1 from rentalsbybranchyr as X3 where X3.branch_id = X1.branch_id AND X3.times < 100))";
+                    try
+                    {
+                        MessageBox.Show(sqlCommand.CommandText);
+                        sqlReader = sqlCommand.ExecuteReader();
+                        data_query.Columns.Clear();
+                        data_query.Columns.Add("year", "Year");
+                        data_query.Columns.Add("branch_id", "Branch ID");
+                        data_query.Rows.Clear();
+                        while (sqlReader.Read())
+                        {
+                            data_query.Rows.Add(sqlReader["year"].ToString(), sqlReader["branch_id"].ToString());
+                        }
+
+                        sqlReader.Close();
+                    }
+                    catch (Exception e_executeQ2)
+                    {
+                        MessageBox.Show(e_executeQ2.ToString(), "Error");
+                    }
+                    break;
+
+
+                case 3: // string query3 = "Percentage Share of rentals by all Branches";
                     sqlCommand.CommandText = "select count(*) as '# of Rentals', CT.Type from " +
                         "Rental as R, Car as C, CarType as CT, Branch as B " +
                         "where R.vin=C.vin and CT.type=C.type and B.branch_id=C.branch_id " +
@@ -762,9 +941,40 @@ namespace CMPT291Project
 
                         sqlReader.Close();
                     }
-                    catch (Exception e_executeQ2)
+                    catch (Exception e_executeQ3)
                     {
-                        MessageBox.Show(e_executeQ2.ToString(), "Error");
+                        MessageBox.Show(e_executeQ3.ToString(), "Error");
+                    }
+                    break;
+
+
+                case 4: // string query4 = "Stock of All Vehicles Across All Locations";
+                    sqlCommand.CommandText = "select 'All Branches' as city, sum(vehicle_stock) as available_vehs, 0 as branch_id, 0 as building_number, " +
+                        "'' as street, '' as province from vehstockbybranch UNION ALL select city, vehicle_stock, B.branch_id, building_number, " +
+                        "street, province from Branch as B, vehstockbybranch as V where B.branch_id=V.branch_id order by city";
+                    try
+                    {
+                        MessageBox.Show(sqlCommand.CommandText);
+                        sqlReader = sqlCommand.ExecuteReader();
+                        data_query.Columns.Clear();
+                        data_query.Columns.Add("city", "City");
+                        data_query.Columns.Add("available_vehs", "Available Vehs");
+                        data_query.Columns.Add("branch_id", "Branch ID");
+                        data_query.Columns.Add("building_number", "Building Number");
+                        data_query.Columns.Add("street", "Street");
+                        data_query.Columns.Add("province", "Province");
+                        data_query.Rows.Clear();
+                        while (sqlReader.Read())
+                        {
+                            data_query.Rows.Add(sqlReader["city"].ToString(), sqlReader["available_vehs"].ToString(), sqlReader["branch_id"].ToString(),
+                                sqlReader["building_number"].ToString(), sqlReader["street"].ToString(), sqlReader["province"].ToString());
+                        }
+
+                        sqlReader.Close();
+                    }
+                    catch (Exception e_executeQ4)
+                    {
+                        MessageBox.Show(e_executeQ4.ToString(), "Error");
                     }
                     break;
             }
@@ -850,6 +1060,11 @@ namespace CMPT291Project
         }
 
         private void price_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void confirm_button_Click(object sender, EventArgs e)
         {
 
         }
