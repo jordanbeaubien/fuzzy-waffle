@@ -44,35 +44,39 @@
             cb_type.DropDownStyle = ComboBoxStyle.DropDownList;
             cb_type.FormattingEnabled = true;
             cb_type.Items.AddRange(new object[] { "Customer", "Employee" });
-            cb_type.Location = new Point(115, 28);
+            cb_type.Location = new Point(154, 59);
+            cb_type.Margin = new Padding(3, 4, 3, 4);
             cb_type.Name = "cb_type";
-            cb_type.Size = new Size(461, 23);
+            cb_type.Size = new Size(282, 28);
             cb_type.TabIndex = 0;
             cb_type.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // text_user
             // 
             text_user.Cursor = Cursors.Cross;
-            text_user.Location = new Point(115, 77);
+            text_user.Location = new Point(154, 112);
+            text_user.Margin = new Padding(3, 4, 3, 4);
             text_user.Name = "text_user";
-            text_user.Size = new Size(247, 23);
+            text_user.Size = new Size(282, 27);
             text_user.TabIndex = 1;
             text_user.TextChanged += textBox1_TextChanged;
             // 
             // text_pw
             // 
-            text_pw.Location = new Point(115, 106);
+            text_pw.Location = new Point(154, 161);
+            text_pw.Margin = new Padding(3, 4, 3, 4);
             text_pw.Name = "text_pw";
             text_pw.PasswordChar = '*';
-            text_pw.Size = new Size(247, 23);
+            text_pw.Size = new Size(282, 27);
             text_pw.TabIndex = 2;
             text_pw.TextChanged += textBox2_TextChanged;
             // 
             // button_login
             // 
-            button_login.Location = new Point(523, 106);
+            button_login.Location = new Point(484, 59);
+            button_login.Margin = new Padding(3, 4, 3, 4);
             button_login.Name = "button_login";
-            button_login.Size = new Size(105, 78);
+            button_login.Size = new Size(230, 129);
             button_login.TabIndex = 3;
             button_login.Text = "Login";
             button_login.UseVisualStyleBackColor = true;
@@ -81,27 +85,30 @@
             // label_user
             // 
             label_user.AutoSize = true;
-            label_user.Location = new Point(26, 77);
+            label_user.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label_user.Location = new Point(53, 113);
             label_user.Name = "label_user";
-            label_user.Size = new Size(63, 15);
+            label_user.Size = new Size(91, 23);
             label_user.TabIndex = 4;
             label_user.Text = "Username:";
             // 
             // label_pw
             // 
             label_pw.AutoSize = true;
-            label_pw.Location = new Point(26, 114);
+            label_pw.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label_pw.Location = new Point(60, 162);
             label_pw.Name = "label_pw";
-            label_pw.Size = new Size(60, 15);
+            label_pw.Size = new Size(84, 23);
             label_pw.TabIndex = 5;
             label_pw.Text = "Password:";
             // 
             // label_type
             // 
             label_type.AutoSize = true;
-            label_type.Location = new Point(29, 31);
+            label_type.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label_type.Location = new Point(56, 60);
             label_type.Name = "label_type";
-            label_type.Size = new Size(60, 15);
+            label_type.Size = new Size(88, 23);
             label_type.TabIndex = 6;
             label_type.Text = "User Type:";
             // 
@@ -112,9 +119,9 @@
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(668, 189);
+            ClientSize = new Size(763, 252);
             Controls.Add(label_type);
             Controls.Add(label_pw);
             Controls.Add(label_user);
@@ -122,6 +129,7 @@
             Controls.Add(text_pw);
             Controls.Add(text_user);
             Controls.Add(cb_type);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "Form1";
             Text = "Login Screen";
             Load += Form1_Load;

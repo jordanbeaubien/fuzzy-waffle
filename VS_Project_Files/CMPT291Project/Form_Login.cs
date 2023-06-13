@@ -13,13 +13,13 @@ using System.Reflection;
 
 namespace CMPT291Project
 {
-   
+
     public partial class Form1 : Form
     {
         public SqlConnection sqlConnection;
         public SqlCommand sqlCommand;
         public SqlDataReader sqlReader;
-        
+
         private Form2 formMain;
 
         public Form1(Form2 formMain) // Added argument "Form2 formMain" for login auth
@@ -31,7 +31,7 @@ namespace CMPT291Project
             String connectionString = "Server = .; Database = CMPT291Project; Trusted_Connection = yes";
 
             SqlConnection sqlConnection = new SqlConnection(connectionString);
-            
+
             try
             {
                 sqlConnection.Open(); // Open connection
@@ -44,7 +44,7 @@ namespace CMPT291Project
                 MessageBox.Show(e.ToString(), "Error");
                 this.Close();
             }
-            
+
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -76,7 +76,7 @@ namespace CMPT291Project
                 MessageBox.Show(sqlCommand.CommandText);
                 sqlReader = sqlCommand.ExecuteReader();
                 sqlReader.Read();
-                
+
                 if (sqlReader["existing"].ToString() == "1")
                 {
                     if (cb_type.Text == "Customer")
@@ -112,7 +112,7 @@ namespace CMPT291Project
                 {
                     MessageBox.Show("Invalid username or password", "Please try again", MessageBoxButtons.OK);
                 }
-                
+
                 sqlReader.Close();
             }
             catch (Exception e_login)

@@ -848,5 +848,10 @@ namespace CMPT291Project
         {
 
         }
+
+        private void price_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
