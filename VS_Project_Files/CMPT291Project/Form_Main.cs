@@ -173,7 +173,7 @@ namespace CMPT291Project
             {
                 // If the view exists, do nothing
             }
-            
+
 
             // Add all 5 queries to combo drop down menu on Query tab
             string query0 = "Name and Address of Customers who Spent Over $1000 Last Year";
@@ -213,17 +213,38 @@ namespace CMPT291Project
 
         private void search_button_Click_1(object sender, EventArgs e)
         {
-            if (dropoff_date_picker.Value < DateTime.Today || pickup_date_picker.Value < pickup_date_picker.Value)
+            // Date error handling
+            if (pickup_date_picker.Value < DateTime.Today)
             {
-                label_available.ForeColor = Color.Red;
-                label_available.Text = "Invalid date selection";
-                label_available.Visible = true;
+                label_date_error.ForeColor = Color.Red;
+                label_date_error.Text = "Pickup date must be in the future";
+                label_date_error.Visible = true;
             }
-            else if (pickup_location_combo.Text.Length == 0 || dropoff_location_combo.Text.Length == 0)
+            else if (dropoff_date_picker.Value < DateTime.Today)
             {
-                label_available.ForeColor = Color.Red;
-                label_available.Text = "Pickup or dropoff location not selected";
-                label_available.Visible = true;
+                label_date_error.ForeColor = Color.Red;
+                label_date_error.Text = "Dropoff date must be in the future";
+                label_date_error.Visible = true;
+            }
+            else if (dropoff_date_picker.Value < pickup_date_picker.Value)
+            {
+                label_date_error.ForeColor = Color.Red;
+                label_date_error.Text = "Dropoff date must be after Pickup date";
+                label_date_error.Visible = true;
+            }
+            
+            // Location error handling
+            else if (pickup_location_combo.Text.Length == 0)
+            {
+                label_location_error.ForeColor = Color.Red;
+                label_location_error.Text = "Pickup location not selected";
+                label_location_error.Visible = true;
+            }
+            else if (dropoff_location_combo.Text.Length == 0)
+            {
+                label_location_error.ForeColor = Color.Red;
+                label_location_error.Text = "Dropoff location not selected";
+                label_location_error.Visible = true;
             }
             else
             {
@@ -267,17 +288,113 @@ namespace CMPT291Project
         {
             vehicle_type_combo_box.Items.Clear();
             vehicle_type_combo_box.Enabled = false;
-            label_available.Visible = false;
+            label_date_error.Visible = false;
             label_duration.Visible = false;
             duration.Visible = false;
             label_price.Visible = false;
             price.Visible = false;
 
         }
+
         private void dropoff_date_picker_ValueChanged(object sender, EventArgs e)
         {
             vehicle_type_combo_box.Items.Clear();
             vehicle_type_combo_box.Enabled = false;
+            label_date_error.Visible = false;
+            label_duration.Visible = false;
+            duration.Visible = false;
+            label_price.Visible = false;
+            price.Visible = false;
+        }
+
+
+        private void pickup_location_combo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            vehicle_type_combo_box.Items.Clear();
+            vehicle_type_combo_box.Enabled = false;
+            label_location_error.Visible = false;
+            label_duration.Visible = false;
+            duration.Visible = false;
+            label_price.Visible = false;
+            price.Visible = false;
+
+            if (return_same_loc_checkbox.Checked)
+            {
+                dropoff_location_combo.Text = pickup_location_combo.Text;
+            }
+
+            pickup_location_details.Visible = true;
+
+            using (sqlConnection)
+            {
+                sqlCommand.CommandText = "select branch_id, building_number, street, city, province from Branch where branch_id = '" +
+                    pickup_location_combo.Text + "';";
+                try
+                {   
+                    sqlReader = sqlCommand.ExecuteReader();
+                    while (sqlReader.Read())
+                    {
+                        pickup_location_details.Text = sqlReader["building_number"].ToString() + " " +
+                            sqlReader["street"].ToString() + " " + sqlReader["city"].ToString() + " " + sqlReader["province"].ToString();
+                    }
+                }
+                catch (Exception e_getpickupbranchinfo)
+                {
+                    MessageBox.Show(e_getpickupbranchinfo.ToString(), "Error");
+                }
+
+                sqlReader.Close();
+
+            }
+        }
+
+        private void return_same_loc_checkbox_CheckedChanged(object sender, EventArgs e)
+        {
+            dropoff_location_combo.Enabled = !dropoff_location_combo.Enabled;
+
+            if (return_same_loc_checkbox.Checked)
+            {
+                dropoff_location_combo.Text = pickup_location_combo.Text;
+            }
+        }
+
+        private void dropoff_location_combo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            vehicle_type_combo_box.Items.Clear();
+            vehicle_type_combo_box.Enabled = false;
+            label_location_error.Visible = false;
+            label_duration.Visible = false;
+            duration.Visible = false;
+            label_price.Visible = false;
+            price.Visible = false;
+
+            dropoff_location_details.Visible = true;
+
+            using (sqlConnection)
+            {
+                sqlCommand.CommandText = "select branch_id, building_number, street, city, province from Branch where branch_id = '" +
+                    dropoff_location_combo.Text + "';";
+                try
+                {
+                    sqlReader = sqlCommand.ExecuteReader();
+                    while (sqlReader.Read())
+                    {
+                        dropoff_location_details.Text = sqlReader["building_number"].ToString() + " " +
+                            sqlReader["street"].ToString() + " " + sqlReader["city"].ToString() + " " + sqlReader["province"].ToString();
+                    }
+                }
+                catch (Exception e_getdropoffbranchinfo)
+                {
+                    MessageBox.Show(e_getdropoffbranchinfo.ToString(), "Error");
+                }
+
+                sqlReader.Close();
+
+            }
+        }
+
+        private void vehicle_type_combo_box_SelectedIndexChanged(object sender, EventArgs e)
+        {
             label_available.Visible = false;
             label_duration.Visible = false;
             duration.Visible = false;
@@ -291,7 +408,7 @@ namespace CMPT291Project
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            
+
         }
 
         private void button_confirm_Click(object sender, EventArgs e)
@@ -699,99 +816,6 @@ namespace CMPT291Project
 
         }
 
-        private void pickup_location_combo_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            vehicle_type_combo_box.Items.Clear();
-            vehicle_type_combo_box.Enabled = false;
-            label_available.Visible = false;
-            label_duration.Visible = false;
-            duration.Visible = false;
-            label_price.Visible = false;
-            price.Visible = false;
-
-            if (return_same_loc_checkbox.Checked)
-            {
-                dropoff_location_combo.Text = pickup_location_combo.Text;
-            }
-
-            pickup_location_details.Visible = true;
-
-            using (sqlConnection)
-            {
-                sqlCommand.CommandText = "select branch_id, building_number, street, city, province from Branch where branch_id = '" +
-                    pickup_location_combo.Text + "';";
-                try
-                {
-                    sqlReader = sqlCommand.ExecuteReader();
-                    while (sqlReader.Read())
-                    {
-                        pickup_location_details.Text = "Pickup Branch Location: " + sqlReader["building_number"].ToString() + " " +
-                            sqlReader["street"].ToString() + " " + sqlReader["city"].ToString() + " " + sqlReader["province"].ToString();
-                    }
-                }
-                catch (Exception e_getpickupbranchinfo)
-                {
-                    MessageBox.Show(e_getpickupbranchinfo.ToString(), "Error");
-                }
-
-                sqlReader.Close();
-
-            }
-        }
-
-        private void return_same_loc_checkbox_CheckedChanged(object sender, EventArgs e)
-        {
-            dropoff_location_combo.Enabled = !dropoff_location_combo.Enabled;
-
-            if (return_same_loc_checkbox.Checked)
-            {
-                dropoff_location_combo.Text = pickup_location_combo.Text;
-            }
-        }
-
-        private void dropoff_location_combo_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            vehicle_type_combo_box.Items.Clear();
-            vehicle_type_combo_box.Enabled = false;
-            label_available.Visible = false;
-            label_duration.Visible = false;
-            duration.Visible = false;
-            label_price.Visible = false;
-            price.Visible = false;
-
-            dropoff_location_details.Visible = true;
-
-            using (sqlConnection)
-            {
-                sqlCommand.CommandText = "select branch_id, building_number, street, city, province from Branch where branch_id = '" +
-                    dropoff_location_combo.Text + "';";
-                try
-                {
-                    sqlReader = sqlCommand.ExecuteReader();
-                    while (sqlReader.Read())
-                    {
-                        dropoff_location_details.Text = "Dropoff Branch Location: " + sqlReader["building_number"].ToString() + " " +
-                            sqlReader["street"].ToString() + " " + sqlReader["city"].ToString() + " " + sqlReader["province"].ToString();
-                    }
-                }
-                catch (Exception e_getdropoffbranchinfo)
-                {
-                    MessageBox.Show(e_getdropoffbranchinfo.ToString(), "Error");
-                }
-
-                sqlReader.Close();
-
-            }
-        }
-
-        private void vehicle_type_combo_box_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            label_available.Visible = false;
-            label_duration.Visible = false;
-            duration.Visible = false;
-            label_price.Visible = false;
-            price.Visible = false;
-        }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -865,13 +889,13 @@ namespace CMPT291Project
                     break;
 
 
-                    
+
 
                 case 1: // string query1 = "Number of Rentals by Car Type from Branches in Specified City";
                     sqlCommand.CommandText = "select C.type as 'car_type', R.branch_id_pickup as 'branch_id', count(*) as 'num_rentals' " +
                         "from Rental R, Car C where C.vin=R.vin and R.branch_id_pickup " +
                         "in (select branch_id from Branch where city='" + combo_query_option.Text + "') " +
-                        "group by R.branch_id_pickup, C.type;";   
+                        "group by R.branch_id_pickup, C.type;";
                     try
                     {
                         MessageBox.Show(sqlCommand.CommandText);
@@ -1082,6 +1106,26 @@ namespace CMPT291Project
                 sqlCommand.CommandText = rented;
                 sqlCommand.ExecuteNonQuery();
             }
+
+        }
+
+        private void pickup_location_details_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label_date_error_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label_location_error_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label_available_Click(object sender, EventArgs e)
+        {
 
         }
     }
