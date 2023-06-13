@@ -100,7 +100,7 @@
             // 
             vehicle_type_combo_box.DropDownStyle = ComboBoxStyle.DropDownList;
             vehicle_type_combo_box.FormattingEnabled = true;
-            vehicle_type_combo_box.Location = new Point(647, 60);
+            vehicle_type_combo_box.Location = new Point(171, 225);
             vehicle_type_combo_box.Name = "vehicle_type_combo_box";
             vehicle_type_combo_box.Size = new Size(250, 28);
             vehicle_type_combo_box.TabIndex = 0;
@@ -157,7 +157,7 @@
             // 
             price.AutoSize = true;
             price.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            price.Location = new Point(331, 439);
+            price.Location = new Point(450, 409);
             price.Name = "price";
             price.Size = new Size(62, 28);
             price.TabIndex = 26;
@@ -169,7 +169,7 @@
             // 
             duration.AutoSize = true;
             duration.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            duration.Location = new Point(178, 210);
+            duration.Location = new Point(314, 270);
             duration.Name = "duration";
             duration.Size = new Size(158, 23);
             duration.TabIndex = 25;
@@ -180,7 +180,7 @@
             // 
             label_price.AutoSize = true;
             label_price.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label_price.Location = new Point(195, 439);
+            label_price.Location = new Point(307, 409);
             label_price.Name = "label_price";
             label_price.Size = new Size(130, 28);
             label_price.TabIndex = 24;
@@ -191,7 +191,7 @@
             // 
             label_duration.AutoSize = true;
             label_duration.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label_duration.Location = new Point(35, 210);
+            label_duration.Location = new Point(171, 270);
             label_duration.Name = "label_duration";
             label_duration.Size = new Size(134, 23);
             label_duration.TabIndex = 23;
@@ -200,10 +200,10 @@
             // 
             // button_quote
             // 
-            button_quote.Location = new Point(178, 383);
+            button_quote.Location = new Point(171, 401);
             button_quote.Margin = new Padding(3, 4, 3, 4);
             button_quote.Name = "button_quote";
-            button_quote.Size = new Size(250, 52);
+            button_quote.Size = new Size(130, 50);
             button_quote.TabIndex = 22;
             button_quote.Text = "Get Price";
             button_quote.UseVisualStyleBackColor = true;
@@ -213,7 +213,7 @@
             // 
             dropoff_location_details.AutoSize = true;
             dropoff_location_details.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            dropoff_location_details.Location = new Point(647, 251);
+            dropoff_location_details.Location = new Point(640, 252);
             dropoff_location_details.Name = "dropoff_location_details";
             dropoff_location_details.Size = new Size(237, 23);
             dropoff_location_details.TabIndex = 21;
@@ -224,7 +224,7 @@
             // 
             pickup_location_details.AutoSize = true;
             pickup_location_details.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            pickup_location_details.Location = new Point(647, 148);
+            pickup_location_details.Location = new Point(640, 150);
             pickup_location_details.Name = "pickup_location_details";
             pickup_location_details.Size = new Size(221, 23);
             pickup_location_details.TabIndex = 20;
@@ -236,7 +236,7 @@
             label_available.AutoSize = true;
             label_available.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             label_available.ForeColor = Color.Red;
-            label_available.Location = new Point(178, 318);
+            label_available.Location = new Point(307, 332);
             label_available.Name = "label_available";
             label_available.Size = new Size(194, 28);
             label_available.TabIndex = 19;
@@ -245,10 +245,11 @@
             // 
             // confirm_button
             // 
-            confirm_button.Location = new Point(647, 328);
+            confirm_button.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point);
+            confirm_button.Location = new Point(581, 314);
             confirm_button.Margin = new Padding(3, 4, 3, 4);
             confirm_button.Name = "confirm_button";
-            confirm_button.Size = new Size(250, 130);
+            confirm_button.Size = new Size(309, 137);
             confirm_button.TabIndex = 18;
             confirm_button.Text = "Confirm Booking";
             confirm_button.UseVisualStyleBackColor = true;
@@ -258,7 +259,7 @@
             return_same_loc_checkbox.AutoSize = true;
             return_same_loc_checkbox.Checked = true;
             return_same_loc_checkbox.CheckState = CheckState.Checked;
-            return_same_loc_checkbox.Location = new Point(679, 190);
+            return_same_loc_checkbox.Location = new Point(640, 191);
             return_same_loc_checkbox.Name = "return_same_loc_checkbox";
             return_same_loc_checkbox.RightToLeft = RightToLeft.Yes;
             return_same_loc_checkbox.Size = new Size(189, 24);
@@ -270,7 +271,7 @@
             // dropoff_location_combo
             // 
             dropoff_location_combo.FormattingEnabled = true;
-            dropoff_location_combo.Location = new Point(647, 220);
+            dropoff_location_combo.Location = new Point(640, 221);
             dropoff_location_combo.Name = "dropoff_location_combo";
             dropoff_location_combo.Size = new Size(250, 28);
             dropoff_location_combo.TabIndex = 12;
@@ -279,7 +280,7 @@
             // pickup_location_combo
             // 
             pickup_location_combo.FormattingEnabled = true;
-            pickup_location_combo.Location = new Point(647, 117);
+            pickup_location_combo.Location = new Point(640, 119);
             pickup_location_combo.Name = "pickup_location_combo";
             pickup_location_combo.Size = new Size(250, 28);
             pickup_location_combo.TabIndex = 11;
@@ -289,7 +290,7 @@
             // 
             dropoff_location_label.AutoSize = true;
             dropoff_location_label.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            dropoff_location_label.Location = new Point(503, 224);
+            dropoff_location_label.Location = new Point(496, 225);
             dropoff_location_label.Name = "dropoff_location_label";
             dropoff_location_label.Size = new Size(138, 23);
             dropoff_location_label.TabIndex = 10;
@@ -299,7 +300,7 @@
             // 
             pickup_location_label.AutoSize = true;
             pickup_location_label.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            pickup_location_label.Location = new Point(511, 117);
+            pickup_location_label.Location = new Point(504, 119);
             pickup_location_label.Name = "pickup_location_label";
             pickup_location_label.Size = new Size(130, 23);
             pickup_location_label.TabIndex = 8;
@@ -307,9 +308,9 @@
             // 
             // search_button
             // 
-            search_button.Location = new Point(178, 262);
+            search_button.Location = new Point(171, 323);
             search_button.Name = "search_button";
-            search_button.Size = new Size(250, 52);
+            search_button.Size = new Size(130, 53);
             search_button.TabIndex = 6;
             search_button.Text = "Search For Availability";
             search_button.UseVisualStyleBackColor = true;
@@ -319,7 +320,7 @@
             // 
             dropoff_date_label.AutoSize = true;
             dropoff_date_label.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            dropoff_date_label.Location = new Point(60, 167);
+            dropoff_date_label.Location = new Point(53, 167);
             dropoff_date_label.Name = "dropoff_date_label";
             dropoff_date_label.Size = new Size(109, 23);
             dropoff_date_label.TabIndex = 5;
@@ -327,7 +328,7 @@
             // 
             // dropoff_date_picker
             // 
-            dropoff_date_picker.Location = new Point(178, 163);
+            dropoff_date_picker.Location = new Point(171, 163);
             dropoff_date_picker.Name = "dropoff_date_picker";
             dropoff_date_picker.Size = new Size(250, 27);
             dropoff_date_picker.TabIndex = 4;
@@ -338,7 +339,7 @@
             // 
             pickup_date_label.AutoSize = true;
             pickup_date_label.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            pickup_date_label.Location = new Point(68, 121);
+            pickup_date_label.Location = new Point(61, 121);
             pickup_date_label.Name = "pickup_date_label";
             pickup_date_label.Size = new Size(101, 23);
             pickup_date_label.TabIndex = 3;
@@ -346,7 +347,7 @@
             // 
             // pickup_date_picker
             // 
-            pickup_date_picker.Location = new Point(178, 117);
+            pickup_date_picker.Location = new Point(171, 117);
             pickup_date_picker.Name = "pickup_date_picker";
             pickup_date_picker.Size = new Size(250, 27);
             pickup_date_picker.TabIndex = 2;
@@ -356,7 +357,7 @@
             // 
             vehicle_type_label.AutoSize = true;
             vehicle_type_label.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            vehicle_type_label.Location = new Point(537, 61);
+            vehicle_type_label.Location = new Point(61, 226);
             vehicle_type_label.Name = "vehicle_type_label";
             vehicle_type_label.Size = new Size(104, 23);
             vehicle_type_label.TabIndex = 1;
