@@ -853,5 +853,26 @@ namespace CMPT291Project
         {
 
         }
+
+        private void confirm_button_Click(object sender, EventArgs e)
+        {
+            string rented = "insert into rental values((select max(reservation_id) + 1 from rental), '" +
+                    pickup_date_picker.Value.ToString("yyyy-MM-dd") + "', '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") +
+                    "', 1, (select min(Car.vin) from Car where Car.type = '" + vehicle_type_combo_box.Text + "' and Car.vin not in " +
+                    "(select R1.vin from Rental as R1 where R1.from_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") +
+                    "' and R1.to_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "') and Car.vin not in " +
+                    "(select R2.vin from Rental as R2 join (select R3.vin, max(R3.to_date) as max_to_date " +
+                    "from Rental as R3 where R3.to_date < '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' group by R3.vin)" +
+                    "as T1 on T1.vin = R2.vin and T1.max_to_date = R2.to_date where R2.branch_id_return != " +
+                    pickup_location_combo.Text + ")), " + pickup_location_combo.Text + ", " + dropoff_location_combo.Text + " );";
+
+            MessageBox.Show(rented);
+            using (sqlConnection)
+            {
+                sqlCommand.CommandText = rented;
+                sqlCommand.ExecuteNonQuery();
+            }
+
+        }
     }
 }
