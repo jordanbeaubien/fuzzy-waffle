@@ -111,6 +111,7 @@ namespace CMPT291Project
                         {
                             formMain.tabControl1.TabPages.Add(formMain.tabQuery);
                         }
+                        formMain.show_customer_id();
 
                         // If login is successful:
                         formMain.IsUserAuthenticated = true;

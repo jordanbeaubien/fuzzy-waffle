@@ -32,6 +32,10 @@
             vehicle_type_combo_box = new ComboBox();
             tabControl1 = new TabControl();
             tab_rental = new TabPage();
+            customer_id_label = new Label();
+            customer_id_input = new TextBox();
+            label_location_error = new Label();
+            label_date_error = new Label();
             price = new Label();
             duration = new Label();
             label_price = new Label();
@@ -89,8 +93,6 @@
             data_query = new DataGridView();
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
-            label_date_error = new Label();
-            label_location_error = new Label();
             tabControl1.SuspendLayout();
             tab_rental.SuspendLayout();
             tab_car.SuspendLayout();
@@ -125,6 +127,8 @@
             tab_rental.BackColor = Color.LightGray;
             tab_rental.BackgroundImage = (Image)resources.GetObject("tab_rental.BackgroundImage");
             tab_rental.BackgroundImageLayout = ImageLayout.Stretch;
+            tab_rental.Controls.Add(customer_id_label);
+            tab_rental.Controls.Add(customer_id_input);
             tab_rental.Controls.Add(label_location_error);
             tab_rental.Controls.Add(label_date_error);
             tab_rental.Controls.Add(price);
@@ -156,6 +160,49 @@
             tab_rental.TabIndex = 0;
             tab_rental.Text = "Rental";
             tab_rental.Click += tabPage1_Click;
+            // 
+            // customer_id_label
+            // 
+            customer_id_label.AutoSize = true;
+            customer_id_label.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
+            customer_id_label.Location = new Point(527, 28);
+            customer_id_label.Name = "customer_id_label";
+            customer_id_label.Size = new Size(106, 23);
+            customer_id_label.TabIndex = 30;
+            customer_id_label.Text = "Customer ID";
+            // 
+            // customer_id_input
+            // 
+            customer_id_input.Location = new Point(637, 27);
+            customer_id_input.Name = "customer_id_input";
+            customer_id_input.Size = new Size(120, 27);
+            customer_id_input.TabIndex = 29;
+            // 
+            // label_location_error
+            // 
+            label_location_error.AutoSize = true;
+            label_location_error.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label_location_error.ForeColor = Color.Red;
+            label_location_error.Location = new Point(171, 205);
+            label_location_error.Name = "label_location_error";
+            label_location_error.Size = new Size(220, 28);
+            label_location_error.TabIndex = 28;
+            label_location_error.Text = "Location Error Handling";
+            label_location_error.Visible = false;
+            label_location_error.Click += label_location_error_Click;
+            // 
+            // label_date_error
+            // 
+            label_date_error.AutoSize = true;
+            label_date_error.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label_date_error.ForeColor = Color.Red;
+            label_date_error.Location = new Point(171, 86);
+            label_date_error.Name = "label_date_error";
+            label_date_error.Size = new Size(186, 28);
+            label_date_error.TabIndex = 27;
+            label_date_error.Text = "Date Error Handling";
+            label_date_error.Visible = false;
+            label_date_error.Click += label_date_error_Click;
             // 
             // price
             // 
@@ -768,32 +815,6 @@
             data_query.TabIndex = 0;
             data_query.CellContentClick += dataGridView1_CellContentClick;
             // 
-            // label_date_error
-            // 
-            label_date_error.AutoSize = true;
-            label_date_error.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label_date_error.ForeColor = Color.Red;
-            label_date_error.Location = new Point(171, 86);
-            label_date_error.Name = "label_date_error";
-            label_date_error.Size = new Size(186, 28);
-            label_date_error.TabIndex = 27;
-            label_date_error.Text = "Date Error Handling";
-            label_date_error.Visible = false;
-            label_date_error.Click += label_date_error_Click;
-            // 
-            // label_location_error
-            // 
-            label_location_error.AutoSize = true;
-            label_location_error.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label_location_error.ForeColor = Color.Red;
-            label_location_error.Location = new Point(171, 205);
-            label_location_error.Name = "label_location_error";
-            label_location_error.Size = new Size(220, 28);
-            label_location_error.TabIndex = 28;
-            label_location_error.Text = "Location Error Handling";
-            label_location_error.Visible = false;
-            label_location_error.Click += label_location_error_Click;
-            // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -878,5 +899,7 @@
         public TabControl tabControl1;
         private Label label_location_error;
         private Label label_date_error;
+        private TextBox customer_id_input;
+        public Label customer_id_label;
     }
 }

@@ -56,6 +56,7 @@ namespace CMPT291Project
                 this.Close();
             }
 
+
             // If not authenticated, Cars and Query tabs will be removed
             if (!IsUserAuthenticated)
             {
@@ -66,6 +67,10 @@ namespace CMPT291Project
                 // Remove the tabs
                 tabControl1.TabPages.Remove(tab_car);
                 tabControl1.TabPages.Remove(tab_query);
+
+                // Hide customer id input field
+                customer_id_input.Visible = false;
+                customer_id_label.Visible = false;
             }
 
             dropoff_location_combo.Enabled = false;
@@ -207,6 +212,13 @@ namespace CMPT291Project
         public TabPage tabCar;
         public TabPage tabQuery;
 
+        public void show_customer_id()
+        {
+            customer_id_label.Visible = true;
+            customer_id_input.Visible = true;
+        }
+
+
         private void tabPage1_Click(object sender, EventArgs e)
         {
 
@@ -233,7 +245,7 @@ namespace CMPT291Project
                 label_date_error.Text = "Dropoff date must be after Pickup date";
                 label_date_error.Visible = true;
             }
-            
+
             // Location error handling
             else if (pickup_location_combo.Text.Length == 0)
             {
@@ -245,6 +257,14 @@ namespace CMPT291Project
             {
                 label_location_error.ForeColor = Color.Red;
                 label_location_error.Text = "Dropoff location not selected";
+                label_location_error.Visible = true;
+            }
+
+            // Customer ID error handling
+            else if (IsUserAuthenticated && customer_id_input.Text.Length == 0)
+            {
+                label_location_error.ForeColor = Color.Red;
+                label_location_error.Text = "Customer ID not selected";
                 label_location_error.Visible = true;
             }
             else
@@ -331,7 +351,7 @@ namespace CMPT291Project
                 sqlCommand.CommandText = "select branch_id, building_number, street, city, province from Branch where branch_id = '" +
                     pickup_location_combo.Text + "';";
                 try
-                {   
+                {
                     sqlReader = sqlCommand.ExecuteReader();
                     while (sqlReader.Read())
                     {
@@ -1091,15 +1111,31 @@ namespace CMPT291Project
 
         private void confirm_button_Click(object sender, EventArgs e)
         {
-            string rented = "insert into rental values((select max(reservation_id) + 1 from rental), '" +
-                    pickup_date_picker.Value.ToString("yyyy-MM-dd") + "', '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") +
-                    "', 1, (select min(Car.vin) from Car where Car.type = '" + vehicle_type_combo_box.Text + "' and Car.vin not in " +
-                    "(select R1.vin from Rental as R1 where R1.from_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") +
-                    "' and R1.to_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "') and Car.vin not in " +
-                    "(select R2.vin from Rental as R2 join (select R3.vin, max(R3.to_date) as max_to_date " +
-                    "from Rental as R3 where R3.to_date < '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' group by R3.vin)" +
-                    "as T1 on T1.vin = R2.vin and T1.max_to_date = R2.to_date where R2.branch_id_return != " +
-                    pickup_location_combo.Text + ")), " + pickup_location_combo.Text + ", " + dropoff_location_combo.Text + " );";
+            string from_date = $"'{pickup_date_picker.Value.ToString("yyyy-MM-dd")}'";
+            string to_date = $"'{dropoff_date_picker.Value.ToString("yyyy-MM-dd")}'";
+            string v_type = $"'{vehicle_type_combo_box.Text}'";
+            string pickup_loc = $"'{pickup_location_combo.Text}'";
+            string dropoff_loc = $"'{dropoff_location_combo.Text}'";
+            string id;
+
+            if (!IsUserAuthenticated)
+            {
+                id = customer_id.ToString();
+            }
+            else
+            {
+                id = customer_id_input.Text;
+            }
+
+            string rented = $"insert into rental values (" +
+                             $"(select max(reservation_id) + 1 from rental), {from_date}, {to_date}, {id}, " +
+                             $"(select min(Car.vin) from Car where Car.type = {v_type} and car.vin not in " +
+                                $"(select R1.vin from Rental as R1 where R1.from_date <= {from_date} and R1.to_date >= {to_date} and car.vin not in " +
+                                $"(select R2.vin from Rental as R2 join (select R3.vin, max(R3.to_date) as max_to_date " +
+                                $"from REntal as R3 where R3.to_date < {from_date} group by R3.vin) " +
+                                $"as T1 on T1.vin = R2.vin and T1.max_to_date = R2.to_date where R2.branch_id_return != {pickup_loc}))), " +
+                                $"{pickup_loc}, {dropoff_loc});";
+
 
             MessageBox.Show(rented);
             using (sqlConnection)
