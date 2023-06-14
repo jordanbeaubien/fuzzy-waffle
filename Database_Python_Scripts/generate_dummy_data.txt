@@ -4,6 +4,9 @@ delete from CarType;
 delete from employee;
 delete from branch;
 delete from customer;
+delete from employeelogin;
+delete from customerlogin;
+
 insert CarType values ('Compact', 10, 60, 200, 50, 'Fuel Efficient', 5, 2);
 insert CarType values ('Luxury', 50, 300, 1000, 150, 'AC', 5, 2);
 insert CarType values ('Truck', 20, 120, 400, 75, 'Towing', 3, 5);
@@ -314,3 +317,6 @@ insert into rental values (23, '20230610', '20230620', 7, '00785137', 2, 2);
 insert into rental values (24, '20230709', '20230713', 11, '00785137', 2, 4);
 insert into rental values (25, '20230602', '20230620', 17, '00785142', 1, 4);
 insert into rental values (26, '20230801', '20230808', 66, '00785142', 4, 1);
+
+insert into CustomerLogin values(1, 'test', 'pwd');
+insert into employeeLogin values(1, 'test', 'pwd');
