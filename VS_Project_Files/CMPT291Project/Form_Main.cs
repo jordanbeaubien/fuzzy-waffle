@@ -26,6 +26,7 @@ namespace CMPT291Project
         string select_type = "select type from CarType;";
         string select_branch = "select branch_id, building_number, street, city, province from Branch;";
         public bool IsUserAuthenticated { get; set; } // Added login auth
+        public int customer_id;
 
         int rental_days;
         int rental_weeks;

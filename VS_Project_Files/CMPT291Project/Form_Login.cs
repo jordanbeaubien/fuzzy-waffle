@@ -71,8 +71,11 @@ namespace CMPT291Project
 
             try
             {
-                sqlCommand.CommandText = "select count(*) as existing from Login where user_type = '" + cb_type.Text + "' and username = '" +
-                    text_user.Text + "' and password = '" + text_pw.Text + "';";
+                //sqlCommand.CommandText = "select count(*) as existing from Login where user_type = '" + cb_type.Text + "' and username = '" +
+                //    text_user.Text + "' and password = '" + text_pw.Text + "';";
+                sqlCommand.CommandText = $"select count(*) as existing " +
+                                         $"from {cb_type.Text}Login " +
+                                         $"where username = '{text_user.Text}' and password = '{text_pw.Text}';";
                 MessageBox.Show(sqlCommand.CommandText);
                 sqlReader = sqlCommand.ExecuteReader();
                 sqlReader.Read();
@@ -81,9 +84,16 @@ namespace CMPT291Project
                 {
                     if (cb_type.Text == "Customer")
                     {
-                        //sqlReader.Close();
+                        sqlReader.Close();
                         this.Hide();
                         formMain.Show();
+
+                        sqlCommand.CommandText = $"select customer_id from CustomerLogin where username = '{text_user.Text}';";
+                        MessageBox.Show(sqlCommand.CommandText);
+                        sqlReader = sqlCommand.ExecuteReader();
+                        sqlReader.Read();
+
+                        formMain.customer_id = (int)sqlReader["customer_id"];
 
                     }
                     else if (cb_type.Text == "Employee")
