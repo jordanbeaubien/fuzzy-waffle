@@ -156,7 +156,7 @@ namespace CMPT291Project
             {
                 // If vehstockbybranch view does not exist, run SQL code to create the view
                 sqlCommand.CommandText = "CREATE VIEW vehstockbybranch AS (select branch_id, "
-                + "(select count(*) as from (select C5.vin from Car as C5 where C5.branch_id=B.branch_id AND C5.vin not in "
+                + "(select count(*) from (select C5.vin from Car as C5 where C5.branch_id=B.branch_id AND C5.vin not in "
                 + "(select C1.vin from Car as C1, Rental as R1 where C1.vin=R1.vin AND to_date>GETDATE() AND from_date<GETDATE())) "
                 + "as X) as vehicle_stock from Branch as B)";
                 try
