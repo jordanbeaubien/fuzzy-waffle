@@ -595,9 +595,11 @@
             // 
             year.Location = new Point(191, 335);
             year.Margin = new Padding(3, 4, 3, 4);
+            year.MaxLength = 4;
             year.Name = "year";
             year.Size = new Size(148, 27);
             year.TabIndex = 8;
+            year.TextChanged += year_TextChanged;
             // 
             // colour
             // 

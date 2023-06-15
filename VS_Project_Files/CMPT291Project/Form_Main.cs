@@ -552,7 +552,7 @@ namespace CMPT291Project
             year.Enabled = true;
             colour.Enabled = true;
             license.Enabled = true;
-            combo_branch_current.Enabled = true;
+            combo_branch_current.Enabled = false;
             combo_branch_transfer.Enabled = true;
 
             using (sqlConnection)
@@ -1138,13 +1138,15 @@ namespace CMPT291Project
             }
 
             string rented = $"insert into rental values (" +
-                             $"(select max(reservation_id) + 1 from rental), {from_date}, {to_date}, {id}, " +
-                             $"(select min(Car.vin) from Car where Car.type = {v_type} and car.vin not in " +
-                                $"(select R1.vin from Rental as R1 where R1.from_date <= {from_date} and R1.to_date >= {to_date} and car.vin not in " +
-                                $"(select R2.vin from Rental as R2 join (select R3.vin, max(R3.to_date) as max_to_date " +
-                                $"from REntal as R3 where R3.to_date < {from_date} group by R3.vin) " +
-                                $"as T1 on T1.vin = R2.vin and T1.max_to_date = R2.to_date where R2.branch_id_return != {pickup_loc}))), " +
-                                $"{pickup_loc}, {dropoff_loc});";
+                            $"(select max(reservation_id) + 1 from rental), {from_date}, {to_date}, {id}, " +
+                            $"(select min(Car.vin) from Car where Car.type = {v_type} and car.vin not in " +
+                            $"(select R1.vin from Rental as R1 where (R1.from_date <= {from_date} and R1.to_date >= {to_date}) " +
+                            $"or (R1.from_date >= {from_date} and R1.to_date <= {to_date}) or (R1.to_date >= {from_date} and R1.from_date <= {to_date}) " +
+                            $"and car.vin not in " +
+                            $"(select R2.vin from Rental as R2 join (select R3.vin, max(R3.to_date) as max_to_date " +
+                            $"from Rental as R3 where R3.to_date < {from_date} group by R3.vin) " +
+                            $"as T1 on T1.vin = R2.vin and T1.max_to_date = R2.to_date where R2.branch_id_return != {pickup_loc}))), " +
+                            $"{pickup_loc}, {dropoff_loc});";
 
 
             MessageBox.Show(rented);
@@ -1172,6 +1174,11 @@ namespace CMPT291Project
         }
 
         private void label_available_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void year_TextChanged(object sender, EventArgs e)
         {
 
         }

@@ -69,67 +69,75 @@ namespace CMPT291Project
             Console.WriteLine("text_user: " + text_user.Text);
             Console.WriteLine("text_pw: " + text_pw.Text);
 
-            try
+            if (cb_type.Text.Length == 0)
             {
-                //sqlCommand.CommandText = "select count(*) as existing from Login where user_type = '" + cb_type.Text + "' and username = '" +
-                //    text_user.Text + "' and password = '" + text_pw.Text + "';";
-                sqlCommand.CommandText = $"select count(*) as existing " +
-                                         $"from {cb_type.Text}Login " +
-                                         $"where username = '{text_user.Text}' and password = '{text_pw.Text}';";
-                MessageBox.Show(sqlCommand.CommandText);
-                sqlReader = sqlCommand.ExecuteReader();
-                sqlReader.Read();
-
-                if (sqlReader["existing"].ToString() == "1")
-                {
-                    if (cb_type.Text == "Customer")
-                    {
-                        sqlReader.Close();
-                        this.Hide();
-                        formMain.Show();
-
-                        sqlCommand.CommandText = $"select customer_id from CustomerLogin where username = '{text_user.Text}';";
-                        MessageBox.Show(sqlCommand.CommandText);
-                        sqlReader = sqlCommand.ExecuteReader();
-                        sqlReader.Read();
-
-                        formMain.customer_id = (int)sqlReader["customer_id"];
-
-                    }
-                    else if (cb_type.Text == "Employee")
-                    {
-                        //sqlReader.Close();
-                        this.Hide();
-                        formMain.Show();
-
-                        // Add the tabs back
-                        if (formMain.tabCar != null)
-                        {
-                            formMain.tabControl1.TabPages.Add(formMain.tabCar);
-                        }
-                        if (formMain.tabQuery != null)
-                        {
-                            formMain.tabControl1.TabPages.Add(formMain.tabQuery);
-                        }
-                        formMain.show_customer_id();
-
-                        // If login is successful:
-                        formMain.IsUserAuthenticated = true;
-
-                    }
-
-                }
-                else
-                {
-                    MessageBox.Show("Invalid username or password", "Please try again", MessageBoxButtons.OK);
-                }
-
-                sqlReader.Close();
+                MessageBox.Show("Need to select Customer or Employee", "Please try again", MessageBoxButtons.OK);
             }
-            catch (Exception e_login)
+            else
             {
-                MessageBox.Show(e_login.ToString(), "Error");
+                try
+                {
+                    //sqlCommand.CommandText = "select count(*) as existing from Login where user_type = '" + cb_type.Text + "' and username = '" +
+                    //    text_user.Text + "' and password = '" + text_pw.Text + "';";
+                    sqlCommand.CommandText = $"select count(*) as existing " +
+                                             $"from {cb_type.Text}Login " +
+                                             $"where username = '{text_user.Text}' and password = '{text_pw.Text}';";
+                    MessageBox.Show(sqlCommand.CommandText);
+                    sqlReader = sqlCommand.ExecuteReader();
+                    sqlReader.Read();
+
+                    if (sqlReader["existing"].ToString() == "1")
+                    {
+
+                        if (cb_type.Text == "Customer")
+                        {
+                            sqlReader.Close();
+                            this.Hide();
+                            formMain.Show();
+
+                            sqlCommand.CommandText = $"select customer_id from CustomerLogin where username = '{text_user.Text}';";
+                            MessageBox.Show(sqlCommand.CommandText);
+                            sqlReader = sqlCommand.ExecuteReader();
+                            sqlReader.Read();
+
+                            formMain.customer_id = (int)sqlReader["customer_id"];
+
+                        }
+                        else if (cb_type.Text == "Employee")
+                        {
+                            //sqlReader.Close();
+                            this.Hide();
+                            formMain.Show();
+
+                            // Add the tabs back
+                            if (formMain.tabCar != null)
+                            {
+                                formMain.tabControl1.TabPages.Add(formMain.tabCar);
+                            }
+                            if (formMain.tabQuery != null)
+                            {
+                                formMain.tabControl1.TabPages.Add(formMain.tabQuery);
+                            }
+                            formMain.show_customer_id();
+
+                            // If login is successful:
+                            formMain.IsUserAuthenticated = true;
+
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid username or password", "Please try again", MessageBoxButtons.OK);
+                    }
+
+                    sqlReader.Close();
+                }
+                catch (Exception e_login)
+                {
+                    MessageBox.Show(e_login.ToString(), "Error");
+                }
             }
+                
         }
 
 
