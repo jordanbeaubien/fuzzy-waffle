@@ -25,6 +25,7 @@ namespace CMPT291Project
         string select_vin = "select vin from Car;";
         string select_type = "select type from CarType;";
         string select_branch = "select branch_id, building_number, street, city, province from Branch;";
+        
         public bool IsUserAuthenticated { get; set; } // Added login auth
         public int customer_id;
 
@@ -34,7 +35,7 @@ namespace CMPT291Project
         int rental_diff_branch;
         int cost;
 
-        bool fuckered = false;
+        bool borked = false;
 
         public Form2()
         {
@@ -275,14 +276,21 @@ namespace CMPT291Project
             else
             {
                 vehicle_type_combo_box.Items.Clear();
-                string types_available = "select distinct Car.type from Car where Car.vin not in" +
+                /*string types_available = "select distinct Car.type from Car where Car.vin not in" +
                     "(select R1.vin from Rental as R1 where R1.from_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") +
                     "' and R1.to_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "') and Car.vin not in " +
                     "(select R2.vin from Rental as R2 join (select R3.vin, max(R3.to_date) as max_to_date " +
                     "from Rental as R3 where R3.to_date < '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' group by R3.vin)" +
                     "as T1 on T1.vin = R2.vin and T1.max_to_date = R2.to_date where R2.branch_id_return != " +
-                    pickup_location_combo.Text + ");";
+                    pickup_location_combo.Text + ");"; */
 
+                string vins_available = "select distinct VinDate.vin from (select vin, MAX(to_date) as Latest_Return from rental R1 where R1.to_date < '" +
+                    pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and R1.branch_id_return = '" + pickup_location_combo.Text + "' and R1.vin not in " +
+                    "(select R2.vin from rental R2 where (R2.from_date <= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.to_date >= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "') or " +
+                    "(R2.from_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.from_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "') or (R2.to_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.to_date >= '" +
+                    pickup_date_picker.Value.ToString("yyyy-MM-dd") + "')) group by vin) as VinDate";
+
+                string types_available = "select distinct type from Car C1 where C1.vin in (" + vins_available + ");";
                 MessageBox.Show(types_available);
                 using (sqlConnection)
                 {
@@ -639,7 +647,7 @@ namespace CMPT291Project
 
         private void branch_current_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (!fuckered)
+            if (!borked)
             {
                 using (sqlConnection)
                 {
@@ -709,13 +717,13 @@ namespace CMPT291Project
                         {
                             label_branch_date_current.Text = Convert.ToDateTime(sqlReader["move_date"]).ToString("yyyy-MM-dd");
                             label_branch_date_current.Visible = true;
-                            fuckered = true;
+                            borked = true;
                             combo_branch_current.Text = sqlReader["branch_id_return"].ToString();
                             //if label_branch_date_current.Text
 
                         }
                         sqlReader.Close();
-                        fuckered = false;
+                        borked = false;
 
                         sqlCommand.CommandText = "select branch_id, building_number, street, city, province from Branch where branch_id = '" +
                             combo_branch_current.Text + "';";
@@ -1137,7 +1145,7 @@ namespace CMPT291Project
                 id = customer_id_input.Text;
             }
 
-            string rented = $"insert into rental values (" +
+            /*string rented = $"insert into rental values (" +
                             $"(select max(reservation_id) + 1 from rental), {from_date}, {to_date}, {id}, " +
                             $"(select min(Car.vin) from Car where Car.type = {v_type} and car.vin not in " +
                             $"(select R1.vin from Rental as R1 where (R1.from_date <= {from_date} and R1.to_date >= {to_date}) " +
@@ -1147,7 +1155,17 @@ namespace CMPT291Project
                             $"from Rental as R3 where R3.to_date < {from_date} group by R3.vin) " +
                             $"as T1 on T1.vin = R2.vin and T1.max_to_date = R2.to_date where R2.branch_id_return != {pickup_loc}))), " +
                             $"{pickup_loc}, {dropoff_loc});";
+            */
+            string vins_available = "select distinct VinDate.vin from (select vin, MAX(to_date) as Latest_Return from rental R1 where R1.to_date < '" +
+                    pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and R1.branch_id_return = '" + pickup_location_combo.Text + "' and R1.vin not in " +
+                    "(select R2.vin from rental R2 where (R2.from_date <= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.to_date >= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "') or " +
+                    "(R2.from_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.from_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "') or (R2.to_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.to_date >= '" +
+                    pickup_date_picker.Value.ToString("yyyy-MM-dd") + "')) group by vin) as VinDate";
 
+            string vin_selected = "select min(vin) from Car C1 where C1.vin in (" + vins_available + ")";
+
+            string rented = "insert into rental values ((select (max(reservation_id) + 1) from rental), '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "', '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "', " +
+                id + ", (" + vin_selected + "), '" + pickup_location_combo.Text + "', '" + dropoff_location_combo.Text + "')";
 
             MessageBox.Show(rented);
             using (sqlConnection)
