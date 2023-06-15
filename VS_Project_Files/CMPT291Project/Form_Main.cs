@@ -442,7 +442,7 @@ namespace CMPT291Project
                 {
                     sqlCommand.CommandText = "insert into Car values ('" + vin.Text + "','" +
                         make.Text + "','" + model.Text + "'," + year.Text + ",'" +
-                        colour.Text + "','" + license.Text + "'," + combo_branch_transfer.Text + ",'" + type.Text + "')";
+                        colour.Text + "','" + license.Text + "','" + type.Text + "')";
 
                     MessageBox.Show(sqlCommand.CommandText);
 
