@@ -57,6 +57,7 @@
             pickup_date_picker = new DateTimePicker();
             vehicle_type_label = new Label();
             tab_car = new TabPage();
+            year = new DateTimePicker();
             label_branch_date_current = new Label();
             combo_branch_transfer = new ComboBox();
             label_branch_info_transfer = new Label();
@@ -69,7 +70,6 @@
             button_modify = new RadioButton();
             button_add = new RadioButton();
             make = new TextBox();
-            year = new TextBox();
             colour = new TextBox();
             license = new TextBox();
             model = new TextBox();
@@ -420,6 +420,7 @@
             // 
             // tab_car
             // 
+            tab_car.Controls.Add(year);
             tab_car.Controls.Add(label_branch_date_current);
             tab_car.Controls.Add(combo_branch_transfer);
             tab_car.Controls.Add(label_branch_info_transfer);
@@ -432,7 +433,6 @@
             tab_car.Controls.Add(button_modify);
             tab_car.Controls.Add(button_add);
             tab_car.Controls.Add(make);
-            tab_car.Controls.Add(year);
             tab_car.Controls.Add(colour);
             tab_car.Controls.Add(license);
             tab_car.Controls.Add(model);
@@ -456,6 +456,16 @@
             tab_car.Text = "Cars";
             tab_car.UseVisualStyleBackColor = true;
             tab_car.Click += tabPage2_Click;
+            // 
+            // year
+            // 
+            year.CustomFormat = "yyyy";
+            year.Format = DateTimePickerFormat.Custom;
+            year.Location = new Point(191, 336);
+            year.Name = "year";
+            year.ShowUpDown = true;
+            year.Size = new Size(148, 27);
+            year.TabIndex = 19;
             // 
             // label_branch_date_current
             // 
@@ -590,16 +600,6 @@
             make.Name = "make";
             make.Size = new Size(148, 27);
             make.TabIndex = 6;
-            // 
-            // year
-            // 
-            year.Location = new Point(191, 335);
-            year.Margin = new Padding(3, 4, 3, 4);
-            year.MaxLength = 4;
-            year.Name = "year";
-            year.Size = new Size(148, 27);
-            year.TabIndex = 8;
-            year.TextChanged += year_TextChanged;
             // 
             // colour
             // 
@@ -863,7 +863,7 @@
         private Label label5;
         private Label label_branch_current;
         private TextBox make;
-        private TextBox year;
+        private TextBox last_year;
         private TextBox colour;
         private TextBox license;
         private TextBox model;
@@ -903,5 +903,6 @@
         private Label label_date_error;
         private TextBox customer_id_input;
         public Label customer_id_label;
+        private DateTimePicker year;
     }
 }
