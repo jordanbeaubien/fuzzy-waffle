@@ -11,6 +11,8 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Microsoft.VisualBasic;
+using System.Security.AccessControl;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView;
 
 namespace CMPT291Project
 {
@@ -24,6 +26,7 @@ namespace CMPT291Project
         string select_type = "select type from CarType;";
         string select_branch = "select branch_id, building_number, street, city, province from Branch;";
         public bool IsUserAuthenticated { get; set; } // Added login auth
+        public int customer_id;
 
         int rental_days;
         int rental_weeks;
@@ -53,6 +56,7 @@ namespace CMPT291Project
                 this.Close();
             }
 
+
             // If not authenticated, Cars and Query tabs will be removed
             if (!IsUserAuthenticated)
             {
@@ -63,10 +67,15 @@ namespace CMPT291Project
                 // Remove the tabs
                 tabControl1.TabPages.Remove(tab_car);
                 tabControl1.TabPages.Remove(tab_query);
+
+                // Hide customer id input field
+                customer_id_input.Visible = false;
+                customer_id_label.Visible = false;
             }
 
             dropoff_location_combo.Enabled = false;
 
+            // Populate all combo boxes with branch_id from database
             sqlCommand.CommandText = select_branch;
             try
             {
@@ -84,10 +93,104 @@ namespace CMPT291Project
                 MessageBox.Show(e_getbranchid.ToString(), "Error");
             }
 
+
+            // INITIALIZE ALL VIEWS AT STARTUP
+
+
+            // Check if pricebyrental View already exists (used for query0)
+            sqlCommand.CommandText = "SELECT OBJECT_ID('pricebyrental', 'V')";
+            object view_check_query0 = sqlCommand.ExecuteScalar();
+            if (view_check_query0 == DBNull.Value)
+            {
+                // If pricebyrental view does not exist, run SQL code to create the view
+                sqlCommand.CommandText = "CREATE VIEW pricebyrental AS (select reservation_id, CASE when branch_id_return is not null " +
+                    "then (select CASE when branch_id_pickup <> branch_id_return then dif_branch_ret_price else 0 END) +CASE when " +
+                    "DATEDIFF(day, from_date, to_date)< 7 then daily_rate *DATEDIFF(day, from_date, to_date) when " +
+                    "DATEDIFF(day, from_date, to_date)>= 7 AND DATEDIFF(day, from_date, to_date)< 30 then weekly_rate " +
+                    "*DATEDIFF(week, from_date, to_date) when DATEDIFF(day, from_date, to_date)>= 30 then monthly_rate " +
+                    "*DATEDIFF(month, from_date, to_date) END else null END as price from rental as R, Car as C, CarType as CT " +
+                    "where R.vin = C.vin AND C.type = CT.type)";
+                try
+                {
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch (Exception e_start_view_query0)
+                {
+                    MessageBox.Show(e_start_view_query0.ToString(), "Error");
+                }
+
+            }
+            else
+            {
+                // If the view exists, do nothing
+            }
+
+
+            // No views for query1
+
+            // Check if rentalsbybranchyr View already exists (used for query0)
+            sqlCommand.CommandText = "SELECT OBJECT_ID('rentalsbybranchyr', 'V')";
+            object view_check_query2 = sqlCommand.ExecuteScalar();
+            if (view_check_query0 == DBNull.Value)
+            {
+                // If rentalsbybranchyr view does not exist, run SQL code to create the view
+                sqlCommand.CommandText = "CREATE VIEW rentalsbybranchyr AS\r\n(select sum(times) as times, branch_id, year " +
+                    "from((select count(*) as times, branch_id_return as branch_id, year(from_date) as year from Branch, Rental " +
+                    "where branch_id=branch_id_return group by year(from_date), branch_id_return) UNION ALL " +
+                    "(select count(*) as times, branch_id_pickup as branch_id, year(from_date) as year from Branch, Rental " +
+                    "where branch_id=branch_id_pickup group by year(from_date), branch_id_pickup)) as X group by year, branch_id)";
+                try
+                {
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch (Exception e_start_view_query2)
+                {
+                    MessageBox.Show(e_start_view_query2.ToString(), "Error");
+                }
+
+            }
+            else
+            {
+                // If the view exists, do nothing
+            }
+
+
+            // Check if vehstockbybranch View already exists (used for query4)
+            sqlCommand.CommandText = "SELECT OBJECT_ID('vehstockbybranch', 'V')";
+            object view_check_query4 = sqlCommand.ExecuteScalar();
+            if (view_check_query4 == DBNull.Value)
+            {
+                // If vehstockbybranch view does not exist, run SQL code to create the view
+                /*sqlCommand.CommandText = "CREATE VIEW vehstockbybranch AS (select branch_id, "
+                + "(select count(*) from (select C5.vin from Car as C5 where C5.branch_id=B.branch_id AND C5.vin not in "
+                + "(select C1.vin from Car as C1, Rental as R1 where C1.vin=R1.vin AND to_date>GETDATE() AND from_date<GETDATE())) "
+                + "as X) as vehicle_stock from Branch as B)";*/
+
+                sqlCommand.CommandText = "CREATE VIEW vehstockbybranch as (select R1.branch_id_return as branch_id, count(R1.vin)" +
+                    "as vehicle_stock from rental R1 where R1.to_date = (select max(R2.to_date) from rental as R2 where R2.to_date < GETDATE() " +
+                    "and R2.vin = R1.vin) and R1.vin not in (select distinct R3.vin from rental R3 where GETDATE() > R3.from_date " +
+                    "and GETDATE() < R3.to_date) group by R1.branch_id_return);";
+                try
+                {
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch (Exception e_start_view_query4)
+                {
+                    MessageBox.Show(e_start_view_query4.ToString(), "Error");
+                }
+
+            }
+            else
+            {
+                // If the view exists, do nothing
+            }
+
+
+            // Add all 5 queries to combo drop down menu on Query tab
             string query0 = "Name and Address of Customers who Spent Over $1000 Last Year";
             string query1 = "Number of Rentals by Car Type from Branches in Specified City";
-            string query2 = "Percentage of Cartypes That Get Returned to Different Branches";
-            string query3 = "Percentage Share of rentals by all Branches";
+            string query2 = "Branches that See Less Than 100 Rentals or Returns for 3 Years in a Row";
+            string query3 = "Percentage Share of Rentals by all Branches";
             string query4 = "Stock of All Vehicles Across All Locations";
 
             combo_query.Items.Add(query0);
@@ -114,6 +217,13 @@ namespace CMPT291Project
         public TabPage tabCar;
         public TabPage tabQuery;
 
+        public void show_customer_id()
+        {
+            customer_id_label.Visible = true;
+            customer_id_input.Visible = true;
+        }
+
+
         private void tabPage1_Click(object sender, EventArgs e)
         {
 
@@ -121,17 +231,46 @@ namespace CMPT291Project
 
         private void search_button_Click_1(object sender, EventArgs e)
         {
-            if (dropoff_date_picker.Value < DateTime.Today || pickup_date_picker.Value < pickup_date_picker.Value)
+            // Date error handling
+            if (pickup_date_picker.Value < DateTime.Today)
             {
-                label_available.ForeColor = Color.Red;
-                label_available.Text = "Invalid date selection";
-                label_available.Visible = true;
+                label_date_error.ForeColor = Color.Red;
+                label_date_error.Text = "Pickup date must be in the future";
+                label_date_error.Visible = true;
             }
-            else if (pickup_location_combo.Text.Length == 0 || dropoff_location_combo.Text.Length == 0)
+            else if (dropoff_date_picker.Value < DateTime.Today)
             {
-                label_available.ForeColor = Color.Red;
-                label_available.Text = "Pickup or dropoff location not selected";
-                label_available.Visible = true;
+                label_date_error.ForeColor = Color.Red;
+                label_date_error.Text = "Dropoff date must be in the future";
+                label_date_error.Visible = true;
+            }
+            else if (dropoff_date_picker.Value < pickup_date_picker.Value)
+            {
+                label_date_error.ForeColor = Color.Red;
+                label_date_error.Text = "Dropoff date must be after Pickup date";
+                label_date_error.Visible = true;
+            }
+
+            // Location error handling
+            else if (pickup_location_combo.Text.Length == 0)
+            {
+                label_location_error.ForeColor = Color.Red;
+                label_location_error.Text = "Pickup location not selected";
+                label_location_error.Visible = true;
+            }
+            else if (dropoff_location_combo.Text.Length == 0)
+            {
+                label_location_error.ForeColor = Color.Red;
+                label_location_error.Text = "Dropoff location not selected";
+                label_location_error.Visible = true;
+            }
+
+            // Customer ID error handling
+            else if (IsUserAuthenticated && customer_id_input.Text.Length == 0)
+            {
+                label_location_error.ForeColor = Color.Red;
+                label_location_error.Text = "Customer ID not selected";
+                label_location_error.Visible = true;
             }
             else
             {
@@ -175,17 +314,113 @@ namespace CMPT291Project
         {
             vehicle_type_combo_box.Items.Clear();
             vehicle_type_combo_box.Enabled = false;
-            label_available.Visible = false;
+            label_date_error.Visible = false;
             label_duration.Visible = false;
             duration.Visible = false;
             label_price.Visible = false;
             price.Visible = false;
 
         }
+
         private void dropoff_date_picker_ValueChanged(object sender, EventArgs e)
         {
             vehicle_type_combo_box.Items.Clear();
             vehicle_type_combo_box.Enabled = false;
+            label_date_error.Visible = false;
+            label_duration.Visible = false;
+            duration.Visible = false;
+            label_price.Visible = false;
+            price.Visible = false;
+        }
+
+
+        private void pickup_location_combo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            vehicle_type_combo_box.Items.Clear();
+            vehicle_type_combo_box.Enabled = false;
+            label_location_error.Visible = false;
+            label_duration.Visible = false;
+            duration.Visible = false;
+            label_price.Visible = false;
+            price.Visible = false;
+
+            if (return_same_loc_checkbox.Checked)
+            {
+                dropoff_location_combo.Text = pickup_location_combo.Text;
+            }
+
+            pickup_location_details.Visible = true;
+
+            using (sqlConnection)
+            {
+                sqlCommand.CommandText = "select branch_id, building_number, street, city, province from Branch where branch_id = '" +
+                    pickup_location_combo.Text + "';";
+                try
+                {
+                    sqlReader = sqlCommand.ExecuteReader();
+                    while (sqlReader.Read())
+                    {
+                        pickup_location_details.Text = sqlReader["building_number"].ToString() + " " +
+                            sqlReader["street"].ToString() + " " + sqlReader["city"].ToString() + " " + sqlReader["province"].ToString();
+                    }
+                }
+                catch (Exception e_getpickupbranchinfo)
+                {
+                    MessageBox.Show(e_getpickupbranchinfo.ToString(), "Error");
+                }
+
+                sqlReader.Close();
+
+            }
+        }
+
+        private void return_same_loc_checkbox_CheckedChanged(object sender, EventArgs e)
+        {
+            dropoff_location_combo.Enabled = !dropoff_location_combo.Enabled;
+
+            if (return_same_loc_checkbox.Checked)
+            {
+                dropoff_location_combo.Text = pickup_location_combo.Text;
+            }
+        }
+
+        private void dropoff_location_combo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            vehicle_type_combo_box.Items.Clear();
+            vehicle_type_combo_box.Enabled = false;
+            label_location_error.Visible = false;
+            label_duration.Visible = false;
+            duration.Visible = false;
+            label_price.Visible = false;
+            price.Visible = false;
+
+            dropoff_location_details.Visible = true;
+
+            using (sqlConnection)
+            {
+                sqlCommand.CommandText = "select branch_id, building_number, street, city, province from Branch where branch_id = '" +
+                    dropoff_location_combo.Text + "';";
+                try
+                {
+                    sqlReader = sqlCommand.ExecuteReader();
+                    while (sqlReader.Read())
+                    {
+                        dropoff_location_details.Text = sqlReader["building_number"].ToString() + " " +
+                            sqlReader["street"].ToString() + " " + sqlReader["city"].ToString() + " " + sqlReader["province"].ToString();
+                    }
+                }
+                catch (Exception e_getdropoffbranchinfo)
+                {
+                    MessageBox.Show(e_getdropoffbranchinfo.ToString(), "Error");
+                }
+
+                sqlReader.Close();
+
+            }
+        }
+
+        private void vehicle_type_combo_box_SelectedIndexChanged(object sender, EventArgs e)
+        {
             label_available.Visible = false;
             label_duration.Visible = false;
             duration.Visible = false;
@@ -199,7 +434,7 @@ namespace CMPT291Project
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            //   if cb_type
+
         }
 
         private void button_confirm_Click(object sender, EventArgs e)
@@ -212,7 +447,7 @@ namespace CMPT291Project
                 {
                     sqlCommand.CommandText = "insert into Car values ('" + vin.Text + "','" +
                         make.Text + "','" + model.Text + "'," + year.Text + ",'" +
-                        colour.Text + "','" + license.Text + "'," + combo_branch_transfer.Text + ",'" + type.Text + "')";
+                        colour.Text + "','" + license.Text + "','" + type.Text + "')";
 
                     MessageBox.Show(sqlCommand.CommandText);
 
@@ -317,7 +552,7 @@ namespace CMPT291Project
             year.Enabled = true;
             colour.Enabled = true;
             license.Enabled = true;
-            combo_branch_current.Enabled = true;
+            combo_branch_current.Enabled = false;
             combo_branch_transfer.Enabled = true;
 
             using (sqlConnection)
@@ -607,99 +842,6 @@ namespace CMPT291Project
 
         }
 
-        private void pickup_location_combo_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            vehicle_type_combo_box.Items.Clear();
-            vehicle_type_combo_box.Enabled = false;
-            label_available.Visible = false;
-            label_duration.Visible = false;
-            duration.Visible = false;
-            label_price.Visible = false;
-            price.Visible = false;
-
-            if (return_same_loc_checkbox.Checked)
-            {
-                dropoff_location_combo.Text = pickup_location_combo.Text;
-            }
-
-            pickup_location_details.Visible = true;
-
-            using (sqlConnection)
-            {
-                sqlCommand.CommandText = "select branch_id, building_number, street, city, province from Branch where branch_id = '" +
-                    pickup_location_combo.Text + "';";
-                try
-                {
-                    sqlReader = sqlCommand.ExecuteReader();
-                    while (sqlReader.Read())
-                    {
-                        pickup_location_details.Text = "Pickup Branch Location: " + sqlReader["building_number"].ToString() + " " +
-                            sqlReader["street"].ToString() + " " + sqlReader["city"].ToString() + " " + sqlReader["province"].ToString();
-                    }
-                }
-                catch (Exception e_getpickupbranchinfo)
-                {
-                    MessageBox.Show(e_getpickupbranchinfo.ToString(), "Error");
-                }
-
-                sqlReader.Close();
-
-            }
-        }
-
-        private void return_same_loc_checkbox_CheckedChanged(object sender, EventArgs e)
-        {
-            dropoff_location_combo.Enabled = !dropoff_location_combo.Enabled;
-
-            if (return_same_loc_checkbox.Checked)
-            {
-                dropoff_location_combo.Text = pickup_location_combo.Text;
-            }
-        }
-
-        private void dropoff_location_combo_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            vehicle_type_combo_box.Items.Clear();
-            vehicle_type_combo_box.Enabled = false;
-            label_available.Visible = false;
-            label_duration.Visible = false;
-            duration.Visible = false;
-            label_price.Visible = false;
-            price.Visible = false;
-
-            dropoff_location_details.Visible = true;
-
-            using (sqlConnection)
-            {
-                sqlCommand.CommandText = "select branch_id, building_number, street, city, province from Branch where branch_id = '" +
-                    dropoff_location_combo.Text + "';";
-                try
-                {
-                    sqlReader = sqlCommand.ExecuteReader();
-                    while (sqlReader.Read())
-                    {
-                        dropoff_location_details.Text = "Dropoff Branch Location: " + sqlReader["building_number"].ToString() + " " +
-                            sqlReader["street"].ToString() + " " + sqlReader["city"].ToString() + " " + sqlReader["province"].ToString();
-                    }
-                }
-                catch (Exception e_getdropoffbranchinfo)
-                {
-                    MessageBox.Show(e_getdropoffbranchinfo.ToString(), "Error");
-                }
-
-                sqlReader.Close();
-
-            }
-        }
-
-        private void vehicle_type_combo_box_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            label_available.Visible = false;
-            label_duration.Visible = false;
-            duration.Visible = false;
-            label_price.Visible = false;
-            price.Visible = false;
-        }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -741,23 +883,82 @@ namespace CMPT291Project
         {
             switch (combo_query.SelectedIndex)
             {
-                case 1:
-                    sqlCommand.CommandText = "select count(*) as '# of Rentals', CT.Type from " +
-                        "Rental as R, Car as C, CarType as CT, Branch as B " +
-                        "where R.vin=C.vin and CT.type=C.type and B.branch_id=C.branch_id " +
-                        "group by CT.type, B.city having B.city='" +
-                        combo_query_option.Text + "';";
+
+                case 0: // string query0 = "Name and Address of Customers who Spent Over $1000 Last Year";
+                    sqlCommand.CommandText = "select X.customer_id, spent, first_name, last_name, house_number, street, city, province from " +
+                        "(select sum(price) as spent, R.customer_id from pricebyrental as P, (select * from Rental where year(from_date)=year(GETDATE())-1) as R " +
+                        "where R.reservation_id=P.reservation_id group by R.customer_id) as X, Customer as C where X.customer_id=C.customer_id and X.spent>=1000";
+                    try
+                    {
+                        MessageBox.Show(sqlCommand.CommandText);
+                        sqlReader = sqlCommand.ExecuteReader();
+                        data_query.Columns.Clear();
+                        data_query.Columns.Add("first_name", "First Name");
+                        data_query.Columns.Add("last_name", "Last Name");
+                        data_query.Columns.Add("house_number", "House Number");
+                        data_query.Columns.Add("street", "Street");
+                        data_query.Columns.Add("city", "City");
+                        data_query.Columns.Add("province", "Province");
+                        data_query.Rows.Clear();
+                        while (sqlReader.Read())
+                        {
+                            data_query.Rows.Add(sqlReader["First_Name"].ToString(), sqlReader["Last_Name"].ToString(), sqlReader["House_Number"].ToString(),
+                                sqlReader["Street"].ToString(), sqlReader["City"].ToString(), sqlReader["Province"].ToString());
+                        }
+
+                        sqlReader.Close();
+                    }
+                    catch (Exception e_executeQ0)
+                    {
+                        MessageBox.Show(e_executeQ0.ToString(), "Error");
+                    }
+                    break;
+
+
+
+
+                case 1: // string query1 = "Number of Rentals by Car Type from Branches in Specified City";
+                    sqlCommand.CommandText = "select C.type as 'car_type', R.branch_id_pickup as 'branch_id', count(*) as 'num_rentals' " +
+                        "from Rental R, Car C where C.vin=R.vin and R.branch_id_pickup " +
+                        "in (select branch_id from Branch where city='" + combo_query_option.Text + "') " +
+                        "group by R.branch_id_pickup, C.type;";
                     try
                     {
                         MessageBox.Show(sqlCommand.CommandText);
                         sqlReader = sqlCommand.ExecuteReader();
                         data_query.Columns.Clear();
                         data_query.Columns.Add("num_rentals", "# of Rentals");
-                        data_query.Columns.Add("type", "Type");
+                        data_query.Columns.Add("car_type", "Car Type");
                         data_query.Rows.Clear();
                         while (sqlReader.Read())
                         {
-                            data_query.Rows.Add(sqlReader["# of Rentals"].ToString(), sqlReader["Type"].ToString());
+                            data_query.Rows.Add(sqlReader["num_rentals"].ToString(), sqlReader["car_type"].ToString());
+                        }
+
+                        sqlReader.Close();
+                    }
+                    catch (Exception e_executeQ1)
+                    {
+                        MessageBox.Show(e_executeQ1.ToString(), "Error");
+                    }
+                    break;
+
+
+                case 2: // string query2 = "Branches that See Less Than 100 Rentals or Returns for 3 Years in a Row";
+                    sqlCommand.CommandText = "select year, branch_id from rentalsbybranchyr as X1 where X1.times < 100 AND X1.year " +
+                        "IN(select year+1 from rentalsbybranchyr as X2 where X2.branch_id = X1.branch_id AND X2.times < 100 AND X2.year " +
+                        "IN(select year+1 from rentalsbybranchyr as X3 where X3.branch_id = X1.branch_id AND X3.times < 100))";
+                    try
+                    {
+                        MessageBox.Show(sqlCommand.CommandText);
+                        sqlReader = sqlCommand.ExecuteReader();
+                        data_query.Columns.Clear();
+                        data_query.Columns.Add("year", "Year");
+                        data_query.Columns.Add("branch_id", "Branch ID");
+                        data_query.Rows.Clear();
+                        while (sqlReader.Read())
+                        {
+                            data_query.Rows.Add(sqlReader["year"].ToString(), sqlReader["branch_id"].ToString());
                         }
 
                         sqlReader.Close();
@@ -765,6 +966,70 @@ namespace CMPT291Project
                     catch (Exception e_executeQ2)
                     {
                         MessageBox.Show(e_executeQ2.ToString(), "Error");
+                    }
+                    break;
+
+
+                case 3: // string query3 = "Percentage Share of Rentals by all Branches";
+                    /*sqlCommand.CommandText = "select count(*) as '# of Rentals', CT.Type from " +
+                        "Rental as R, Car as C, CarType as CT, Branch as B " +
+                        "where R.vin=C.vin and CT.type=C.type and B.branch_id=R.branch_id_pickup " +
+                        "group by CT.type, B.city having B.city='" +
+                        combo_query_option.Text + "';";*/
+                    sqlCommand.CommandText = "select branch_id_pickup as 'pickup/return branch', " +
+                        "(count(*)*100)/(select count(*) from Rental) as 'percent' from Rental as R " +
+                        "group by branch_id_pickup UNION ALL select null as 'pickup/return branch', null as 'percent' UNION ALL " +
+                        "select branch_id_return as 'pickup/return branch', (count(*)*100)/(select count(*) from Rental) as 'percent' from Rental as R " +
+                        "group by branch_id_return;";
+                    try
+                    {
+                        MessageBox.Show(sqlCommand.CommandText);
+                        sqlReader = sqlCommand.ExecuteReader();
+                        data_query.Columns.Clear();
+                        data_query.Columns.Add("pickup_return", "Pickup/Return");
+                        data_query.Columns.Add("percent", "Percent");
+                        data_query.Rows.Clear();
+                        while (sqlReader.Read())
+                        {
+                            data_query.Rows.Add(sqlReader["pickup/return branch"].ToString(), sqlReader["percent"].ToString());
+                        }
+
+                        sqlReader.Close();
+                    }
+                    catch (Exception e_executeQ3)
+                    {
+                        MessageBox.Show(e_executeQ3.ToString(), "Error");
+                    }
+                    break;
+
+
+                case 4: // string query4 = "Stock of All Vehicles Across All Locations";
+                    sqlCommand.CommandText = "select 'All Branches' as city, sum(vehicle_stock) as available_vehs, 0 as branch_id, 0 as building_number, " +
+                        "'' as street, '' as province from vehstockbybranch UNION ALL select city, vehicle_stock, B.branch_id, building_number, " +
+                        "street, province from Branch as B, vehstockbybranch as V where B.branch_id=V.branch_id order by city";
+                    try
+                    {
+                        MessageBox.Show(sqlCommand.CommandText);
+                        sqlReader = sqlCommand.ExecuteReader();
+                        data_query.Columns.Clear();
+                        data_query.Columns.Add("city", "City");
+                        data_query.Columns.Add("available_vehs", "Available Vehs");
+                        data_query.Columns.Add("branch_id", "Branch ID");
+                        data_query.Columns.Add("building_number", "Building Number");
+                        data_query.Columns.Add("street", "Street");
+                        data_query.Columns.Add("province", "Province");
+                        data_query.Rows.Clear();
+                        while (sqlReader.Read())
+                        {
+                            data_query.Rows.Add(sqlReader["city"].ToString(), sqlReader["available_vehs"].ToString(), sqlReader["branch_id"].ToString(),
+                                sqlReader["building_number"].ToString(), sqlReader["street"].ToString(), sqlReader["province"].ToString());
+                        }
+
+                        sqlReader.Close();
+                    }
+                    catch (Exception e_executeQ4)
+                    {
+                        MessageBox.Show(e_executeQ4.ToString(), "Error");
                     }
                     break;
             }
@@ -856,15 +1121,33 @@ namespace CMPT291Project
 
         private void confirm_button_Click(object sender, EventArgs e)
         {
-            string rented = "insert into rental values((select max(reservation_id) + 1 from rental), '" +
-                    pickup_date_picker.Value.ToString("yyyy-MM-dd") + "', '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") +
-                    "', 1, (select min(Car.vin) from Car where Car.type = '" + vehicle_type_combo_box.Text + "' and Car.vin not in " +
-                    "(select R1.vin from Rental as R1 where R1.from_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") +
-                    "' and R1.to_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "') and Car.vin not in " +
-                    "(select R2.vin from Rental as R2 join (select R3.vin, max(R3.to_date) as max_to_date " +
-                    "from Rental as R3 where R3.to_date < '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' group by R3.vin)" +
-                    "as T1 on T1.vin = R2.vin and T1.max_to_date = R2.to_date where R2.branch_id_return != " +
-                    pickup_location_combo.Text + ")), " + pickup_location_combo.Text + ", " + dropoff_location_combo.Text + " );";
+            string from_date = $"'{pickup_date_picker.Value.ToString("yyyy-MM-dd")}'";
+            string to_date = $"'{dropoff_date_picker.Value.ToString("yyyy-MM-dd")}'";
+            string v_type = $"'{vehicle_type_combo_box.Text}'";
+            string pickup_loc = $"'{pickup_location_combo.Text}'";
+            string dropoff_loc = $"'{dropoff_location_combo.Text}'";
+            string id;
+
+            if (!IsUserAuthenticated)
+            {
+                id = customer_id.ToString();
+            }
+            else
+            {
+                id = customer_id_input.Text;
+            }
+
+            string rented = $"insert into rental values (" +
+                            $"(select max(reservation_id) + 1 from rental), {from_date}, {to_date}, {id}, " +
+                            $"(select min(Car.vin) from Car where Car.type = {v_type} and car.vin not in " +
+                            $"(select R1.vin from Rental as R1 where (R1.from_date <= {from_date} and R1.to_date >= {to_date}) " +
+                            $"or (R1.from_date >= {from_date} and R1.to_date <= {to_date}) or (R1.to_date >= {from_date} and R1.from_date <= {to_date}) " +
+                            $"and car.vin not in " +
+                            $"(select R2.vin from Rental as R2 join (select R3.vin, max(R3.to_date) as max_to_date " +
+                            $"from Rental as R3 where R3.to_date < {from_date} group by R3.vin) " +
+                            $"as T1 on T1.vin = R2.vin and T1.max_to_date = R2.to_date where R2.branch_id_return != {pickup_loc}))), " +
+                            $"{pickup_loc}, {dropoff_loc});";
+
 
             MessageBox.Show(rented);
             using (sqlConnection)
@@ -872,6 +1155,31 @@ namespace CMPT291Project
                 sqlCommand.CommandText = rented;
                 sqlCommand.ExecuteNonQuery();
             }
+
+        }
+
+        private void pickup_location_details_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label_date_error_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label_location_error_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label_available_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void year_TextChanged(object sender, EventArgs e)
+        {
 
         }
     }
