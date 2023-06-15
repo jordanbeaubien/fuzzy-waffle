@@ -161,10 +161,15 @@ namespace CMPT291Project
             if (view_check_query4 == DBNull.Value)
             {
                 // If vehstockbybranch view does not exist, run SQL code to create the view
-                sqlCommand.CommandText = "CREATE VIEW vehstockbybranch AS (select branch_id, "
+                /*sqlCommand.CommandText = "CREATE VIEW vehstockbybranch AS (select branch_id, "
                 + "(select count(*) from (select C5.vin from Car as C5 where C5.branch_id=B.branch_id AND C5.vin not in "
                 + "(select C1.vin from Car as C1, Rental as R1 where C1.vin=R1.vin AND to_date>GETDATE() AND from_date<GETDATE())) "
-                + "as X) as vehicle_stock from Branch as B)";
+                + "as X) as vehicle_stock from Branch as B)";*/
+
+                sqlCommand.CommandText = "CREATE VIEW vehstockbybranch as (select R1.branch_id_return as branch_id, count(R1.vin)" +
+                    "as vehicle_stock from rental R1 where R1.to_date = (select max(R2.to_date) from rental as R2 where R2.to_date < GETDATE() " + 
+                    "and R2.vin = R1.vin) and R1.vin not in (select distinct R3.vin from rental R3 where GETDATE() > R3.from_date " +
+                    "and GETDATE() < R3.to_date) group by R1.branch_id_return);";
                 try
                 {
                     sqlCommand.ExecuteNonQuery();
@@ -968,7 +973,7 @@ namespace CMPT291Project
                 case 3: // string query3 = "Percentage Share of Rentals by all Branches";
                     sqlCommand.CommandText = "select count(*) as '# of Rentals', CT.Type from " +
                         "Rental as R, Car as C, CarType as CT, Branch as B " +
-                        "where R.vin=C.vin and CT.type=C.type and B.branch_id=C.branch_id " +
+                        "where R.vin=C.vin and CT.type=C.type and B.branch_id=R.branch_id_pickup " +
                         "group by CT.type, B.city having B.city='" +
                         combo_query_option.Text + "';";
                     try
