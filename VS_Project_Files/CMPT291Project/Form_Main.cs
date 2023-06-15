@@ -167,7 +167,7 @@ namespace CMPT291Project
                 + "as X) as vehicle_stock from Branch as B)";*/
 
                 sqlCommand.CommandText = "CREATE VIEW vehstockbybranch as (select R1.branch_id_return as branch_id, count(R1.vin)" +
-                    "as vehicle_stock from rental R1 where R1.to_date = (select max(R2.to_date) from rental as R2 where R2.to_date < GETDATE() " + 
+                    "as vehicle_stock from rental R1 where R1.to_date = (select max(R2.to_date) from rental as R2 where R2.to_date < GETDATE() " +
                     "and R2.vin = R1.vin) and R1.vin not in (select distinct R3.vin from rental R3 where GETDATE() > R3.from_date " +
                     "and GETDATE() < R3.to_date) group by R1.branch_id_return);";
                 try
@@ -885,7 +885,7 @@ namespace CMPT291Project
             {
 
                 case 0: // string query0 = "Name and Address of Customers who Spent Over $1000 Last Year";
-                    sqlCommand.CommandText = "select X.customer_id, spent, first_name, last_name, house_number, street, city from " +
+                    sqlCommand.CommandText = "select X.customer_id, spent, first_name, last_name, house_number, street, city, province from " +
                         "(select sum(price) as spent, R.customer_id from pricebyrental as P, (select * from Rental where year(from_date)=year(GETDATE())-1) as R " +
                         "where R.reservation_id=P.reservation_id group by R.customer_id) as X, Customer as C where X.customer_id=C.customer_id and X.spent>=1000";
                     try
@@ -902,7 +902,7 @@ namespace CMPT291Project
                         data_query.Rows.Clear();
                         while (sqlReader.Read())
                         {
-                            data_query.Rows.Add(sqlReader["First Name"].ToString(), sqlReader["Last Name"].ToString(), sqlReader["House Number"].ToString(),
+                            data_query.Rows.Add(sqlReader["First_Name"].ToString(), sqlReader["Last_Name"].ToString(), sqlReader["House_Number"].ToString(),
                                 sqlReader["Street"].ToString(), sqlReader["City"].ToString(), sqlReader["Province"].ToString());
                         }
 
@@ -971,22 +971,27 @@ namespace CMPT291Project
 
 
                 case 3: // string query3 = "Percentage Share of Rentals by all Branches";
-                    sqlCommand.CommandText = "select count(*) as '# of Rentals', CT.Type from " +
+                    /*sqlCommand.CommandText = "select count(*) as '# of Rentals', CT.Type from " +
                         "Rental as R, Car as C, CarType as CT, Branch as B " +
                         "where R.vin=C.vin and CT.type=C.type and B.branch_id=R.branch_id_pickup " +
                         "group by CT.type, B.city having B.city='" +
-                        combo_query_option.Text + "';";
+                        combo_query_option.Text + "';";*/
+                    sqlCommand.CommandText = "select branch_id_pickup as 'pickup/return branch', " +
+                        "(count(*)*100)/(select count(*) from Rental) as 'percent' from Rental as R " +
+                        "group by branch_id_pickup UNION ALL select null as 'pickup/return branch', null as 'percent' UNION ALL " +
+                        "select branch_id_return as 'pickup/return branch', (count(*)*100)/(select count(*) from Rental) as 'percent' from Rental as R " +
+                        "group by branch_id_return;";
                     try
                     {
                         MessageBox.Show(sqlCommand.CommandText);
                         sqlReader = sqlCommand.ExecuteReader();
                         data_query.Columns.Clear();
-                        data_query.Columns.Add("num_rentals", "# of Rentals");
-                        data_query.Columns.Add("type", "Type");
+                        data_query.Columns.Add("pickup_return", "Pickup/Return");
+                        data_query.Columns.Add("percent", "Percent");
                         data_query.Rows.Clear();
                         while (sqlReader.Read())
                         {
-                            data_query.Rows.Add(sqlReader["# of Rentals"].ToString(), sqlReader["Type"].ToString());
+                            data_query.Rows.Add(sqlReader["pickup/return branch"].ToString(), sqlReader["percent"].ToString());
                         }
 
                         sqlReader.Close();
