@@ -535,7 +535,7 @@ namespace CMPT291Project
             type.Text = string.Empty;
             make.Clear();
             model.Clear();
-            year.Clear();
+            // year.Clear();
             colour.Clear();
             license.Clear();
             combo_branch_current.Text = string.Empty;
@@ -590,7 +590,7 @@ namespace CMPT291Project
             type.Text = string.Empty;
             make.Clear();
             model.Clear();
-            year.Clear();
+            // year.Clear();
             colour.Clear();
             license.Clear();
             //branch.Items.Clear();
@@ -673,7 +673,7 @@ namespace CMPT291Project
                 type.Text = string.Empty;
                 make.Clear();
                 model.Clear();
-                year.Clear();
+                // year.Clear();
                 colour.Clear();
                 license.Clear();
                 //branch.Items.Clear();
@@ -799,7 +799,7 @@ namespace CMPT291Project
             type.Text = string.Empty;
             make.Clear();
             model.Clear();
-            year.Clear();
+            // year.Clear();
             colour.Clear();
             license.Clear();
             //branch.Items.Clear();
