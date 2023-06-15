@@ -81,7 +81,7 @@ def new_car(id, make, reservation_id):
     branch = random.choice(branch_ids)
 
     return f"insert into car values ('{str(id).zfill(8)}', '{make}', '{model}', {year}, " \
-           f"'{colour}', '{plate}', {branch}, '{type}');\n"\
+           f"'{colour}', '{plate}', '{type}');\n"\
            f"insert into rental values('{reservation_id}', '20230601', '20230601', 1, '{str(id).zfill(8)}', {branch}, {branch});\n"
 
 
@@ -93,7 +93,7 @@ def main():
     text = ''
     #text += populate_types()
 
-    text += "delete from rental;\ndelete from car;\ndelete from CarType;\ndelete from employee;\ndelete from branch;\ndelete from customer;\n"
+    text += "delete from customerlogin;\ndelete from employeelogin;\ndelete from rental;\ndelete from car;\ndelete from CarType;\ndelete from employee;\ndelete from branch;\ndelete from customer;\n"
 
     text += "insert CarType values ('Compact', 10, 60, 200, 50, 'Fuel Efficient', 5, 2);\n\
 insert CarType values ('Luxury', 50, 300, 1000, 150, 'AC', 5, 2);\n\
@@ -135,6 +135,18 @@ insert into branch values (5, 4, 'somewhere street', 'Edmonton', 'AB', '78055555
             f"insert into rental values ({reservation_id + 3}, '20230709', '20230713', 11, '00785137', 2, 4);\n" \
             f"insert into rental values ({reservation_id + 4}, '20230602', '20230620', 17, '00785142', 1, 4);\n" \
             f"insert into rental values ({reservation_id + 5}, '20230801', '20230808', 66, '00785142', 4, 1);\n"
+
+    text += "\ninsert into CustomerLogin values(1, 'test', 'pwd');\ninsert into employeeLogin values(1, 'test', 'pwd');\n"
+
+    text += "insert into branch values (6, 9, 'somewhere street', 'Calgary', 'AB', '7805555555', 'branch6@whatever.ca');"
+    text += "insert into branch values (7, 201, 'somewhere street', 'Kelowna', 'BC', '7805555555', 'branch7@whatever.ca');"
+
+    text += "insert into car values ('11111111', 'Test', 'Compact', 2020, 'red', 'A1A-1A1', 'Compact');\n"
+    text += f"insert into rental values('{reservation_id + 6}', '20230601', '20230601', 1, '11111111', 6, 6);\n"
+    text += "insert into car values ('2222222', 'Test', 'Truck', 2020, 'red', 'A1A-1A1', 'Truck');\n"
+    text += f"insert into rental values('{reservation_id + 7}', '20230601', '20230601', 1, '2222222', 6, 6);\n"
+    text += "insert into car values ('3333333', 'Test', 'Compact2', 2020, 'red', 'A1A-1A1', 'Compact');\n"
+    text += f"insert into rental values('{reservation_id + 8}', '20230601', '20230601', 1, '3333333', 7, 7);\n"
 
     file.write(text)
     print('write complete')
