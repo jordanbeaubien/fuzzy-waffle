@@ -115,7 +115,6 @@ CREATE TABLE [dbo].[Car](
 	[year] [int] NOT NULL,
 	[colour] [varchar](10) NOT NULL,
 	[license_plate] [varchar](8) NOT NULL,
-	[branch_id] [int] NOT NULL,
 	[type] [varchar](20) NOT NULL,
  CONSTRAINT [PK_Car] PRIMARY KEY CLUSTERED 
 (
@@ -237,11 +236,6 @@ CREATE TABLE [dbo].[Rental](
 	[reservation_id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[Car]  WITH CHECK ADD  CONSTRAINT [FK_Car_Branch] FOREIGN KEY([branch_id])
-REFERENCES [dbo].[Branch] ([branch_id])
-GO
-ALTER TABLE [dbo].[Car] CHECK CONSTRAINT [FK_Car_Branch]
 GO
 ALTER TABLE [dbo].[Car]  WITH CHECK ADD  CONSTRAINT [FK_Car_CarType] FOREIGN KEY([type])
 REFERENCES [dbo].[CarType] ([type])
