@@ -701,7 +701,7 @@ namespace CMPT291Project
                             make.Text = sqlReader["make"].ToString();
                             type.Text = sqlReader["type"].ToString();
                             model.Text = sqlReader["model"].ToString();
-                            year.Text = sqlReader["year"].ToString();
+                            year.Value = new DateTime((int)sqlReader["year"], 1, 1);
                             colour.Text = sqlReader["colour"].ToString();
                             license.Text = sqlReader["license_plate"].ToString();
 
