@@ -74,7 +74,7 @@ namespace CMPT291Project
                 customer_id_label.Visible = false;
             }
 
-            dropoff_location_combo.Enabled = false;
+            //dropoff_location_combo.Enabled = false;
 
             // Populate all combo boxes with branch_id from database
             sqlCommand.CommandText = select_branch;
@@ -211,6 +211,9 @@ namespace CMPT291Project
             license.Enabled = false;
             combo_branch_current.Enabled = false;
             combo_branch_transfer.Enabled = false;
+
+            pickup_date_picker.Value = DateTime.Today;
+            dropoff_date_picker.Value = DateTime.Today.AddDays(1);
         }
 
 
@@ -224,54 +227,48 @@ namespace CMPT291Project
             customer_id_input.Visible = true;
         }
 
-
-        private void tabPage1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void search_button_Click_1(object sender, EventArgs e)
         {
             // Date error handling
             if (pickup_date_picker.Value < DateTime.Today)
             {
-                label_date_error.ForeColor = Color.Red;
-                label_date_error.Text = "Pickup date must be in the future";
-                label_date_error.Visible = true;
+                label_error.ForeColor = Color.Red;
+                label_error.Text = "Pickup date must be in the future";
+                label_error.Visible = true;
             }
             else if (dropoff_date_picker.Value < DateTime.Today)
             {
-                label_date_error.ForeColor = Color.Red;
-                label_date_error.Text = "Dropoff date must be in the future";
-                label_date_error.Visible = true;
+                label_error.ForeColor = Color.Red;
+                label_error.Text = "Dropoff date must be in the future";
+                label_error.Visible = true;
             }
             else if (dropoff_date_picker.Value < pickup_date_picker.Value)
             {
-                label_date_error.ForeColor = Color.Red;
-                label_date_error.Text = "Dropoff date must be after Pickup date";
-                label_date_error.Visible = true;
+                label_error.ForeColor = Color.Red;
+                label_error.Text = "Dropoff date must be after Pickup date";
+                label_error.Visible = true;
             }
 
             // Location error handling
             else if (pickup_location_combo.Text.Length == 0)
             {
-                label_location_error.ForeColor = Color.Red;
-                label_location_error.Text = "Pickup location not selected";
-                label_location_error.Visible = true;
+                label_error.ForeColor = Color.Red;
+                label_error.Text = "Pickup location not selected";
+                label_error.Visible = true;
             }
             else if (dropoff_location_combo.Text.Length == 0)
             {
-                label_location_error.ForeColor = Color.Red;
-                label_location_error.Text = "Dropoff location not selected";
-                label_location_error.Visible = true;
+                label_error.ForeColor = Color.Red;
+                label_error.Text = "Dropoff location not selected";
+                label_error.Visible = true;
             }
 
             // Customer ID error handling
             else if (IsUserAuthenticated && customer_id_input.Text.Length == 0)
             {
-                label_location_error.ForeColor = Color.Red;
-                label_location_error.Text = "Customer ID not selected";
-                label_location_error.Visible = true;
+                label_error.ForeColor = Color.Red;
+                label_error.Text = "Customer ID not selected";
+                label_error.Visible = true;
             }
             else
             {
@@ -304,15 +301,15 @@ namespace CMPT291Project
                 }
                 if (vehicle_type_combo_box.Items.Count == 0)
                 {
-                    label_available.ForeColor = Color.Red;
-                    label_available.Text = "No vehicles available from that branch during that timeframe";
-                    label_available.Visible = true;
+                    label_error.ForeColor = Color.Red;
+                    label_error.Text = "No vehicles available from that branch during that timeframe";
+                    label_error.Visible = true;
                 }
                 else
                 {
-                    label_available.ForeColor = Color.Black;
-                    label_available.Text = "Select vehicle type below";
-                    label_available.Visible = true;
+                    label_error.ForeColor = Color.Black;
+                    label_error.Text = "Select vehicle type below";
+                    label_error.Visible = true;
                     vehicle_type_combo_box.Enabled = true;
                 }
             }
@@ -322,7 +319,7 @@ namespace CMPT291Project
         {
             vehicle_type_combo_box.Items.Clear();
             vehicle_type_combo_box.Enabled = false;
-            label_date_error.Visible = false;
+            label_error.Visible = false;
             label_duration.Visible = false;
             duration.Visible = false;
             label_price.Visible = false;
@@ -334,7 +331,7 @@ namespace CMPT291Project
         {
             vehicle_type_combo_box.Items.Clear();
             vehicle_type_combo_box.Enabled = false;
-            label_date_error.Visible = false;
+            label_error.Visible = false;
             label_duration.Visible = false;
             duration.Visible = false;
             label_price.Visible = false;
@@ -346,17 +343,11 @@ namespace CMPT291Project
         {
             vehicle_type_combo_box.Items.Clear();
             vehicle_type_combo_box.Enabled = false;
-            label_location_error.Visible = false;
+            label_error.Visible = false;
             label_duration.Visible = false;
             duration.Visible = false;
             label_price.Visible = false;
             price.Visible = false;
-
-            if (return_same_loc_checkbox.Checked)
-            {
-                dropoff_location_combo.Text = pickup_location_combo.Text;
-            }
-
             pickup_location_details.Visible = true;
 
             using (sqlConnection)
@@ -382,21 +373,11 @@ namespace CMPT291Project
             }
         }
 
-        private void return_same_loc_checkbox_CheckedChanged(object sender, EventArgs e)
-        {
-            dropoff_location_combo.Enabled = !dropoff_location_combo.Enabled;
-
-            if (return_same_loc_checkbox.Checked)
-            {
-                dropoff_location_combo.Text = pickup_location_combo.Text;
-            }
-        }
-
         private void dropoff_location_combo_SelectedIndexChanged(object sender, EventArgs e)
         {
             vehicle_type_combo_box.Items.Clear();
             vehicle_type_combo_box.Enabled = false;
-            label_location_error.Visible = false;
+            label_error.Visible = false;
             label_duration.Visible = false;
             duration.Visible = false;
             label_price.Visible = false;
@@ -429,20 +410,52 @@ namespace CMPT291Project
 
         private void vehicle_type_combo_box_SelectedIndexChanged(object sender, EventArgs e)
         {
-            label_available.Visible = false;
+            label_error.Visible = false;
             label_duration.Visible = false;
             duration.Visible = false;
             label_price.Visible = false;
             price.Visible = false;
-        }
-        private void tabPage2_Click(object sender, EventArgs e)
-        {
+            label_type_not_selected.Visible = false;
 
-        }
+            TimeSpan rental_duration = dropoff_date_picker.Value.Date - pickup_date_picker.Value.Date;
 
-        private void Form2_Load(object sender, EventArgs e)
-        {
+            rental_days = rental_duration.Days + 1;
+            rental_weeks = 0;
+            rental_months = 0;
+            rental_diff_branch = 0;
+            cost = 0;
 
+            for (; rental_days >= 30; rental_months += 1, rental_days -= 30) ;
+            for (; rental_days >= 7; rental_weeks += 1, rental_days -= 7) ;
+            if (vehicle_type_combo_box.Text.Length > 0)
+            {
+                label_duration.Visible = true;
+                duration.Text = rental_months.ToString() + " months, " + rental_weeks.ToString() + " weeks, " + rental_days.ToString() + " days";
+                duration.Visible = true;
+                sqlCommand.CommandText = "select daily_rate, weekly_rate, monthly_rate, dif_branch_ret_price from CarType where type = '" +
+                    vehicle_type_combo_box.Text.ToString() + "';";
+                if (pickup_location_combo.Text != dropoff_location_combo.Text)
+                {
+                    rental_diff_branch = 1;
+                }
+
+                try
+                {
+                    sqlReader = sqlCommand.ExecuteReader();
+                    sqlReader.Read();
+                    cost = sqlReader.GetInt32("daily_rate") * rental_days + sqlReader.GetInt32("weekly_rate") * rental_weeks +
+                        sqlReader.GetInt32("monthly_rate") * rental_months + sqlReader.GetInt32("dif_branch_ret_price") * rental_diff_branch;
+                    sqlReader.Close();
+                    label_price.Visible = true;
+                    price.Text = "$" + cost.ToString() + ".00";
+                    price.Visible = true;
+                }
+                catch (Exception e_calculateprice)
+                {
+                    MessageBox.Show(e_calculateprice.ToString(), "Error");
+                }
+
+            }
         }
 
         private void button_confirm_Click(object sender, EventArgs e)
@@ -1108,64 +1121,52 @@ namespace CMPT291Project
         {
             string id;
             string vin_rented;
-
-            if (!IsUserAuthenticated)
+            if (vehicle_type_combo_box.Text.Length == 0)
             {
-                id = customer_id.ToString();
+                label_type_not_selected.Visible = true;
             }
             else
             {
-                id = customer_id_input.Text;
+                if (!IsUserAuthenticated)
+                {
+                    id = customer_id.ToString();
+                }
+                else
+                {
+                    id = customer_id_input.Text;
+                }
+
+                string vins_available = "select distinct VinDate.vin from (select vin, MAX(to_date) as Latest_Return from rental R1 where R1.to_date < '" +
+                        pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and R1.branch_id_return = '" + pickup_location_combo.Text + "' and R1.vin not in " +
+                        "(select R2.vin from rental R2 where (R2.from_date <= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.to_date >= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "') or " +
+                        "(R2.from_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.from_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "') or (R2.to_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.to_date >= '" +
+                        pickup_date_picker.Value.ToString("yyyy-MM-dd") + "')) group by vin) as VinDate";
+
+                string vin_selected = "select min(vin) from Car C1 where C1.type = '" + vehicle_type_combo_box.Text + "' and C1.vin in (" + vins_available + ")";
+
+                using (sqlConnection)
+                {
+                    sqlCommand.CommandText = "select * from Car where vin = (" + vin_selected + ");";
+                    sqlReader = sqlCommand.ExecuteReader();
+                    sqlReader.Read();
+                    vin_rented = sqlReader["vin"].ToString();
+                    string confirm_msg = "Confirming rental for " + sqlReader["year"].ToString() + " " + sqlReader["make"].ToString() + " " + sqlReader["model"] + ", Vin # " + vin_rented + ", ";
+                    MessageBox.Show(confirm_msg);
+                    sqlReader.Close();
+                }
+                string rented = "insert into rental values ((select (max(reservation_id) + 1) from rental), '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "', '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "', " +
+                    id + ", '" + vin_rented + "', '" + pickup_location_combo.Text + "', '" + dropoff_location_combo.Text + "')";
+
+                MessageBox.Show(rented);
+                using (sqlConnection)
+                {
+                    sqlCommand.CommandText = rented;
+                    sqlCommand.ExecuteNonQuery();
+                }
+                MessageBox.Show("Rental confirmed.");
             }
 
-            string vins_available = "select distinct VinDate.vin from (select vin, MAX(to_date) as Latest_Return from rental R1 where R1.to_date < '" +
-                    pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and R1.branch_id_return = '" + pickup_location_combo.Text + "' and R1.vin not in " +
-                    "(select R2.vin from rental R2 where (R2.from_date <= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.to_date >= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "') or " +
-                    "(R2.from_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.from_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "') or (R2.to_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.to_date >= '" +
-                    pickup_date_picker.Value.ToString("yyyy-MM-dd") + "')) group by vin) as VinDate";
-
-            string vin_selected = "select min(vin) from Car C1 where C1.vin in (" + vins_available + ")";
-
-            using (sqlConnection)
-            {
-                sqlCommand.CommandText = "select * from Car where vin = (" + vin_selected + ");";
-                sqlReader = sqlCommand.ExecuteReader();
-                sqlReader.Read();
-                vin_rented = sqlReader["vin"].ToString();
-                string confirm_msg = "Confirming rental for " + sqlReader["year"].ToString() + " " + sqlReader["make"].ToString() + " " + sqlReader["model"] + ", Vin # " + vin_rented + ", ";
-                MessageBox.Show(confirm_msg);
-                sqlReader.Close();
-            }
-            string rented = "insert into rental values ((select (max(reservation_id) + 1) from rental), '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "', '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "', " +
-                id + ", '" + vin_rented + "', '" + pickup_location_combo.Text + "', '" + dropoff_location_combo.Text + "')";
-
-            MessageBox.Show(rented);
-            using (sqlConnection)
-            {
-                sqlCommand.CommandText = rented;
-                sqlCommand.ExecuteNonQuery();
-            }
-            MessageBox.Show("Rental confirmed.");
         }
 
-        private void pickup_location_details_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label_date_error_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label_location_error_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label_available_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
