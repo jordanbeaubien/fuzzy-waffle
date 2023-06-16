@@ -94,6 +94,22 @@ namespace CMPT291Project
                 MessageBox.Show(e_getbranchid.ToString(), "Error");
             }
 
+            // Populate the customer id combo box with customer_id from database
+            sqlCommand.CommandText = "select customer_id from customer;";
+            try
+            {
+                sqlReader = sqlCommand.ExecuteReader();
+                while (sqlReader.Read())
+                {
+                    customer_id_input.Items.Add(sqlReader["customer_id"].ToString());
+                }
+                sqlReader.Close();
+            }
+            catch (Exception e_getbranchid)
+            {
+                MessageBox.Show(e_getbranchid.ToString(), "Error");
+            }
+
 
             sqlCommand.CommandText = select_type;
             try
@@ -310,7 +326,7 @@ namespace CMPT291Project
                     "(select vin from rental where (from_date <= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and to_date >= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "') or" +
                     "(from_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and from_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "') or " +
                     "(to_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and to_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "'))";*/
-                
+
                 string types_available = "select distinct type from Car C1 where C1.vin in (" + vins_available + ");";
                 MessageBox.Show(types_available);
                 using (sqlConnection)
