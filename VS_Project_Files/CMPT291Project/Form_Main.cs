@@ -297,13 +297,20 @@ namespace CMPT291Project
                     "as T1 on T1.vin = R2.vin and T1.max_to_date = R2.to_date where R2.branch_id_return != " +
                     pickup_location_combo.Text + ");"; */
 
-                string vins_available = "select distinct V.vin from (select vin, MAX(to_date) as Latest_Return from rental R1 where R1.to_date < '" +
+                string vins_available = "select V.vin from (select vin, MAX(to_date) as Latest_Return from rental R1 where R1.to_date < '" +
                         pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and R1.vin not in " + "(select R2.vin from rental R2 where (R2.from_date <= '" +
                         pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.to_date >= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "') or " +
                         "(R2.from_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.from_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") +
                         "') or (R2.to_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.to_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") +
                         "')) group by vin) as V, Rental R3 where V.vin = R3.vin and V.Latest_Return = R3.to_date and R3.branch_id_return = '" + pickup_location_combo.Text + "'";
 
+                /*string vins_available = "select V.vin from (select vin, MAX(to_date) as Latest_Return from rental where to_date < '" +
+                    pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' group by vin) as V, Rental R where V.vin = R.vin and V.Latest_Return = R.to_date and " +
+                    "R.branch_id_return = '" + pickup_location_combo.Text + "' and R.vin not in " +
+                    "(select vin from rental where (from_date <= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and to_date >= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "') or" +
+                    "(from_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and from_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "') or " +
+                    "(to_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and to_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "'))";*/
+                
                 string types_available = "select distinct type from Car C1 where C1.vin in (" + vins_available + ");";
                 MessageBox.Show(types_available);
                 using (sqlConnection)
@@ -1092,13 +1099,19 @@ namespace CMPT291Project
                     id = customer_id_input.Text;
                 }
 
-                string vins_available = "select distinct V.vin from (select vin, MAX(to_date) as Latest_Return from rental R1 where R1.to_date < '" +
-                        pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and R1.vin not in " + "(select R2.vin from rental R2 where (R2.from_date <= '" +
-                        pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.to_date >= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "') or " +
-                        "(R2.from_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.from_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") +
-                        "') or (R2.to_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.to_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") +
-                        "')) group by vin) as V, Rental R3 where V.vin = R3.vin and V.Latest_Return = R3.to_date and R3.branch_id_return = '" + pickup_location_combo.Text + "'";
+                string vins_available = "select V.vin from (select vin, MAX(to_date) as Latest_Return from rental R1 where R1.to_date < '" +
+                    pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and R1.vin not in " + "(select R2.vin from rental R2 where (R2.from_date <= '" +
+                    pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.to_date >= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "') or " +
+                    "(R2.from_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.from_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") +
+                    "') or (R2.to_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.to_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") +
+                    "')) group by vin) as V, Rental R3 where V.vin = R3.vin and V.Latest_Return = R3.to_date and R3.branch_id_return = '" + pickup_location_combo.Text + "'";
 
+                /*string vins_available = "select V.vin from (select vin, MAX(to_date) as Latest_Return from rental where to_date < '" +
+                    pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' group by vin) as V, Rental R where V.vin = R.vin and V.Latest_Return = R.to_date and " +
+                    "R.branch_id_return = '" + pickup_location_combo.Text + "' and R.vin not in " +
+                    "(select vin from rental where (from_date <= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and to_date >= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "') or" +
+                    "(from_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and from_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "') or " +
+                    "(to_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and to_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "'))";*/
                 string vin_selected = "select min(vin) from Car C1 where C1.type = '" + vehicle_type_combo_box.Text + "' and C1.vin in (" + vins_available + ")";
 
                 using (sqlConnection)
