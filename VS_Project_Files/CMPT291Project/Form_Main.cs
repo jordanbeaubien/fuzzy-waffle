@@ -305,13 +305,6 @@ namespace CMPT291Project
             else
             {
                 vehicle_type_combo_box.Items.Clear();
-                /*string types_available = "select distinct Car.type from Car where Car.vin not in" +
-                    "(select R1.vin from Rental as R1 where R1.from_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") +
-                    "' and R1.to_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "') and Car.vin not in " +
-                    "(select R2.vin from Rental as R2 join (select R3.vin, max(R3.to_date) as max_to_date " +
-                    "from Rental as R3 where R3.to_date < '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' group by R3.vin)" +
-                    "as T1 on T1.vin = R2.vin and T1.max_to_date = R2.to_date where R2.branch_id_return != " +
-                    pickup_location_combo.Text + ");"; */
 
                 string vins_available = "select V.vin from (select vin, MAX(to_date) as Latest_Return from rental R1 where R1.to_date < '" +
                         pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and R1.vin not in " + "(select R2.vin from rental R2 where (R2.from_date <= '" +
@@ -963,11 +956,6 @@ namespace CMPT291Project
 
 
                 case 3: // string query3 = "Percentage Share of Rentals by all Branches";
-                    /*sqlCommand.CommandText = "select count(*) as '# of Rentals', CT.Type from " +
-                        "Rental as R, Car as C, CarType as CT, Branch as B " +
-                        "where R.vin=C.vin and CT.type=C.type and B.branch_id=R.branch_id_pickup " +
-                        "group by CT.type, B.city having B.city='" +
-                        combo_query_option.Text + "';";*/
                     sqlCommand.CommandText = "select branch_id_pickup as 'pickup/return branch', " + 
                         "(count(*)*100)/(select count(*) from Rental) as 'percent' from Rental as R " +
                         "group by branch_id_pickup UNION ALL select null as 'pickup/return branch', null as 'percent' UNION ALL " +
@@ -979,12 +967,22 @@ namespace CMPT291Project
                         sqlReader = sqlCommand.ExecuteReader();
                         data_query.Columns.Clear();
                         data_query.Columns.Add("pickup_return", "Branch ID");
-                        //data_query.Columns.Add("type", "Type");
+                        data_query.Columns.Add("type", "Type");
                         data_query.Columns.Add("percent", "Percent of Rentals");
                         data_query.Rows.Clear();
+                        bool pickup = true;
+                        string type_pickup_return = "Pickup";
                         while (sqlReader.Read())
                         {
-                            data_query.Rows.Add(sqlReader["pickup/return branch"].ToString(), sqlReader["percent"].ToString());
+                            if (sqlReader["pickup/return branch"].ToString() != string.Empty)
+                            {
+                                data_query.Rows.Add(sqlReader["pickup/return branch"].ToString(), type_pickup_return, sqlReader["percent"].ToString());
+                            }
+                            else
+                            {
+                                data_query.Rows.Add(sqlReader["pickup/return branch"].ToString(), "", sqlReader["percent"].ToString());
+                                type_pickup_return = "Return";
+                            }
                         }
 
                         sqlReader.Close();
@@ -1131,6 +1129,7 @@ namespace CMPT291Project
                     "(select vin from rental where (from_date <= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and to_date >= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "') or" +
                     "(from_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and from_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "') or " +
                     "(to_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and to_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "'))";*/
+
                 string vin_selected = "select min(vin) from Car C1 where C1.type = '" + vehicle_type_combo_box.Text + "' and C1.vin in (" + vins_available + ")";
 
                 using (sqlConnection)
