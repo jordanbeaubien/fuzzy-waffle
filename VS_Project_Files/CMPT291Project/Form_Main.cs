@@ -1164,16 +1164,6 @@ namespace CMPT291Project
 
             string vin_selected = "select min(vin) from Car C1 where C1.vin in (" + vins_available + ")";
 
-            using (sqlConnection)
-            {
-                sqlCommand.CommandText = "select * from Car where vin = (" + vin_selected + ");";
-                sqlReader = sqlCommand.ExecuteReader();
-                sqlReader.Read();
-                string confirm_msg = "Confirming rental for " + sqlReader["year"].ToString() + " " + sqlReader["make"].ToString() + " " + sqlReader["model"] + ", Vin # " + sqlReader["vin"].ToString() + ", ";
-                MessageBox.Show(confirm_msg);
-                sqlReader.Close();
-            }
-
             string rented = "insert into rental values ((select (max(reservation_id) + 1) from rental), '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "', '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "', " +
                 id + ", (" + vin_selected + "), '" + pickup_location_combo.Text + "', '" + dropoff_location_combo.Text + "')";
 
