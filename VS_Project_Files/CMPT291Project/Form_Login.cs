@@ -22,11 +22,21 @@ namespace CMPT291Project
 
         private Form2 formMain;
 
+        // Properly close all running processes on app exit
+        private void Form_Login_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
+
         public Form1(Form2 formMain) // Added argument "Form2 formMain" for login auth
         {
             InitializeComponent();
             // Login addon
             this.formMain = formMain;
+
+            // Properly close all running processes on app exit
+            this.FormClosing += Form_Login_FormClosing;
+
 
             String connectionString = "Server = .; Database = CMPT291Project; Trusted_Connection = yes";
 
