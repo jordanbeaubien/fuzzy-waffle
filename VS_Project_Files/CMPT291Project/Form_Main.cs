@@ -297,11 +297,12 @@ namespace CMPT291Project
                     "as T1 on T1.vin = R2.vin and T1.max_to_date = R2.to_date where R2.branch_id_return != " +
                     pickup_location_combo.Text + ");"; */
 
-                string vins_available = "select distinct VinDate.vin from (select vin, MAX(to_date) as Latest_Return from rental R1 where R1.to_date < '" +
-                    pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and R1.branch_id_return = '" + pickup_location_combo.Text + "' and R1.vin not in " +
-                    "(select R2.vin from rental R2 where (R2.from_date <= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.to_date >= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "') or " +
-                    "(R2.from_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.from_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "') or (R2.to_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.to_date >= '" +
-                    pickup_date_picker.Value.ToString("yyyy-MM-dd") + "')) group by vin) as VinDate";
+                string vins_available = "select distinct V.vin from (select vin, MAX(to_date) as Latest_Return from rental R1 where R1.to_date < '" +
+                        pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and R1.vin not in " + "(select R2.vin from rental R2 where (R2.from_date <= '" +
+                        pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.to_date >= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "') or " +
+                        "(R2.from_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.from_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") +
+                        "') or (R2.to_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.to_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") +
+                        "')) group by vin) as V, Rental R3 where V.vin = R3.vin and V.Latest_Return = R3.to_date and R3.branch_id_return = '" + pickup_location_combo.Text + "'";
 
                 string types_available = "select distinct type from Car C1 where C1.vin in (" + vins_available + ");";
                 MessageBox.Show(types_available);
@@ -920,12 +921,13 @@ namespace CMPT291Project
                         MessageBox.Show(sqlCommand.CommandText);
                         sqlReader = sqlCommand.ExecuteReader();
                         data_query.Columns.Clear();
-                        data_query.Columns.Add("year", "Year");
                         data_query.Columns.Add("branch_id", "Branch ID");
+                        data_query.Columns.Add("year", "From");
+                        data_query.Columns.Add("year", "To");
                         data_query.Rows.Clear();
                         while (sqlReader.Read())
                         {
-                            data_query.Rows.Add(sqlReader["year"].ToString(), sqlReader["branch_id"].ToString());
+                            data_query.Rows.Add(sqlReader["branch_id"].ToString(), (sqlReader.GetInt32("year") - 2).ToString(), sqlReader["year"].ToString());
                         }
 
                         sqlReader.Close();
@@ -1090,11 +1092,12 @@ namespace CMPT291Project
                     id = customer_id_input.Text;
                 }
 
-                string vins_available = "select distinct VinDate.vin from (select vin, MAX(to_date) as Latest_Return from rental R1 where R1.to_date < '" +
-                        pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and R1.branch_id_return = '" + pickup_location_combo.Text + "' and R1.vin not in " +
-                        "(select R2.vin from rental R2 where (R2.from_date <= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.to_date >= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "') or " +
-                        "(R2.from_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.from_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "') or (R2.to_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.to_date >= '" +
-                        pickup_date_picker.Value.ToString("yyyy-MM-dd") + "')) group by vin) as VinDate";
+                string vins_available = "select distinct V.vin from (select vin, MAX(to_date) as Latest_Return from rental R1 where R1.to_date < '" +
+                        pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and R1.vin not in " + "(select R2.vin from rental R2 where (R2.from_date <= '" +
+                        pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.to_date >= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "') or " +
+                        "(R2.from_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.from_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") +
+                        "') or (R2.to_date <= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.to_date >= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") +
+                        "')) group by vin) as V, Rental R3 where V.vin = R3.vin and V.Latest_Return = R3.to_date and R3.branch_id_return = '" + pickup_location_combo.Text + "'";
 
                 string vin_selected = "select min(vin) from Car C1 where C1.type = '" + vehicle_type_combo_box.Text + "' and C1.vin in (" + vins_available + ")";
 
@@ -1104,7 +1107,7 @@ namespace CMPT291Project
                     sqlReader = sqlCommand.ExecuteReader();
                     sqlReader.Read();
                     vin_rented = sqlReader["vin"].ToString();
-                    string confirm_msg = "Confirming rental for " + sqlReader["year"].ToString() + " " + sqlReader["make"].ToString() + " " + sqlReader["model"] + ", Vin # " + vin_rented + ", ";
+                    string confirm_msg = "Confirming rental for " + sqlReader["year"].ToString() + " " + sqlReader["make"].ToString() + " " + sqlReader["model"] + ", Vin # " + vin_rented;
                     MessageBox.Show(confirm_msg);
                     sqlReader.Close();
                 }
