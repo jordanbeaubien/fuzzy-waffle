@@ -261,6 +261,13 @@ namespace CMPT291Project
 
         private void search_button_Click_1(object sender, EventArgs e)
         {
+            label_error.Visible = false;
+            label_duration.Visible = false;
+            duration.Visible = false;
+            label_price.Visible = false;
+            price.Visible = false;
+            label_type_not_selected.Visible = false;
+
             // Date error handling
             if (pickup_date_picker.Value < DateTime.Today)
             {
@@ -357,6 +364,7 @@ namespace CMPT291Project
             duration.Visible = false;
             label_price.Visible = false;
             price.Visible = false;
+            label_type_not_selected.Visible = false;
 
         }
 
@@ -369,6 +377,7 @@ namespace CMPT291Project
             duration.Visible = false;
             label_price.Visible = false;
             price.Visible = false;
+            label_type_not_selected.Visible = false;
         }
 
 
@@ -382,6 +391,7 @@ namespace CMPT291Project
             label_price.Visible = false;
             price.Visible = false;
             pickup_location_details.Visible = true;
+            label_type_not_selected.Visible = false;
 
             using (sqlConnection)
             {
@@ -415,6 +425,7 @@ namespace CMPT291Project
             duration.Visible = false;
             label_price.Visible = false;
             price.Visible = false;
+            label_type_not_selected.Visible = false;
 
             dropoff_location_details.Visible = true;
 
@@ -448,6 +459,7 @@ namespace CMPT291Project
             duration.Visible = false;
             label_price.Visible = false;
             price.Visible = false;
+            label_type_not_selected.Visible = false;
             label_type_not_selected.Visible = false;
 
             TimeSpan rental_duration = dropoff_date_picker.Value.Date - pickup_date_picker.Value.Date;
@@ -665,33 +677,6 @@ namespace CMPT291Project
             vin.DropDownHeight = 106;
             vin.AutoCompleteSource = AutoCompleteSource.ListItems;
             vin.AutoCompleteMode = AutoCompleteMode.Suggest;
-        }
-
-        private void branch_current_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (!borked)
-            {
-                using (sqlConnection)
-                {
-                    sqlCommand.CommandText = "select branch_id, building_number, street, city, province from Branch where branch_id = '" +
-                        branch_current.Text + "';";
-                    try
-                    {
-                        sqlReader = sqlCommand.ExecuteReader();
-                        while (sqlReader.Read())
-                        {
-                            branch_info_current.Text = sqlReader["building_number"].ToString() + " " +
-                                sqlReader["street"].ToString() + " " + sqlReader["city"].ToString() + " " + sqlReader["province"].ToString();
-                        }
-                        sqlReader.Close();
-                    }
-                    catch (Exception e_branchinfo_curr)
-                    {
-                        MessageBox.Show(e_branchinfo_curr.ToString(), "Error");
-                    }
-                }
-            }
-            branch_info_current.Visible = true;
         }
 
         private void vin_SelectedIndexChanged(object sender, EventArgs e)
@@ -956,7 +941,7 @@ namespace CMPT291Project
 
 
                 case 3: // string query3 = "Percentage Share of Rentals by all Branches";
-                    sqlCommand.CommandText = "select branch_id_pickup as 'pickup/return branch', " + 
+                    sqlCommand.CommandText = "select branch_id_pickup as 'pickup/return branch', " +
                         "(count(*)*100)/(select count(*) from Rental) as 'percent' from Rental as R " +
                         "group by branch_id_pickup UNION ALL select null as 'pickup/return branch', null as 'percent' UNION ALL " +
                         "select branch_id_return as 'pickup/return branch', (count(*)*100)/(select count(*) from Rental) as 'percent' from Rental as R " +

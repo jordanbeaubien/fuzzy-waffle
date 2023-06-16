@@ -49,7 +49,6 @@
             cb_type.Name = "cb_type";
             cb_type.Size = new Size(282, 28);
             cb_type.TabIndex = 0;
-            cb_type.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // text_user
             // 
@@ -59,7 +58,6 @@
             text_user.Name = "text_user";
             text_user.Size = new Size(282, 27);
             text_user.TabIndex = 1;
-            text_user.TextChanged += textBox1_TextChanged;
             // 
             // text_pw
             // 
@@ -69,7 +67,6 @@
             text_pw.PasswordChar = '*';
             text_pw.Size = new Size(282, 27);
             text_pw.TabIndex = 2;
-            text_pw.TextChanged += textBox2_TextChanged;
             // 
             // button_login
             // 
@@ -132,7 +129,6 @@
             Margin = new Padding(3, 4, 3, 4);
             Name = "Form1";
             Text = "Login Screen";
-            Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).EndInit();
             ResumeLayout(false);
             PerformLayout();
