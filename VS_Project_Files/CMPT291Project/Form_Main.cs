@@ -1008,6 +1008,7 @@ namespace CMPT291Project
                         data_query.Columns.Add("branch_id", "Branch ID");
                         data_query.Columns.Add("building_number", "Building Number");
                         data_query.Columns.Add("street", "Street");
+                        data_query.Columns.Add("city", "City");
                         data_query.Columns.Add("province", "Province");
                         data_query.Rows.Clear();
                         sqlReader.Read();
@@ -1015,7 +1016,7 @@ namespace CMPT291Project
                         while (sqlReader.Read())
                         {
                             data_query.Rows.Add(sqlReader["city"].ToString(), sqlReader["available_vehs"].ToString(), sqlReader["branch_id"].ToString(),
-                                sqlReader["building_number"].ToString(), sqlReader["street"].ToString(), sqlReader["province"].ToString());
+                                sqlReader["building_number"].ToString(), sqlReader["street"].ToString(), sqlReader["city"].ToString(), sqlReader["province"].ToString());
                         }
 
                         sqlReader.Close();
