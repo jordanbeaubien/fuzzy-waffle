@@ -464,8 +464,8 @@
             year.Format = DateTimePickerFormat.Custom;
             year.Location = new Point(167, 252);
             year.Margin = new Padding(3, 2, 3, 2);
-            year.MaxDate = new DateTime(2025, 12, 31, 0, 0, 0, 0);
-            year.MinDate = new DateTime(1950, 1, 1, 0, 0, 0, 0);
+            year.MaxDate = new DateTime(2100, 12, 31, 0, 0, 0, 0);
+            year.MinDate = new DateTime(1900, 1, 1, 0, 0, 0, 0);
             year.Name = "year";
             year.RightToLeftLayout = true;
             year.ShowUpDown = true;
