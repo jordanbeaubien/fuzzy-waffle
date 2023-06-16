@@ -54,15 +54,18 @@
             pickup_date_picker = new DateTimePicker();
             vehicle_type_label = new Label();
             tab_car = new TabPage();
+            label_return_branch_details = new Label();
+            label9 = new Label();
+            label4 = new Label();
+            branch_current = new Label();
             year = new DateTimePicker();
             label_branch_date_current = new Label();
             combo_branch_transfer = new ComboBox();
-            label_branch_info_transfer = new Label();
+            branch_info_transfer = new Label();
             label_branch_transfer = new Label();
             valid_vin = new Label();
-            label_branch_info_current = new Label();
+            branch_info_current = new Label();
             type = new ComboBox();
-            combo_branch_current = new ComboBox();
             button_delete = new RadioButton();
             button_modify = new RadioButton();
             button_add = new RadioButton();
@@ -376,15 +379,18 @@
             // 
             // tab_car
             // 
+            tab_car.Controls.Add(label_return_branch_details);
+            tab_car.Controls.Add(label9);
+            tab_car.Controls.Add(label4);
+            tab_car.Controls.Add(branch_current);
             tab_car.Controls.Add(year);
             tab_car.Controls.Add(label_branch_date_current);
             tab_car.Controls.Add(combo_branch_transfer);
-            tab_car.Controls.Add(label_branch_info_transfer);
+            tab_car.Controls.Add(branch_info_transfer);
             tab_car.Controls.Add(label_branch_transfer);
             tab_car.Controls.Add(valid_vin);
-            tab_car.Controls.Add(label_branch_info_current);
+            tab_car.Controls.Add(branch_info_current);
             tab_car.Controls.Add(type);
-            tab_car.Controls.Add(combo_branch_current);
             tab_car.Controls.Add(button_delete);
             tab_car.Controls.Add(button_modify);
             tab_car.Controls.Add(button_add);
@@ -411,22 +417,66 @@
             tab_car.Text = "Cars";
             tab_car.UseVisualStyleBackColor = true;
             // 
+            // label_return_branch_details
+            // 
+            label_return_branch_details.AutoSize = true;
+            label_return_branch_details.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label_return_branch_details.Location = new Point(463, 174);
+            label_return_branch_details.Name = "label_return_branch_details";
+            label_return_branch_details.Size = new Size(99, 19);
+            label_return_branch_details.TabIndex = 22;
+            label_return_branch_details.Text = "Branch Details:";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label9.Location = new Point(435, 112);
+            label9.Name = "label9";
+            label9.Size = new Size(127, 19);
+            label9.TabIndex = 21;
+            label9.Text = "Latest Return Date:";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            label4.Location = new Point(463, 93);
+            label4.Name = "label4";
+            label4.Size = new Size(99, 19);
+            label4.TabIndex = 20;
+            label4.Text = "Branch Details:";
+            // 
+            // branch_current
+            // 
+            branch_current.AutoSize = true;
+            branch_current.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            branch_current.Location = new Point(568, 74);
+            branch_current.Name = "branch_current";
+            branch_current.Size = new Size(126, 19);
+            branch_current.TabIndex = 19;
+            branch_current.Text = "CURRENT BRANCH";
+            // 
             // year
             // 
+            year.AccessibleRole = AccessibleRole.Sound;
             year.CustomFormat = "yyyy";
             year.Format = DateTimePickerFormat.Custom;
             year.Location = new Point(167, 252);
             year.Margin = new Padding(3, 2, 3, 2);
+            year.MaxDate = new DateTime(2025, 12, 31, 0, 0, 0, 0);
+            year.MinDate = new DateTime(1950, 1, 1, 0, 0, 0, 0);
             year.Name = "year";
+            year.RightToLeftLayout = true;
             year.ShowUpDown = true;
             year.Size = new Size(130, 23);
-            year.TabIndex = 19;
+            year.TabIndex = 8;
             // 
             // label_branch_date_current
             // 
             label_branch_date_current.AutoSize = true;
             label_branch_date_current.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label_branch_date_current.Location = new Point(590, 118);
+            label_branch_date_current.Location = new Point(568, 112);
             label_branch_date_current.Name = "label_branch_date_current";
             label_branch_date_current.Size = new Size(84, 19);
             label_branch_date_current.TabIndex = 18;
@@ -436,72 +486,64 @@
             // combo_branch_transfer
             // 
             combo_branch_transfer.FormattingEnabled = true;
-            combo_branch_transfer.Location = new Point(590, 138);
+            combo_branch_transfer.Location = new Point(568, 148);
             combo_branch_transfer.Name = "combo_branch_transfer";
             combo_branch_transfer.Size = new Size(180, 23);
-            combo_branch_transfer.TabIndex = 17;
+            combo_branch_transfer.TabIndex = 12;
             combo_branch_transfer.SelectedIndexChanged += combo_branch_transfer_SelectedIndexChanged;
             // 
-            // label_branch_info_transfer
+            // branch_info_transfer
             // 
-            label_branch_info_transfer.AutoSize = true;
-            label_branch_info_transfer.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label_branch_info_transfer.Location = new Point(590, 162);
-            label_branch_info_transfer.Name = "label_branch_info_transfer";
-            label_branch_info_transfer.Size = new Size(127, 19);
-            label_branch_info_transfer.TabIndex = 16;
-            label_branch_info_transfer.Text = "Branch Information";
-            label_branch_info_transfer.Visible = false;
+            branch_info_transfer.AutoSize = true;
+            branch_info_transfer.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            branch_info_transfer.Location = new Point(568, 174);
+            branch_info_transfer.Name = "branch_info_transfer";
+            branch_info_transfer.Size = new Size(127, 19);
+            branch_info_transfer.TabIndex = 16;
+            branch_info_transfer.Text = "Branch Information";
+            branch_info_transfer.Visible = false;
             // 
             // label_branch_transfer
             // 
             label_branch_transfer.AutoSize = true;
             label_branch_transfer.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label_branch_transfer.Location = new Point(404, 142);
+            label_branch_transfer.Location = new Point(426, 148);
             label_branch_transfer.Name = "label_branch_transfer";
-            label_branch_transfer.Size = new Size(164, 19);
+            label_branch_transfer.Size = new Size(136, 19);
             label_branch_transfer.TabIndex = 15;
-            label_branch_transfer.Text = "Initial / Tranfer Branch ID:";
+            label_branch_transfer.Text = "Tranfer To Branch ID:";
             // 
             // valid_vin
             // 
             valid_vin.AutoSize = true;
             valid_vin.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             valid_vin.ForeColor = Color.Red;
-            valid_vin.Location = new Point(167, 109);
+            valid_vin.Location = new Point(167, 100);
             valid_vin.Name = "valid_vin";
             valid_vin.Size = new Size(73, 19);
             valid_vin.TabIndex = 14;
             valid_vin.Text = "Invalid Vin";
             valid_vin.Visible = false;
             // 
-            // label_branch_info_current
+            // branch_info_current
             // 
-            label_branch_info_current.AutoSize = true;
-            label_branch_info_current.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label_branch_info_current.Location = new Point(590, 98);
-            label_branch_info_current.Name = "label_branch_info_current";
-            label_branch_info_current.Size = new Size(127, 19);
-            label_branch_info_current.TabIndex = 13;
-            label_branch_info_current.Text = "Branch Information";
-            label_branch_info_current.Visible = false;
+            branch_info_current.AutoSize = true;
+            branch_info_current.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            branch_info_current.Location = new Point(568, 93);
+            branch_info_current.Name = "branch_info_current";
+            branch_info_current.Size = new Size(127, 19);
+            branch_info_current.TabIndex = 13;
+            branch_info_current.Text = "Branch Information";
+            branch_info_current.Visible = false;
             // 
             // type
             // 
+            type.DropDownStyle = ComboBoxStyle.DropDownList;
             type.FormattingEnabled = true;
-            type.Location = new Point(167, 137);
+            type.Location = new Point(167, 148);
             type.Name = "type";
             type.Size = new Size(206, 23);
             type.TabIndex = 5;
-            // 
-            // combo_branch_current
-            // 
-            combo_branch_current.FormattingEnabled = true;
-            combo_branch_current.Location = new Point(590, 74);
-            combo_branch_current.Name = "combo_branch_current";
-            combo_branch_current.Size = new Size(180, 23);
-            combo_branch_current.TabIndex = 11;
-            combo_branch_current.SelectedIndexChanged += branch_current_SelectedIndexChanged;
             // 
             // button_delete
             // 
@@ -584,7 +626,7 @@
             button_confirm.Location = new Point(463, 224);
             button_confirm.Name = "button_confirm";
             button_confirm.Size = new Size(306, 116);
-            button_confirm.TabIndex = 12;
+            button_confirm.TabIndex = 13;
             button_confirm.Text = "Confirm";
             button_confirm.UseVisualStyleBackColor = true;
             button_confirm.Click += button_confirm_Click;
@@ -603,7 +645,7 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label8.Location = new Point(94, 138);
+            label8.Location = new Point(94, 152);
             label8.Name = "label8";
             label8.Size = new Size(40, 19);
             label8.TabIndex = 8;
@@ -643,11 +685,11 @@
             // 
             label_branch_current.AutoSize = true;
             label_branch_current.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label_branch_current.Location = new Point(463, 77);
+            label_branch_current.Location = new Point(404, 74);
             label_branch_current.Name = "label_branch_current";
-            label_branch_current.Size = new Size(113, 19);
+            label_branch_current.Size = new Size(158, 19);
             label_branch_current.TabIndex = 4;
-            label_branch_current.Text = "Latest Branch ID:";
+            label_branch_current.Text = "Latest Return Branch ID:";
             // 
             // label2
             // 
@@ -803,9 +845,8 @@
         private RadioButton button_delete;
         private RadioButton button_modify;
         private RadioButton button_add;
-        private ComboBox combo_branch_current;
         private ComboBox type;
-        private Label label_branch_info_current;
+        private Label branch_info_current;
         private Label valid_vin;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private Button confirm_button;
@@ -825,12 +866,16 @@
         private Label label_duration;
         private Label label_branch_transfer;
         private ComboBox combo_branch_transfer;
-        private Label label_branch_info_transfer;
+        private Label branch_info_transfer;
         private Label label_branch_date_current;
         public TabControl tabControl1;
         private TextBox customer_id_input;
         public Label customer_id_label;
         private DateTimePicker year;
         private Label label_type_not_selected;
+        private Label branch_current;
+        private Label label_return_branch_details;
+        private Label label9;
+        private Label label4;
     }
 }
