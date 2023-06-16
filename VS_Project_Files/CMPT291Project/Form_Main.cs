@@ -952,7 +952,7 @@ namespace CMPT291Project
                         "where R.vin=C.vin and CT.type=C.type and B.branch_id=R.branch_id_pickup " +
                         "group by CT.type, B.city having B.city='" +
                         combo_query_option.Text + "';";*/
-                    sqlCommand.CommandText = "select branch_id_pickup as 'pickup/return branch', " +
+                    sqlCommand.CommandText = "select branch_id_pickup as 'pickup/return branch', " + 
                         "(count(*)*100)/(select count(*) from Rental) as 'percent' from Rental as R " +
                         "group by branch_id_pickup UNION ALL select null as 'pickup/return branch', null as 'percent' UNION ALL " +
                         "select branch_id_return as 'pickup/return branch', (count(*)*100)/(select count(*) from Rental) as 'percent' from Rental as R " +
@@ -962,8 +962,9 @@ namespace CMPT291Project
                         MessageBox.Show(sqlCommand.CommandText);
                         sqlReader = sqlCommand.ExecuteReader();
                         data_query.Columns.Clear();
-                        data_query.Columns.Add("pickup_return", "Pickup/Return");
-                        data_query.Columns.Add("percent", "Percent");
+                        data_query.Columns.Add("pickup_return", "Branch ID");
+                        //data_query.Columns.Add("type", "Type");
+                        data_query.Columns.Add("percent", "Percent of Rentals");
                         data_query.Rows.Clear();
                         while (sqlReader.Read())
                         {
@@ -989,12 +990,14 @@ namespace CMPT291Project
                         sqlReader = sqlCommand.ExecuteReader();
                         data_query.Columns.Clear();
                         data_query.Columns.Add("city", "City");
-                        data_query.Columns.Add("available_vehs", "Available Vehs");
+                        data_query.Columns.Add("available_vehs", "Available Vehicles");
                         data_query.Columns.Add("branch_id", "Branch ID");
                         data_query.Columns.Add("building_number", "Building Number");
                         data_query.Columns.Add("street", "Street");
                         data_query.Columns.Add("province", "Province");
                         data_query.Rows.Clear();
+                        sqlReader.Read();
+                        data_query.Rows.Add(sqlReader["city"].ToString(), sqlReader["available_vehs"].ToString());
                         while (sqlReader.Read())
                         {
                             data_query.Rows.Add(sqlReader["city"].ToString(), sqlReader["available_vehs"].ToString(), sqlReader["branch_id"].ToString(),
