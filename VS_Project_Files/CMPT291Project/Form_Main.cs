@@ -95,6 +95,22 @@ namespace CMPT291Project
             }
 
 
+            sqlCommand.CommandText = select_type;
+            try
+            {
+                sqlReader = sqlCommand.ExecuteReader();
+                while (sqlReader.Read())
+                {
+                    type.Items.Add(sqlReader["type"].ToString());
+                }
+                sqlReader.Close();
+            }
+            catch (Exception e_gettype)
+            {
+                MessageBox.Show(e_gettype.ToString(), "Error");
+            }
+
+
             // INITIALIZE ALL VIEWS AT STARTUP
 
 
@@ -209,8 +225,8 @@ namespace CMPT291Project
             year.Enabled = false;
             colour.Enabled = false;
             license.Enabled = false;
-            combo_branch_current.Enabled = false;
             combo_branch_transfer.Enabled = false;
+            branch_current.Text = String.Empty;
 
             pickup_date_picker.Value = DateTime.Today;
             dropoff_date_picker.Value = DateTime.Today.AddDays(1);
@@ -515,6 +531,7 @@ namespace CMPT291Project
 
                     sqlCommand.ExecuteNonQuery();
                     MessageBox.Show("Vehicle Successfully Deleted.");
+                    vin.Items.Remove(vin.SelectedItem);
                 }
                 catch (Exception e_delete)
                 {
@@ -543,7 +560,7 @@ namespace CMPT291Project
                     {
                         sqlCommand.CommandText = "insert into Rental values((select MAX(reservation_id) + 1 from Rental), '" +
                             label_branch_date_current.Text + "', '" + label_branch_date_current.Text + "', 1, '" + vin.Text +
-                            "', " + combo_branch_current.Text + ", " + combo_branch_transfer.Text + ')';
+                            "', " + branch_current.Text + ", " + combo_branch_transfer.Text + ')';
 
                         MessageBox.Show(sqlCommand.CommandText);
                         sqlCommand.ExecuteNonQuery();
@@ -562,19 +579,17 @@ namespace CMPT291Project
 
             vin.Items.Clear();
             vin.Text = string.Empty;
-            type.Items.Clear();
             type.Text = string.Empty;
             make.Clear();
             model.Clear();
-            // year.Clear();
             colour.Clear();
             license.Clear();
-            combo_branch_current.Text = string.Empty;
-            label_branch_info_current.Visible = false;
+            branch_current.Text = string.Empty;
+            branch_info_current.Visible = false;
             label_branch_date_current.Visible = false;
             valid_vin.Visible = false;
             combo_branch_transfer.Text = string.Empty;
-            label_branch_info_transfer.Visible = false;
+            branch_info_transfer.Visible = false;
 
             vin.Enabled = true;
             make.Enabled = true;
@@ -583,26 +598,7 @@ namespace CMPT291Project
             year.Enabled = true;
             colour.Enabled = true;
             license.Enabled = true;
-            combo_branch_current.Enabled = false;
             combo_branch_transfer.Enabled = true;
-
-            using (sqlConnection)
-            {
-                sqlCommand.CommandText = select_type;
-                try
-                {
-                    sqlReader = sqlCommand.ExecuteReader();
-                    while (sqlReader.Read())
-                    {
-                        type.Items.Add(sqlReader["type"].ToString());
-                    }
-                    sqlReader.Close();
-                }
-                catch (Exception e_add_type)
-                {
-                    MessageBox.Show(e_add_type.ToString(), "Error");
-                }
-            }
 
             vin.DropDownStyle = ComboBoxStyle.Simple;
             vin.DropDownHeight = 1;
@@ -612,16 +608,13 @@ namespace CMPT291Project
         {
             vin.Items.Clear();
             vin.Text = string.Empty;
-            type.Items.Clear();
             type.Text = string.Empty;
             make.Clear();
             model.Clear();
-            // year.Clear();
             colour.Clear();
             license.Clear();
-            //branch.Items.Clear();
-            combo_branch_current.Text = string.Empty;
-            label_branch_info_current.Text = string.Empty;
+            branch_current.Text = string.Empty;
+            branch_info_current.Text = string.Empty;
             valid_vin.Visible = false;
 
             vin.Enabled = true;
@@ -631,7 +624,6 @@ namespace CMPT291Project
             year.Enabled = false;
             colour.Enabled = false;
             license.Enabled = false;
-            combo_branch_current.Enabled = false;
             combo_branch_transfer.Enabled = false;
 
             using (sqlConnection)
@@ -665,13 +657,13 @@ namespace CMPT291Project
                 using (sqlConnection)
                 {
                     sqlCommand.CommandText = "select branch_id, building_number, street, city, province from Branch where branch_id = '" +
-                        combo_branch_current.Text + "';";
+                        branch_current.Text + "';";
                     try
                     {
                         sqlReader = sqlCommand.ExecuteReader();
                         while (sqlReader.Read())
                         {
-                            label_branch_info_current.Text = "Branch Location: " + sqlReader["building_number"].ToString() + " " +
+                            branch_info_current.Text = sqlReader["building_number"].ToString() + " " +
                                 sqlReader["street"].ToString() + " " + sqlReader["city"].ToString() + " " + sqlReader["province"].ToString();
                         }
                         sqlReader.Close();
@@ -682,7 +674,7 @@ namespace CMPT291Project
                     }
                 }
             }
-            label_branch_info_current.Visible = true;
+            branch_info_current.Visible = true;
         }
 
         private void vin_SelectedIndexChanged(object sender, EventArgs e)
@@ -690,18 +682,15 @@ namespace CMPT291Project
 
             if (button_delete.Checked || button_modify.Checked)
             {
-                type.Items.Clear();
                 type.Text = string.Empty;
                 make.Clear();
                 model.Clear();
-                // year.Clear();
                 colour.Clear();
                 license.Clear();
-                //branch.Items.Clear();
-                combo_branch_current.Text = string.Empty;
-                label_branch_info_current.Visible = false;
+                branch_current.Text = string.Empty;
+                branch_info_current.Visible = false;
                 label_branch_date_current.Visible = false;
-                label_branch_info_transfer.Visible = false;
+                branch_info_transfer.Visible = false;
 
                 sqlCommand.CommandText = "select * from Car where vin = '" + vin.Text + "';";
                 using (sqlConnection)
@@ -712,7 +701,7 @@ namespace CMPT291Project
                         while (sqlReader.Read())
                         {
                             make.Text = sqlReader["make"].ToString();
-                            type.Text = sqlReader["type"].ToString();
+                            type.SelectedItem = sqlReader["type"].ToString();
                             model.Text = sqlReader["model"].ToString();
                             year.Value = new DateTime((int)sqlReader["year"], 1, 1);
                             colour.Text = sqlReader["colour"].ToString();
@@ -731,24 +720,22 @@ namespace CMPT291Project
                             label_branch_date_current.Text = Convert.ToDateTime(sqlReader["move_date"]).ToString("yyyy-MM-dd");
                             label_branch_date_current.Visible = true;
                             borked = true;
-                            combo_branch_current.Text = sqlReader["branch_id_return"].ToString();
-                            //if label_branch_date_current.Text
-
+                            branch_current.Text = sqlReader["branch_id_return"].ToString();
                         }
                         sqlReader.Close();
                         borked = false;
 
                         sqlCommand.CommandText = "select branch_id, building_number, street, city, province from Branch where branch_id = '" +
-                            combo_branch_current.Text + "';";
+                            branch_current.Text + "';";
                         sqlReader = sqlCommand.ExecuteReader();
                         while (sqlReader.Read())
                         {
 
-                            label_branch_info_current.Text = sqlReader["building_number"].ToString() + " " + sqlReader["street"].ToString() +
+                            branch_info_current.Text = sqlReader["building_number"].ToString() + " " + sqlReader["street"].ToString() +
                                 " " + sqlReader["city"].ToString() + " " + sqlReader["province"].ToString();
                         }
                         sqlReader.Close();
-                        label_branch_info_current.Visible = true;
+                        branch_info_current.Visible = true;
                     }
                     catch (Exception e_getinfo)
                     {
@@ -763,36 +750,7 @@ namespace CMPT291Project
                     year.Enabled = true;
                     colour.Enabled = true;
                     license.Enabled = true;
-                    combo_branch_current.Enabled = false;
                     combo_branch_transfer.Enabled = true;
-
-                    using (sqlConnection)
-                    {
-
-                        sqlCommand.CommandText = select_type;
-                        try
-                        {
-                            sqlReader = sqlCommand.ExecuteReader();
-                            while (sqlReader.Read())
-                            {
-                                type.Items.Add(sqlReader["type"].ToString());
-                            }
-                            sqlReader.Close();
-                            /*
-                            sqlCommand.CommandText = select_branch;
-                            sqlReader = sqlCommand.ExecuteReader();
-                            while (sqlReader.Read())
-                            {
-                                branch.Items.Add(sqlReader["branch_id"].ToString());
-                            }
-                            sqlReader.Close();
-                            */
-                        }
-                        catch (Exception e_gettype)
-                        {
-                            MessageBox.Show(e_gettype.ToString(), "Error");
-                        }
-                    }
                 }
             }
         }
@@ -816,16 +774,13 @@ namespace CMPT291Project
         {
             vin.Items.Clear();
             vin.Text = string.Empty;
-            type.Items.Clear();
             type.Text = string.Empty;
             make.Clear();
             model.Clear();
-            // year.Clear();
             colour.Clear();
             license.Clear();
-            //branch.Items.Clear();
-            combo_branch_current.Text = string.Empty;
-            label_branch_info_current.Text = string.Empty;
+            branch_current.Text = string.Empty;
+            branch_info_current.Text = string.Empty;
             valid_vin.Visible = false;
 
             vin.Enabled = true;
@@ -835,7 +790,6 @@ namespace CMPT291Project
             year.Enabled = false;
             colour.Enabled = false;
             license.Enabled = false;
-            combo_branch_current.Enabled = false;
             combo_branch_transfer.Enabled = false;
 
             using (sqlConnection)
@@ -1104,7 +1058,7 @@ namespace CMPT291Project
                     sqlReader = sqlCommand.ExecuteReader();
                     while (sqlReader.Read())
                     {
-                        label_branch_info_transfer.Text = "Branch Location: " + sqlReader["building_number"].ToString() + " " +
+                        branch_info_transfer.Text = sqlReader["building_number"].ToString() + " " +
                             sqlReader["street"].ToString() + " " + sqlReader["city"].ToString() + " " + sqlReader["province"].ToString();
                     }
                     sqlReader.Close();
@@ -1114,7 +1068,7 @@ namespace CMPT291Project
                     MessageBox.Show(e_branchinfo_curr.ToString(), "Error");
                 }
             }
-            label_branch_info_transfer.Visible = true;
+            branch_info_transfer.Visible = true;
         }
 
         private void confirm_button_Click(object sender, EventArgs e)
