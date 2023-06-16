@@ -25,7 +25,7 @@ namespace CMPT291Project
         string select_vin = "select vin from Car;";
         string select_type = "select type from CarType;";
         string select_branch = "select branch_id, building_number, street, city, province from Branch;";
-        
+
         public bool IsUserAuthenticated { get; set; } // Added login auth
         public int customer_id;
 
@@ -449,7 +449,7 @@ namespace CMPT291Project
         {
             bool add_success = true;
 
-            if (button_add.Checked && combo_branch_transfer.Text.Length > 0)
+            if (button_add.Checked)
             {
                 try
                 {
@@ -470,18 +470,26 @@ namespace CMPT291Project
                 }
                 if (add_success == true)
                 {
-                    try
+                    if (combo_branch_transfer.Text.Length > 0)
                     {
-                        sqlCommand.CommandText = "insert into Rental values((select MAX(reservation_id) + 1 from Rental), '" +
-                            DateTime.Now.ToString("yyyy-MM-dd") + "', '" + DateTime.Now.ToString("yyyy-MM-dd") + "', 1, '" + vin.Text +
-                            "', " + combo_branch_transfer.Text + ", " + combo_branch_transfer.Text + ')';
+                        try
+                        {
+                            sqlCommand.CommandText = "insert into Rental values((select MAX(reservation_id) + 1 from Rental), '" +
+                                DateTime.Now.ToString("yyyy-MM-dd") + "', '" + DateTime.Now.ToString("yyyy-MM-dd") + "', 1, '" + vin.Text +
+                                "', " + combo_branch_transfer.Text + ", " + combo_branch_transfer.Text + ')';
 
-                        MessageBox.Show(sqlCommand.CommandText);
-                        sqlCommand.ExecuteNonQuery();
+                            MessageBox.Show(sqlCommand.CommandText);
+                            sqlCommand.ExecuteNonQuery();
+                            MessageBox.Show("Vehicle added and transfered to initial branch.");
+                        }
+                        catch (Exception e_add_transfer)
+                        {
+                            MessageBox.Show(e_add_transfer.ToString(), "Error");
+                        }
                     }
-                    catch (Exception e_add_transfer)
+                    else
                     {
-                        MessageBox.Show(e_add_transfer.ToString(), "Error");
+                        MessageBox.Show("Vehicle Added, must transfer to a branch to be available to rent.");
                     }
                 }
             }
@@ -493,6 +501,7 @@ namespace CMPT291Project
                     MessageBox.Show(sqlCommand.CommandText);
 
                     sqlCommand.ExecuteNonQuery();
+                    MessageBox.Show("Vehicle Successfully Deleted.");
                 }
                 catch (Exception e_delete)
                 {
@@ -503,13 +512,13 @@ namespace CMPT291Project
             {
                 try
                 {
-                    sqlCommand.CommandText = "update Car set make = '" + make.Text + "', model = '" +
-                        model.Text + "', year = " + year.Text + ", colour = '" + colour.Text +
-                        "', license_plate = '" + license.Text + "', branch_id =" + combo_branch_current.Text +
-                        ", type = '" + type.Text + "' where vin = '" + vin.Text + "';";
+                    sqlCommand.CommandText = "update Car set make = '" + make.Text + "', model = '" + model.Text +
+                        "', year = " + year.Value.Year.ToString() + ", colour = '" + colour.Text + "', license_plate = '" +
+                        license.Text + "', type = '" + type.Text + "' where vin = '" + vin.Text + "';";
                     MessageBox.Show(sqlCommand.CommandText);
 
                     sqlCommand.ExecuteNonQuery();
+                    MessageBox.Show("Vehicle Successfully Modified.");
                 }
                 catch (Exception e_modify)
                 {
@@ -525,6 +534,7 @@ namespace CMPT291Project
 
                         MessageBox.Show(sqlCommand.CommandText);
                         sqlCommand.ExecuteNonQuery();
+                        MessageBox.Show("Vehicle Successfully Transferred.");
                     }
                     catch (Exception e_mod_transfer)
                     {
@@ -585,11 +595,6 @@ namespace CMPT291Project
             vin.DropDownHeight = 1;
         }
 
-        private void type_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void button_delete_CheckedChanged(object sender, EventArgs e)
         {
             vin.Items.Clear();
@@ -638,11 +643,6 @@ namespace CMPT291Project
             vin.DropDownHeight = 106;
             vin.AutoCompleteSource = AutoCompleteSource.ListItems;
             vin.AutoCompleteMode = AutoCompleteMode.Suggest;
-        }
-
-        private void branch_info_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void branch_current_SelectedIndexChanged(object sender, EventArgs e)
@@ -846,14 +846,6 @@ namespace CMPT291Project
             vin.DropDownHeight = 106;
             vin.AutoCompleteSource = AutoCompleteSource.ListItems;
             vin.AutoCompleteMode = AutoCompleteMode.Suggest;
-
-
-        }
-
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
 
         private void combo_query_SelectedIndexChanged(object sender, EventArgs e)
@@ -1045,11 +1037,6 @@ namespace CMPT291Project
 
         }
 
-        private void combo_query_option_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void button_quote_Click(object sender, EventArgs e)
         {
             TimeSpan rental_duration = dropoff_date_picker.Value.Date - pickup_date_picker.Value.Date;
@@ -1117,24 +1104,10 @@ namespace CMPT291Project
             label_branch_info_transfer.Visible = true;
         }
 
-        private void label_branch_info_transfer_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void price_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void confirm_button_Click(object sender, EventArgs e)
         {
-            string from_date = $"'{pickup_date_picker.Value.ToString("yyyy-MM-dd")}'";
-            string to_date = $"'{dropoff_date_picker.Value.ToString("yyyy-MM-dd")}'";
-            string v_type = $"'{vehicle_type_combo_box.Text}'";
-            string pickup_loc = $"'{pickup_location_combo.Text}'";
-            string dropoff_loc = $"'{dropoff_location_combo.Text}'";
             string id;
+            string vin_rented;
 
             if (!IsUserAuthenticated)
             {
@@ -1145,17 +1118,6 @@ namespace CMPT291Project
                 id = customer_id_input.Text;
             }
 
-            /*string rented = $"insert into rental values (" +
-                            $"(select max(reservation_id) + 1 from rental), {from_date}, {to_date}, {id}, " +
-                            $"(select min(Car.vin) from Car where Car.type = {v_type} and car.vin not in " +
-                            $"(select R1.vin from Rental as R1 where (R1.from_date <= {from_date} and R1.to_date >= {to_date}) " +
-                            $"or (R1.from_date >= {from_date} and R1.to_date <= {to_date}) or (R1.to_date >= {from_date} and R1.from_date <= {to_date}) " +
-                            $"and car.vin not in " +
-                            $"(select R2.vin from Rental as R2 join (select R3.vin, max(R3.to_date) as max_to_date " +
-                            $"from Rental as R3 where R3.to_date < {from_date} group by R3.vin) " +
-                            $"as T1 on T1.vin = R2.vin and T1.max_to_date = R2.to_date where R2.branch_id_return != {pickup_loc}))), " +
-                            $"{pickup_loc}, {dropoff_loc});";
-            */
             string vins_available = "select distinct VinDate.vin from (select vin, MAX(to_date) as Latest_Return from rental R1 where R1.to_date < '" +
                     pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and R1.branch_id_return = '" + pickup_location_combo.Text + "' and R1.vin not in " +
                     "(select R2.vin from rental R2 where (R2.from_date <= '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "' and R2.to_date >= '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "') or " +
@@ -1164,8 +1126,18 @@ namespace CMPT291Project
 
             string vin_selected = "select min(vin) from Car C1 where C1.vin in (" + vins_available + ")";
 
+            using (sqlConnection)
+            {
+                sqlCommand.CommandText = "select * from Car where vin = (" + vin_selected + ");";
+                sqlReader = sqlCommand.ExecuteReader();
+                sqlReader.Read();
+                vin_rented = sqlReader["vin"].ToString();
+                string confirm_msg = "Confirming rental for " + sqlReader["year"].ToString() + " " + sqlReader["make"].ToString() + " " + sqlReader["model"] + ", Vin # " + vin_rented + ", ";
+                MessageBox.Show(confirm_msg);
+                sqlReader.Close();
+            }
             string rented = "insert into rental values ((select (max(reservation_id) + 1) from rental), '" + pickup_date_picker.Value.ToString("yyyy-MM-dd") + "', '" + dropoff_date_picker.Value.ToString("yyyy-MM-dd") + "', " +
-                id + ", (" + vin_selected + "), '" + pickup_location_combo.Text + "', '" + dropoff_location_combo.Text + "')";
+                id + ", '" + vin_rented + "', '" + pickup_location_combo.Text + "', '" + dropoff_location_combo.Text + "')";
 
             MessageBox.Show(rented);
             using (sqlConnection)
@@ -1173,7 +1145,7 @@ namespace CMPT291Project
                 sqlCommand.CommandText = rented;
                 sqlCommand.ExecuteNonQuery();
             }
-
+            MessageBox.Show("Rental confirmed.");
         }
 
         private void pickup_location_details_Click(object sender, EventArgs e)
@@ -1192,11 +1164,6 @@ namespace CMPT291Project
         }
 
         private void label_available_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void year_TextChanged(object sender, EventArgs e)
         {
 
         }
