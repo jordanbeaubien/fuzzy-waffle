@@ -32,20 +32,17 @@
             vehicle_type_combo_box = new ComboBox();
             tabControl1 = new TabControl();
             tab_rental = new TabPage();
+            label_type_not_selected = new Label();
             customer_id_label = new Label();
             customer_id_input = new TextBox();
-            label_location_error = new Label();
-            label_date_error = new Label();
             price = new Label();
             duration = new Label();
             label_price = new Label();
             label_duration = new Label();
-            button_quote = new Button();
             dropoff_location_details = new Label();
             pickup_location_details = new Label();
-            label_available = new Label();
+            label_error = new Label();
             confirm_button = new Button();
-            return_same_loc_checkbox = new CheckBox();
             dropoff_location_combo = new ComboBox();
             pickup_location_combo = new ComboBox();
             dropoff_location_label = new Label();
@@ -104,7 +101,7 @@
             // 
             vehicle_type_combo_box.DropDownStyle = ComboBoxStyle.DropDownList;
             vehicle_type_combo_box.FormattingEnabled = true;
-            vehicle_type_combo_box.Location = new Point(557, 88);
+            vehicle_type_combo_box.Location = new Point(141, 267);
             vehicle_type_combo_box.Margin = new Padding(3, 2, 3, 2);
             vehicle_type_combo_box.Name = "vehicle_type_combo_box";
             vehicle_type_combo_box.Size = new Size(219, 23);
@@ -127,20 +124,17 @@
             tab_rental.BackColor = Color.LightGray;
             tab_rental.BackgroundImage = (Image)resources.GetObject("tab_rental.BackgroundImage");
             tab_rental.BackgroundImageLayout = ImageLayout.Stretch;
+            tab_rental.Controls.Add(label_type_not_selected);
             tab_rental.Controls.Add(customer_id_label);
             tab_rental.Controls.Add(customer_id_input);
-            tab_rental.Controls.Add(label_location_error);
-            tab_rental.Controls.Add(label_date_error);
             tab_rental.Controls.Add(price);
             tab_rental.Controls.Add(duration);
             tab_rental.Controls.Add(label_price);
             tab_rental.Controls.Add(label_duration);
-            tab_rental.Controls.Add(button_quote);
             tab_rental.Controls.Add(dropoff_location_details);
             tab_rental.Controls.Add(pickup_location_details);
-            tab_rental.Controls.Add(label_available);
+            tab_rental.Controls.Add(label_error);
             tab_rental.Controls.Add(confirm_button);
-            tab_rental.Controls.Add(return_same_loc_checkbox);
             tab_rental.Controls.Add(dropoff_location_combo);
             tab_rental.Controls.Add(pickup_location_combo);
             tab_rental.Controls.Add(dropoff_location_label);
@@ -158,13 +152,24 @@
             tab_rental.Size = new Size(832, 377);
             tab_rental.TabIndex = 0;
             tab_rental.Text = "Rental";
-            tab_rental.Click += tabPage1_Click;
+            // 
+            // label_type_not_selected
+            // 
+            label_type_not_selected.AutoSize = true;
+            label_type_not_selected.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label_type_not_selected.ForeColor = Color.Red;
+            label_type_not_selected.Location = new Point(569, 228);
+            label_type_not_selected.Name = "label_type_not_selected";
+            label_type_not_selected.Size = new Size(195, 21);
+            label_type_not_selected.TabIndex = 31;
+            label_type_not_selected.Text = "Please select a vehicle type";
+            label_type_not_selected.Visible = false;
             // 
             // customer_id_label
             // 
             customer_id_label.AutoSize = true;
             customer_id_label.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
-            customer_id_label.Location = new Point(461, 21);
+            customer_id_label.Location = new Point(577, 24);
             customer_id_label.Name = "customer_id_label";
             customer_id_label.Size = new Size(87, 19);
             customer_id_label.TabIndex = 30;
@@ -172,43 +177,17 @@
             // 
             // customer_id_input
             // 
-            customer_id_input.Location = new Point(557, 20);
+            customer_id_input.Location = new Point(670, 24);
             customer_id_input.Margin = new Padding(3, 2, 3, 2);
             customer_id_input.Name = "customer_id_input";
             customer_id_input.Size = new Size(106, 23);
             customer_id_input.TabIndex = 29;
             // 
-            // label_location_error
-            // 
-            label_location_error.AutoSize = true;
-            label_location_error.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label_location_error.ForeColor = Color.Red;
-            label_location_error.Location = new Point(150, 154);
-            label_location_error.Name = "label_location_error";
-            label_location_error.Size = new Size(175, 21);
-            label_location_error.TabIndex = 28;
-            label_location_error.Text = "Location Error Handling";
-            label_location_error.Visible = false;
-            label_location_error.Click += label_location_error_Click;
-            // 
-            // label_date_error
-            // 
-            label_date_error.AutoSize = true;
-            label_date_error.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label_date_error.ForeColor = Color.Red;
-            label_date_error.Location = new Point(150, 64);
-            label_date_error.Name = "label_date_error";
-            label_date_error.Size = new Size(148, 21);
-            label_date_error.TabIndex = 27;
-            label_date_error.Text = "Date Error Handling";
-            label_date_error.Visible = false;
-            label_date_error.Click += label_date_error_Click;
-            // 
             // price
             // 
             price.AutoSize = true;
             price.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            price.Location = new Point(623, 195);
+            price.Location = new Point(141, 327);
             price.Name = "price";
             price.Size = new Size(51, 21);
             price.TabIndex = 26;
@@ -219,7 +198,7 @@
             // 
             duration.AutoSize = true;
             duration.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            duration.Location = new Point(620, 175);
+            duration.Location = new Point(141, 298);
             duration.Name = "duration";
             duration.Size = new Size(128, 19);
             duration.TabIndex = 25;
@@ -230,7 +209,7 @@
             // 
             label_price.AutoSize = true;
             label_price.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label_price.Location = new Point(498, 195);
+            label_price.Location = new Point(33, 327);
             label_price.Name = "label_price";
             label_price.Size = new Size(103, 21);
             label_price.TabIndex = 24;
@@ -241,28 +220,18 @@
             // 
             label_duration.AutoSize = true;
             label_duration.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label_duration.Location = new Point(494, 175);
+            label_duration.Location = new Point(27, 298);
             label_duration.Name = "label_duration";
             label_duration.Size = new Size(108, 19);
             label_duration.TabIndex = 23;
             label_duration.Text = "Rental Duration:";
             label_duration.Visible = false;
             // 
-            // button_quote
-            // 
-            button_quote.Location = new Point(613, 125);
-            button_quote.Name = "button_quote";
-            button_quote.Size = new Size(114, 38);
-            button_quote.TabIndex = 22;
-            button_quote.Text = "Get Price";
-            button_quote.UseVisualStyleBackColor = true;
-            button_quote.Click += button_quote_Click;
-            // 
             // dropoff_location_details
             // 
             dropoff_location_details.AutoSize = true;
             dropoff_location_details.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            dropoff_location_details.Location = new Point(150, 277);
+            dropoff_location_details.Location = new Point(557, 143);
             dropoff_location_details.Name = "dropoff_location_details";
             dropoff_location_details.Size = new Size(196, 19);
             dropoff_location_details.TabIndex = 21;
@@ -273,31 +242,29 @@
             // 
             pickup_location_details.AutoSize = true;
             pickup_location_details.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            pickup_location_details.Location = new Point(150, 200);
+            pickup_location_details.Location = new Point(141, 143);
             pickup_location_details.Name = "pickup_location_details";
             pickup_location_details.Size = new Size(181, 19);
             pickup_location_details.TabIndex = 20;
             pickup_location_details.Text = "PICKUP LOCATION DETAILS";
             pickup_location_details.Visible = false;
-            pickup_location_details.Click += pickup_location_details_Click;
             // 
-            // label_available
+            // label_error
             // 
-            label_available.AutoSize = true;
-            label_available.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label_available.ForeColor = Color.Red;
-            label_available.Location = new Point(557, 64);
-            label_available.Name = "label_available";
-            label_available.Size = new Size(155, 21);
-            label_available.TabIndex = 19;
-            label_available.Text = "No vehicles available";
-            label_available.Visible = false;
-            label_available.Click += label_available_Click;
+            label_error.AutoSize = true;
+            label_error.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label_error.ForeColor = Color.Red;
+            label_error.Location = new Point(141, 228);
+            label_error.Name = "label_error";
+            label_error.Size = new Size(155, 21);
+            label_error.TabIndex = 19;
+            label_error.Text = "No vehicles available";
+            label_error.Visible = false;
             // 
             // confirm_button
             // 
             confirm_button.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point);
-            confirm_button.Location = new Point(557, 254);
+            confirm_button.Location = new Point(557, 257);
             confirm_button.Name = "confirm_button";
             confirm_button.Size = new Size(219, 94);
             confirm_button.TabIndex = 18;
@@ -305,25 +272,10 @@
             confirm_button.UseVisualStyleBackColor = true;
             confirm_button.Click += confirm_button_Click;
             // 
-            // return_same_loc_checkbox
-            // 
-            return_same_loc_checkbox.AutoSize = true;
-            return_same_loc_checkbox.Checked = true;
-            return_same_loc_checkbox.CheckState = CheckState.Checked;
-            return_same_loc_checkbox.Location = new Point(150, 231);
-            return_same_loc_checkbox.Margin = new Padding(3, 2, 3, 2);
-            return_same_loc_checkbox.Name = "return_same_loc_checkbox";
-            return_same_loc_checkbox.RightToLeft = RightToLeft.Yes;
-            return_same_loc_checkbox.Size = new Size(152, 19);
-            return_same_loc_checkbox.TabIndex = 14;
-            return_same_loc_checkbox.Text = "Return to same location";
-            return_same_loc_checkbox.UseVisualStyleBackColor = true;
-            return_same_loc_checkbox.CheckedChanged += return_same_loc_checkbox_CheckedChanged;
-            // 
             // dropoff_location_combo
             // 
             dropoff_location_combo.FormattingEnabled = true;
-            dropoff_location_combo.Location = new Point(150, 254);
+            dropoff_location_combo.Location = new Point(557, 119);
             dropoff_location_combo.Margin = new Padding(3, 2, 3, 2);
             dropoff_location_combo.Name = "dropoff_location_combo";
             dropoff_location_combo.Size = new Size(219, 23);
@@ -333,7 +285,7 @@
             // pickup_location_combo
             // 
             pickup_location_combo.FormattingEnabled = true;
-            pickup_location_combo.Location = new Point(150, 177);
+            pickup_location_combo.Location = new Point(141, 118);
             pickup_location_combo.Margin = new Padding(3, 2, 3, 2);
             pickup_location_combo.Name = "pickup_location_combo";
             pickup_location_combo.Size = new Size(219, 23);
@@ -344,7 +296,7 @@
             // 
             dropoff_location_label.AutoSize = true;
             dropoff_location_label.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            dropoff_location_label.Location = new Point(21, 257);
+            dropoff_location_label.Location = new Point(439, 116);
             dropoff_location_label.Name = "dropoff_location_label";
             dropoff_location_label.Size = new Size(112, 19);
             dropoff_location_label.TabIndex = 10;
@@ -354,7 +306,7 @@
             // 
             pickup_location_label.AutoSize = true;
             pickup_location_label.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            pickup_location_label.Location = new Point(28, 181);
+            pickup_location_label.Location = new Point(33, 119);
             pickup_location_label.Name = "pickup_location_label";
             pickup_location_label.Size = new Size(105, 19);
             pickup_location_label.TabIndex = 8;
@@ -362,20 +314,21 @@
             // 
             // search_button
             // 
-            search_button.Location = new Point(201, 308);
+            search_button.BackColor = Color.White;
+            search_button.Location = new Point(141, 175);
             search_button.Margin = new Padding(3, 2, 3, 2);
             search_button.Name = "search_button";
-            search_button.Size = new Size(114, 40);
+            search_button.Size = new Size(219, 40);
             search_button.TabIndex = 6;
             search_button.Text = "Search For Availability";
-            search_button.UseVisualStyleBackColor = true;
+            search_button.UseVisualStyleBackColor = false;
             search_button.Click += search_button_Click_1;
             // 
             // dropoff_date_label
             // 
             dropoff_date_label.AutoSize = true;
             dropoff_date_label.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            dropoff_date_label.Location = new Point(46, 125);
+            dropoff_date_label.Location = new Point(462, 85);
             dropoff_date_label.Name = "dropoff_date_label";
             dropoff_date_label.Size = new Size(89, 19);
             dropoff_date_label.TabIndex = 5;
@@ -383,7 +336,7 @@
             // 
             // dropoff_date_picker
             // 
-            dropoff_date_picker.Location = new Point(150, 122);
+            dropoff_date_picker.Location = new Point(557, 85);
             dropoff_date_picker.Margin = new Padding(3, 2, 3, 2);
             dropoff_date_picker.Name = "dropoff_date_picker";
             dropoff_date_picker.Size = new Size(219, 23);
@@ -395,7 +348,7 @@
             // 
             pickup_date_label.AutoSize = true;
             pickup_date_label.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            pickup_date_label.Location = new Point(53, 91);
+            pickup_date_label.Location = new Point(54, 85);
             pickup_date_label.Name = "pickup_date_label";
             pickup_date_label.Size = new Size(82, 19);
             pickup_date_label.TabIndex = 3;
@@ -403,7 +356,7 @@
             // 
             // pickup_date_picker
             // 
-            pickup_date_picker.Location = new Point(150, 88);
+            pickup_date_picker.Location = new Point(141, 85);
             pickup_date_picker.Margin = new Padding(3, 2, 3, 2);
             pickup_date_picker.Name = "pickup_date_picker";
             pickup_date_picker.Size = new Size(219, 23);
@@ -415,7 +368,7 @@
             // 
             vehicle_type_label.AutoSize = true;
             vehicle_type_label.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            vehicle_type_label.Location = new Point(461, 89);
+            vehicle_type_label.Location = new Point(53, 267);
             vehicle_type_label.Name = "vehicle_type_label";
             vehicle_type_label.Size = new Size(83, 19);
             vehicle_type_label.TabIndex = 1;
@@ -457,7 +410,6 @@
             tab_car.TabIndex = 1;
             tab_car.Text = "Cars";
             tab_car.UseVisualStyleBackColor = true;
-            tab_car.Click += tabPage2_Click;
             // 
             // year
             // 
@@ -806,7 +758,6 @@
             Controls.Add(tabControl1);
             Name = "Form2";
             Text = "Form_Main";
-            Load += Form2_Load;
             tabControl1.ResumeLayout(false);
             tab_rental.ResumeLayout(false);
             tab_rental.PerformLayout();
@@ -833,7 +784,6 @@
         private DateTimePicker dropoff_date_picker;
         private Label pickup_date_label;
         private DateTimePicker pickup_date_picker;
-        private CheckBox return_same_loc_checkbox;
         private Label label_vin;
         private Label label2;
         private Label label1;
@@ -860,7 +810,7 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private Button confirm_button;
         private System.ComponentModel.BackgroundWorker backgroundWorker2;
-        private Label label_available;
+        private Label label_error;
         private DataGridView data_query;
         private Label dropoff_location_details;
         private Label pickup_location_details;
@@ -869,7 +819,6 @@
         private Label label_query;
         private ComboBox combo_query_option;
         private Label label_query_option;
-        private Button button_quote;
         private Label price;
         private Label duration;
         private Label label_price;
@@ -879,10 +828,9 @@
         private Label label_branch_info_transfer;
         private Label label_branch_date_current;
         public TabControl tabControl1;
-        private Label label_location_error;
-        private Label label_date_error;
         private TextBox customer_id_input;
         public Label customer_id_label;
         private DateTimePicker year;
+        private Label label_type_not_selected;
     }
 }
