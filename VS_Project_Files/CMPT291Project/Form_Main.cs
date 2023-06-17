@@ -906,12 +906,12 @@ namespace CMPT291Project
                         MessageBox.Show(sqlCommand.CommandText);
                         sqlReader = sqlCommand.ExecuteReader();
                         data_query.Columns.Clear();
-                        data_query.Columns.Add("num_rentals", "# of Rentals");
                         data_query.Columns.Add("car_type", "Car Type");
+                        data_query.Columns.Add("num_rentals", "# of Rentals");
                         data_query.Rows.Clear();
                         while (sqlReader.Read())
                         {
-                            data_query.Rows.Add(sqlReader["num_rentals"].ToString(), sqlReader["car_type"].ToString());
+                            data_query.Rows.Add(sqlReader["car_type"].ToString(), sqlReader["num_rentals"].ToString());
                         }
 
                         sqlReader.Close();
@@ -961,8 +961,8 @@ namespace CMPT291Project
                         MessageBox.Show(sqlCommand.CommandText);
                         sqlReader = sqlCommand.ExecuteReader();
                         data_query.Columns.Clear();
-                        data_query.Columns.Add("pickup_return", "Branch ID");
-                        data_query.Columns.Add("type", "Type");
+                        data_query.Columns.Add("pickup/return branch", "Branch ID");
+                        data_query.Columns.Add("pickup/return type", "Pickups or Returns");
                         data_query.Columns.Add("percent", "Percent of Rentals");
                         data_query.Rows.Clear();
                         bool pickup = true;
