@@ -260,11 +260,40 @@ namespace CMPT291Project
             return data;
         }
 
+
+        public List<string> rebuild_db()
+        {
+            List<string> lines = new List<string>();
+            string path = "../../../../../Car_Rental-Initialize_Database.sql";
+
+            if (File.Exists(path))
+            {
+                using (StreamReader sr = File.OpenText(path))
+                {
+                    string s;
+                    string tmp = "";
+                    while ((s =  sr.ReadLine()) != null)
+                    {
+                        if (s == "GO")
+                        {
+                            lines.Add(tmp);
+                            tmp = "";
+                        }
+                        else
+                        {
+                            tmp += $"{s}\n";
+                        }
+                    }
+                }
+            }
+
+            return lines;
+        }
+
         public void test()
         {
-            List<string> test = populate_data(20, 20, 20);
-            
-            foreach(string line in test)
+            List<string> file = rebuild_db();
+            foreach(string line in file)
             {
                 System.Diagnostics.Debug.WriteLine(line);
             }

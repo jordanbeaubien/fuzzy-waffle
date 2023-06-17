@@ -23,6 +23,7 @@ namespace CMPT291Project
         private MainForm mainFormInstance;
 
         bool populate_test_data = true;
+        bool rebuild_database = true;
 
         // Properly close all running processes on app exit
         private void Form_Login_FormClosing(object sender, FormClosingEventArgs e)
@@ -57,10 +58,30 @@ namespace CMPT291Project
                 this.Close();
             }
 
-            if (populate_test_data)
+            if (rebuild_database)
             {
                 DB_Helper dbHelper = new DB_Helper();
-                List<string> commands = dbHelper.populate_data(20, 20, 20);
+                List<string> commands = dbHelper.rebuild_db();
+
+                foreach (string command in commands)
+                {
+                    sqlCommand.CommandText = command;
+                    sqlReader = sqlCommand.ExecuteReader();
+                    sqlReader.Read();
+                    sqlReader.Close();
+                }
+
+                rebuild_database = false;
+            }
+
+            if (populate_test_data)
+            {
+                //while (rebuild_database) { }
+
+                DB_Helper dbHelper = new DB_Helper();
+                List<string> commands;
+
+                commands = dbHelper.populate_data(20, 20, 20);
 
                 foreach (string command in commands)
                 {
