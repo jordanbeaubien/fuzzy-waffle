@@ -8,6 +8,15 @@ namespace CMPT291Project
         [STAThread]
         static void Main()
         {
+            bool testing = false;
+
+            if (testing)
+            {
+                DB_Helper dbHelper = new DB_Helper();
+                dbHelper.test();
+
+                return;
+            }
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
