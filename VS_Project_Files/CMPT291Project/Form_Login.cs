@@ -22,8 +22,8 @@ namespace CMPT291Project
 
         private MainForm mainFormInstance;
 
-        bool populate_test_data = true;
-        bool rebuild_database = true;
+        bool populate_test_data = false;
+        bool rebuild_database = false;
 
         // Properly close all running processes on app exit
         private void Form_Login_FormClosing(object sender, FormClosingEventArgs e)
