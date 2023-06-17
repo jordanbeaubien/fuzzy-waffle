@@ -22,6 +22,8 @@ namespace CMPT291Project
 
         private Form2 formMain;
 
+        bool populate_test_data = false;
+
         // Properly close all running processes on app exit
         private void Form_Login_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -53,6 +55,21 @@ namespace CMPT291Project
             {
                 MessageBox.Show(e.ToString(), "Error");
                 this.Close();
+            }
+
+            if (populate_test_data)
+            {
+                DB_Helper dbHelper = new DB_Helper();
+                List<string> commands = dbHelper.populate_data(20, 20, 20);
+
+                foreach(string command in commands)
+                {
+                    sqlCommand.CommandText = command;
+                    sqlReader = sqlCommand.ExecuteReader();
+                    sqlReader.Read();
+                    sqlReader.Close();
+
+                }
             }
 
         }

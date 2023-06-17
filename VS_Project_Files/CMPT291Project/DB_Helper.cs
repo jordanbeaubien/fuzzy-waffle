@@ -210,34 +210,38 @@ namespace CMPT291Project
         public List<string> populate_data(int num_cars, int num_employees, int num_customers)
         {
             List<string> data = new List<string>();
-
             int start_vin = 2;
-            string[] cars = new string[num_cars];
+
+            data.AddRange(clear_tables());
+            data.AddRange(populate_car_types);
+            data.AddRange(populate_branches);
+            data.AddRange(starter_values);
+
             for (int i = 0; i < num_cars; i++)
             {
-                cars[i] = new_car($"{start_vin++}".PadLeft(8, '0'));
+                data.Add(new_car($"{start_vin++}").PadLeft(7, '0'));
             }
 
-
-
-            string[][] blocks = new string[][]
+            for (int i = 0; i < num_employees; i++)
             {
-                clear_tables(),
-                populate_car_types,
-                populate_branches,
-                starter_values,
-                cars,
-            };
+                data.Add(new_employee());
+            }
+
+            for (int i = 0; i < num_customers; i++)
+            {
+                data.Add(new_customer());
+            }
 
             return data;
         }
 
         public void test()
         {
-            string[] t = clear_tables();
-            for (int i = 0; i < t.Length; i++)
+            List<string> test = populate_data(20, 20, 20);
+            
+            foreach(string line in test)
             {
-                MessageBox.Show(t[i]);
+                System.Diagnostics.Debug.WriteLine(line);
             }
         }
     }
