@@ -27,10 +27,10 @@ namespace CMPT291Project
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Login code added
-            Form2 formMain = new Form2();
-            Form1 formLogin = new Form1(formMain);
+            MainForm mainFormInstance = new MainForm();
+            LoginForm loginFormInstance = new LoginForm(mainFormInstance);
 
-            Application.Run(formLogin);
+            Application.Run(loginFormInstance);
         }
     }
 }

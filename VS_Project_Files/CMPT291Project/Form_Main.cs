@@ -16,7 +16,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView;
 
 namespace CMPT291Project
 {
-    public partial class Form2 : Form
+    public partial class MainForm : Form
     {
         public SqlConnection sqlConnection;
         public SqlCommand sqlCommand;
@@ -38,16 +38,16 @@ namespace CMPT291Project
         bool borked = false;
 
         // Properly close all running processes on app exit
-        private void Form_Login_FormClosing(object sender, FormClosingEventArgs e)
+        private void Form_Main_FormClosing(object sender, FormClosingEventArgs e)
         {
             Application.Exit();
         }
-        public Form2()
+        public MainForm()
         {
             InitializeComponent();
 
             // Properly close all running processes on app exit
-            this.FormClosing += Form_Login_FormClosing;
+            this.FormClosing += Form_Main_FormClosing;
 
             // Connect to SQL server
             String connectionString = "Server = .; Database = CMPT291Project; Trusted_Connection = yes";

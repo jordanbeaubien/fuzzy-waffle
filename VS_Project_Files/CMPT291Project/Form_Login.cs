@@ -14,13 +14,13 @@ using System.Reflection;
 namespace CMPT291Project
 {
 
-    public partial class Form1 : Form
+    public partial class LoginForm : Form
     {
         public SqlConnection sqlConnection;
         public SqlCommand sqlCommand;
         public SqlDataReader sqlReader;
 
-        private Form2 formMain;
+        private MainForm mainFormInstance;
 
         bool populate_test_data = false;
 
@@ -30,11 +30,11 @@ namespace CMPT291Project
             Application.Exit();
         }
 
-        public Form1(Form2 formMain) // Added argument "Form2 formMain" for login auth
+        public LoginForm(MainForm mainFormInstance) // Added argument "MainForm mainFormInstance" for login auth
         {
             InitializeComponent();
             // Login addon
-            this.formMain = formMain;
+            this.mainFormInstance = mainFormInstance;
 
             // Properly close all running processes on app exit
             this.FormClosing += Form_Login_FormClosing;
@@ -62,7 +62,7 @@ namespace CMPT291Project
                 DB_Helper dbHelper = new DB_Helper();
                 List<string> commands = dbHelper.populate_data(20, 20, 20);
 
-                foreach(string command in commands)
+                foreach (string command in commands)
                 {
                     sqlCommand.CommandText = command;
                     sqlReader = sqlCommand.ExecuteReader();
@@ -105,35 +105,35 @@ namespace CMPT291Project
                         {
                             sqlReader.Close();
                             this.Hide();
-                            formMain.Show();
+                            mainFormInstance.Show();
 
                             sqlCommand.CommandText = $"select customer_id from CustomerLogin where username = '{text_user.Text}';";
                             MessageBox.Show(sqlCommand.CommandText);
                             sqlReader = sqlCommand.ExecuteReader();
                             sqlReader.Read();
 
-                            formMain.customer_id = (int)sqlReader["customer_id"];
+                            mainFormInstance.customer_id = (int)sqlReader["customer_id"];
 
                         }
                         else if (cb_type.Text == "Employee")
                         {
                             //sqlReader.Close();
                             this.Hide();
-                            formMain.Show();
+                            mainFormInstance.Show();
 
                             // Add the tabs back
-                            if (formMain.tabCar != null)
+                            if (mainFormInstance.tabCar != null)
                             {
-                                formMain.tabControl1.TabPages.Add(formMain.tabCar);
+                                mainFormInstance.tabControl1.TabPages.Add(mainFormInstance.tabCar);
                             }
-                            if (formMain.tabQuery != null)
+                            if (mainFormInstance.tabQuery != null)
                             {
-                                formMain.tabControl1.TabPages.Add(formMain.tabQuery);
+                                mainFormInstance.tabControl1.TabPages.Add(mainFormInstance.tabQuery);
                             }
-                            formMain.show_customer_id();
+                            mainFormInstance.show_customer_id();
 
                             // If login is successful:
-                            formMain.IsUserAuthenticated = true;
+                            mainFormInstance.IsUserAuthenticated = true;
 
                         }
                     }
