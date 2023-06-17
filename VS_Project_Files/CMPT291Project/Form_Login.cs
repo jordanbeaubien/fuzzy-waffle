@@ -22,7 +22,7 @@ namespace CMPT291Project
 
         private MainForm mainFormInstance;
 
-        bool populate_test_data = false;
+        bool populate_test_data = true;
 
         // Properly close all running processes on app exit
         private void Form_Login_FormClosing(object sender, FormClosingEventArgs e)

@@ -13,9 +13,9 @@ namespace CMPT291Project
 {
     public class DB_Helper
     {
-        string[] provinces = new string[] { "AB", "BC", "MN", "NB", "NF", "NS", "ON", "PE", "QC", "SK" };
+        private string[] provinces = new string[] { "AB", "BC", "MN", "NB", "NF", "NS", "ON", "PE", "QC", "SK" };
 
-        Dictionary<string, string[]> cities_by_province = new Dictionary<string, string[]>
+        private Dictionary<string, string[]> cities_by_province = new Dictionary<string, string[]>
         {
             { "AB", new string[] {"Calgary", "Edmonton", "Red Deer", "Lethbridge", "Airdrie" } },
             { "BC", new string[] {"Vancouver", "Victoria", "Kelowna", "Abbotsford", "White Rock" } },
@@ -29,7 +29,7 @@ namespace CMPT291Project
             { "SK", new string[] { "Saskatoon", "Regina", "Prince Albert", "Moose Jaw", "Lloydminster"} }
         };
 
-        string[] first_names = {"Joey", "Aurelio", "Evan", "Donny", "Foster", "Dwayne", "Grady", "Quinton", "Darin", "Mickey",
+        private string[] first_names = {"Joey", "Aurelio", "Evan", "Donny", "Foster", "Dwayne", "Grady", "Quinton", "Darin", "Mickey",
             "Hank", "Kim", "Peter", "Jeremy", "Jess", "Jimmie", "Vern", "Pasquale", "Romeo", "Chris", "Dale",
             "Beau", "Cliff", "Timothy", "Raphael", "Brain", "Mauro", "Luke", "Myron", "Omar", "Reynaldo",
             "Major", "Clinton", "Nolan", "Raymond", "Lucien", "Carey", "Winfred", "Dan", "Abel", "Elliott",
@@ -40,7 +40,7 @@ namespace CMPT291Project
             "Sybil", "Adeline", "Taylor", "Anita", "Aurora", "Neva", "Alisha", "Maria", "Erna", "Gwendolyn",
             "Brenda", "Bethany", "Sybil", "Earline", "June", "Brandy", "Sue" };
 
-        string[] last_names = {"Mejia", "Robles", "Kennedy", "Case", "Bryan", "Leach", "Mccall", "Reed", "Torres", "Mayo", "Acevedo",
+        private string[] last_names = {"Mejia", "Robles", "Kennedy", "Case", "Bryan", "Leach", "Mccall", "Reed", "Torres", "Mayo", "Acevedo",
             "Hardy", "Arroyo", "Tran", "Haley", "Stark", "Schmidt", "Kelley", "Johnston", "Owens", "French", "Banks",
             "Flynn", "Buck", "Munoz", "Bauer", "Hunt", "Fisher", "Salinas", "Roth", "Sanders", "Brown", "Powers",
             "Cowan", "Cochran", "Weeks", "Rodgers", "Krause", "Salas", "Jacobson", "Bush", "Waters", "Stevenson",
@@ -51,9 +51,9 @@ namespace CMPT291Project
             "Hoffman", "Hernandez", "Dudley", "Bright", "Dillon", "Moran", "Mcdaniel", "Potts", "Lopez", "Hill", "Dodson",
             "Leach", "Michael", "Walls" };
 
-        string[] car_makes = { "BMW", "Ford", "General Motors", "Honda", "Hyundai", "Nissan", "Toyota" };
+        private string[] car_makes = { "BMW", "Ford", "General Motors", "Honda", "Hyundai", "Nissan", "Toyota" };
 
-        Dictionary<string, string[]> car_models_by_make = new Dictionary<string, string[]>
+        private Dictionary<string, string[]> car_models_by_make = new Dictionary<string, string[]>
         {
             { "BMW"            , new string[] {"4 Series", "2 Series" } },
             { "Ford"           , new string[] {"F-150", "Transit" } },
@@ -64,7 +64,7 @@ namespace CMPT291Project
             { "Toyota"         , new string[] {"Corolla", "Camry" } }
         };
 
-        Dictionary<string, string[]> car_type_by_model = new Dictionary<string, string[]>
+        private Dictionary<string, string[]> car_type_by_model = new Dictionary<string, string[]>
         {
             { "BMW"            , new string[] { "Luxury", "Luxury" } },
             { "Ford"           , new string[] { "Truck", "Van" } },
@@ -75,9 +75,9 @@ namespace CMPT291Project
             { "Toyota"         , new string[] { "Compact", "Compact" } }
         };
 
-        public string[] colours = new string[] { "red", "blue", "grey", "black" };
+        private string[] colours = new string[] { "red", "blue", "grey", "black" };
 
-        Dictionary<string, int[]> car_prices_by_type = new Dictionary<string, int[]>
+        private Dictionary<string, int[]> car_prices_by_type = new Dictionary<string, int[]>
         {
             {"Compact" ,   new int[] { 10, 60, 200, 50 } },
             {"Luxury" ,   new int[] { 50, 300, 1000, 150 } },
@@ -86,7 +86,7 @@ namespace CMPT291Project
         };
 
 
-        public string new_customer()
+        private string new_customer()
         {
             // Randomly generate a sql insertion string for a new customer
             Random rnd = new Random();
@@ -105,7 +105,7 @@ namespace CMPT291Project
             return text;
         }
 
-        public string new_employee()
+        private string new_employee()
         {
             // Randomly generate a sql insertion string for a new employee
             Random rnd = new Random();
@@ -129,7 +129,7 @@ namespace CMPT291Project
         }
 
 
-        public string new_car(string vin)
+        private string new_car(string vin)
         {
             Random rnd = new Random();
             string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -164,7 +164,7 @@ namespace CMPT291Project
         }
 
 
-        public string[] clear_tables()
+        private string[] clear_tables()
         {
             string[] tables = { "customerLogin", "employeeLogin", "rental", "car", "carType", "employee", "branch", "customer" };
             string[] output = new string[tables.Length];
@@ -177,7 +177,7 @@ namespace CMPT291Project
             return output;
         }
 
-        public string[] populate_car_types = new string[]
+        private string[] populate_car_types = new string[]
         {
             "insert CarType values ('Compact', 10, 60, 200, 50, 'Fuel Efficient', 5, 2);",
             "insert CarType values('Luxury', 50, 300, 1000, 150, 'AC', 5, 2);",
@@ -186,7 +186,7 @@ namespace CMPT291Project
         };
 
 
-        public string[] populate_branches = new string[]
+        private string[] populate_branches = new string[]
         {
             "insert into branch values (1, 50, '1st street', 'Edmonton', 'AB', '7805556789', 'branch1@kevauto.ca');",
             "insert into branch values(2, 987, '22nd street', 'Calgary', 'AB', '7805559876', 'branch2@kevauto.ca');",
@@ -196,7 +196,7 @@ namespace CMPT291Project
         };
 
 
-        public string[] starter_values = new string[]
+        private string[] starter_values = new string[]
         {
             "insert into customer values ('1', 'RELOCATION', 'RELOCATION', 1, '1', 'R', 'RR', '20200101', '55555555');",
             "insert into car values ('test', 'test', 'test', 2016, 'grey', '1A1-A1A', 'Compact');",
@@ -204,6 +204,29 @@ namespace CMPT291Project
             "insert into employee values ('1', 'test', 'test', 4300, '87 Street', 'test', 'AB', 'test', '1472551', '1');",
             "insert into CustomerLogin values(1, 'test', 'pwd');",
             "insert into EmployeeLogin values(1, 'test', 'pwd');"
+        };
+
+
+        private string[] test_values = new string[]
+        {
+            "insert into branch values (6, 9, 'main street', 'Calgary', 'AB', '7805555555', 'branch6@kevauto.ca');",
+            "insert into branch values(7, 201, 'peach street', 'Kelowna', 'BC', '7805555555', 'branch7@kevauto.ca');",
+            "insert into car values('11111111', 'Test', 'Compact', 2020, 'red', 'A1A-1A1', 'Compact');",
+            "insert into rental values((select max(reservation_id) + 1 from rental), '20200101', '20200101', 1, '11111111', 6, 6);",
+            "insert into car values('2222222', 'Test', 'Truck', 2020, 'red', 'A1A-1A1', 'Truck');",
+            "insert into rental values((select max(reservation_id) + 1 from rental), '20200101', '20200101', 1, '2222222', 6, 6);",
+            "insert into car values('3333333', 'Test', 'Compact2', 2020, 'red', 'A1A-1A1', 'Compact');",
+            "insert into rental values((select max(reservation_id) + 1 from rental), '20200101', '20200101', 1, '3333333', 6, 6);",
+            "insert into car values('4444444', 'Test', 'luxury', 2020, 'red', 'A1A-1A1', 'Luxury');",
+            "insert into rental values((select max(reservation_id) + 1 from rental), '20200101', '20200101', 1, '4444444', 6, 6);",
+            "insert into rental values((select max(reservation_id) + 1 from rental), '20200101', '20200101', 1, '3333333', 7, 7);",
+            "insert into rental values((select max(reservation_id) + 1 from rental), '20230502', '20230602', 6, '3333333', 4, 6);",
+            "insert into rental values((select max(reservation_id) + 1 from rental), '20221102', '20230102', 6, '4444444', 6, 4);",
+            "insert into rental values((select max(reservation_id) + 1 from rental), '20220902', '20221002', 6, '4444444', 4, 6);",
+            "insert into rental values((select max(reservation_id) + 1 from rental), '20210902', '20211002', 6, '4444444', 4, 6);",
+            "insert into rental values((select max(reservation_id) + 1 from rental), '20210902', '20211002', 7, '4444444', 4, 6);",
+            "insert into rental values((select max(reservation_id) + 1 from rental), '20210902', '20211002', 8, '4444444', 4, 6);",
+            "insert into rental values((select max(reservation_id) + 1 from rental), '20210902', '20211002', 9, '4444444', 4, 6);"
         };
 
 
@@ -231,6 +254,8 @@ namespace CMPT291Project
             {
                 data.Add(new_customer());
             }
+
+            data.AddRange(test_values);
 
             return data;
         }
