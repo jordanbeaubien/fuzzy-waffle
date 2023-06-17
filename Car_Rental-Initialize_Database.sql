@@ -1,5 +1,9 @@
 USE [master]
 GO
+alter database CMPT291Project set single_user with rollback immediate
+GO
+DROP DATABASE CMPT291Project
+GO
 /****** Object:  Database [CMPT291Project]    Script Date: 2023-06-06 2:59:18 PM ******/
 CREATE DATABASE [CMPT291Project]
  CONTAINMENT = NONE
@@ -239,26 +243,31 @@ CREATE TABLE [dbo].[Rental](
 GO
 ALTER TABLE [dbo].[Car]  WITH CHECK ADD  CONSTRAINT [FK_Car_CarType] FOREIGN KEY([type])
 REFERENCES [dbo].[CarType] ([type])
+ON UPDATE CASCADE
 GO
 ALTER TABLE [dbo].[Car] CHECK CONSTRAINT [FK_Car_CarType]
 GO
 ALTER TABLE [dbo].[Employee]  WITH CHECK ADD  CONSTRAINT [FK_Employee_Branch] FOREIGN KEY([branch_id])
 REFERENCES [dbo].[Branch] ([branch_id])
+ON UPDATE CASCADE
 GO
 ALTER TABLE [dbo].[Employee] CHECK CONSTRAINT [FK_Employee_Branch]
 GO
 ALTER TABLE [dbo].[Rental]  WITH CHECK ADD  CONSTRAINT [FK_Rental_Branch] FOREIGN KEY([branch_id_return])
 REFERENCES [dbo].[Branch] ([branch_id])
+ON UPDATE CASCADE
 GO
 ALTER TABLE [dbo].[Rental] CHECK CONSTRAINT [FK_Rental_Branch]
 GO
 ALTER TABLE [dbo].[Rental]  WITH CHECK ADD  CONSTRAINT [FK_Rental_Car] FOREIGN KEY([vin])
 REFERENCES [dbo].[Car] ([vin])
+ON UPDATE CASCADE
 GO
 ALTER TABLE [dbo].[Rental] CHECK CONSTRAINT [FK_Rental_Car]
 GO
 ALTER TABLE [dbo].[Rental]  WITH CHECK ADD  CONSTRAINT [FK_Rental_Customer] FOREIGN KEY([customer_id])
 REFERENCES [dbo].[Customer] ([customer_id])
+ON UPDATE CASCADE
 GO
 ALTER TABLE [dbo].[Rental] CHECK CONSTRAINT [FK_Rental_Customer]
 GO
