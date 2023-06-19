@@ -8,6 +8,15 @@ namespace CMPT291Project
         [STAThread]
         static void Main()
         {
+            bool testing = false;
+
+            if (testing)
+            {
+                DB_Helper dbHelper = new DB_Helper();
+                dbHelper.test();
+
+                return;
+            }
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
@@ -18,10 +27,10 @@ namespace CMPT291Project
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Login code added
-            Form2 formMain = new Form2();
-            Form1 formLogin = new Form1(formMain);
+            MainForm mainFormInstance = new MainForm();
+            LoginForm loginFormInstance = new LoginForm(mainFormInstance);
 
-            Application.Run(formLogin);
+            Application.Run(loginFormInstance);
         }
     }
 }

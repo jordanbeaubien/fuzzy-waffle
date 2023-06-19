@@ -1,6 +1,6 @@
 ﻿namespace CMPT291Project
 {
-    partial class Form1
+    partial class LoginForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -114,7 +114,7 @@
             fileSystemWatcher1.EnableRaisingEvents = true;
             fileSystemWatcher1.SynchronizingObject = this;
             // 
-            // Form1
+            // LoginForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -127,8 +127,8 @@
             Controls.Add(text_user);
             Controls.Add(cb_type);
             Margin = new Padding(3, 4, 3, 4);
-            Name = "Form1";
-            Text = "Login Screen";
+            Name = "LoginForm";
+            Text = "User Login";
             ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).EndInit();
             ResumeLayout(false);
             PerformLayout();

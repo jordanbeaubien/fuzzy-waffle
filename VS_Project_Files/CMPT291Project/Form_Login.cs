@@ -14,13 +14,16 @@ using System.Reflection;
 namespace CMPT291Project
 {
 
-    public partial class Form1 : Form
+    public partial class LoginForm : Form
     {
         public SqlConnection sqlConnection;
         public SqlCommand sqlCommand;
         public SqlDataReader sqlReader;
 
-        private Form2 formMain;
+        private MainForm mainFormInstance;
+
+        bool populate_test_data = false;
+        bool rebuild_database = false;
 
         // Properly close all running processes on app exit
         private void Form_Login_FormClosing(object sender, FormClosingEventArgs e)
@@ -28,11 +31,11 @@ namespace CMPT291Project
             Application.Exit();
         }
 
-        public Form1(Form2 formMain) // Added argument "Form2 formMain" for login auth
+        public LoginForm(MainForm mainFormInstance) // Added argument "MainForm mainFormInstance" for login auth
         {
             InitializeComponent();
             // Login addon
-            this.formMain = formMain;
+            this.mainFormInstance = mainFormInstance;
 
             // Properly close all running processes on app exit
             this.FormClosing += Form_Login_FormClosing;
@@ -53,6 +56,41 @@ namespace CMPT291Project
             {
                 MessageBox.Show(e.ToString(), "Error");
                 this.Close();
+            }
+
+            if (rebuild_database)
+            {
+                DB_Helper dbHelper = new DB_Helper();
+                List<string> commands = dbHelper.rebuild_db();
+
+                foreach (string command in commands)
+                {
+                    sqlCommand.CommandText = command;
+                    sqlReader = sqlCommand.ExecuteReader();
+                    sqlReader.Read();
+                    sqlReader.Close();
+                }
+
+                rebuild_database = false;
+            }
+
+            if (populate_test_data)
+            {
+                //while (rebuild_database) { }
+
+                DB_Helper dbHelper = new DB_Helper();
+                List<string> commands;
+
+                commands = dbHelper.populate_data(20, 20, 20);
+
+                foreach (string command in commands)
+                {
+                    sqlCommand.CommandText = command;
+                    sqlReader = sqlCommand.ExecuteReader();
+                    sqlReader.Read();
+                    sqlReader.Close();
+
+                }
             }
 
         }
@@ -88,35 +126,35 @@ namespace CMPT291Project
                         {
                             sqlReader.Close();
                             this.Hide();
-                            formMain.Show();
+                            mainFormInstance.Show();
 
                             sqlCommand.CommandText = $"select customer_id from CustomerLogin where username = '{text_user.Text}';";
                             MessageBox.Show(sqlCommand.CommandText);
                             sqlReader = sqlCommand.ExecuteReader();
                             sqlReader.Read();
 
-                            formMain.customer_id = (int)sqlReader["customer_id"];
+                            mainFormInstance.customer_id = (int)sqlReader["customer_id"];
 
                         }
                         else if (cb_type.Text == "Employee")
                         {
                             //sqlReader.Close();
                             this.Hide();
-                            formMain.Show();
+                            mainFormInstance.Show();
 
                             // Add the tabs back
-                            if (formMain.tabCar != null)
+                            if (mainFormInstance.tabCar != null)
                             {
-                                formMain.tabControl1.TabPages.Add(formMain.tabCar);
+                                mainFormInstance.tabControl1.TabPages.Add(mainFormInstance.tabCar);
                             }
-                            if (formMain.tabQuery != null)
+                            if (mainFormInstance.tabQuery != null)
                             {
-                                formMain.tabControl1.TabPages.Add(formMain.tabQuery);
+                                mainFormInstance.tabControl1.TabPages.Add(mainFormInstance.tabQuery);
                             }
-                            formMain.show_customer_id();
+                            mainFormInstance.show_customer_id();
 
                             // If login is successful:
-                            formMain.IsUserAuthenticated = true;
+                            mainFormInstance.IsUserAuthenticated = true;
 
                         }
                     }
