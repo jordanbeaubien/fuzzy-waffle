@@ -107,7 +107,7 @@
             vehicle_type_combo_box.Location = new Point(161, 356);
             vehicle_type_combo_box.Name = "vehicle_type_combo_box";
             vehicle_type_combo_box.Size = new Size(250, 28);
-            vehicle_type_combo_box.TabIndex = 0;
+            vehicle_type_combo_box.TabIndex = 9;
             vehicle_type_combo_box.SelectedIndexChanged += vehicle_type_combo_box_SelectedIndexChanged;
             // 
             // tabControl1
@@ -163,7 +163,7 @@
             customer_id_input.Location = new Point(766, 32);
             customer_id_input.Name = "customer_id_input";
             customer_id_input.Size = new Size(121, 28);
-            customer_id_input.TabIndex = 32;
+            customer_id_input.TabIndex = 7;
             // 
             // label_type_not_selected
             // 
@@ -272,7 +272,7 @@
             confirm_button.Margin = new Padding(3, 4, 3, 4);
             confirm_button.Name = "confirm_button";
             confirm_button.Size = new Size(250, 125);
-            confirm_button.TabIndex = 18;
+            confirm_button.TabIndex = 10;
             confirm_button.Text = "Confirm Booking";
             confirm_button.UseVisualStyleBackColor = true;
             confirm_button.Click += confirm_button_Click;
@@ -284,7 +284,7 @@
             dropoff_location_combo.Location = new Point(637, 159);
             dropoff_location_combo.Name = "dropoff_location_combo";
             dropoff_location_combo.Size = new Size(250, 28);
-            dropoff_location_combo.TabIndex = 12;
+            dropoff_location_combo.TabIndex = 6;
             dropoff_location_combo.SelectedIndexChanged += dropoff_location_combo_SelectedIndexChanged;
             // 
             // pickup_location_combo
@@ -294,7 +294,7 @@
             pickup_location_combo.Location = new Point(161, 157);
             pickup_location_combo.Name = "pickup_location_combo";
             pickup_location_combo.Size = new Size(250, 28);
-            pickup_location_combo.TabIndex = 11;
+            pickup_location_combo.TabIndex = 5;
             pickup_location_combo.SelectedIndexChanged += pickup_location_combo_SelectedIndexChanged;
             // 
             // dropoff_location_label
@@ -323,7 +323,7 @@
             search_button.Location = new Point(161, 233);
             search_button.Name = "search_button";
             search_button.Size = new Size(250, 53);
-            search_button.TabIndex = 6;
+            search_button.TabIndex = 8;
             search_button.Text = "Search For Availability";
             search_button.UseVisualStyleBackColor = false;
             search_button.Click += search_button_Click_1;
@@ -755,7 +755,7 @@
             combo_query_option.Margin = new Padding(3, 4, 3, 4);
             combo_query_option.Name = "combo_query_option";
             combo_query_option.Size = new Size(459, 28);
-            combo_query_option.TabIndex = 5;
+            combo_query_option.TabIndex = 2;
             // 
             // label_query_option
             // 
@@ -781,7 +781,7 @@
             button_query.Margin = new Padding(3, 4, 3, 4);
             button_query.Name = "button_query";
             button_query.Size = new Size(245, 61);
-            button_query.TabIndex = 2;
+            button_query.TabIndex = 3;
             button_query.Text = "Run Query";
             button_query.UseVisualStyleBackColor = true;
             button_query.Click += button_query_Click;

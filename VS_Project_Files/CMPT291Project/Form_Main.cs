@@ -152,7 +152,7 @@ namespace CMPT291Project
                     "DATEDIFF(day, from_date, to_date)>= 7 AND DATEDIFF(day, from_date, to_date)< 30 then weekly_rate " +
                     "*DATEDIFF(week, from_date, to_date) when DATEDIFF(day, from_date, to_date)>= 30 then monthly_rate " +
                     "*DATEDIFF(month, from_date, to_date) END else null END as price from rental as R, Car as C, CarType as CT " +
-                    "where R.vin = C.vin AND C.type = CT.type)";
+                    "where R.vin = C.vin AND C.type = CT.type AND R.customer_id != 1)";
                 try
                 {
                     sqlCommand.ExecuteNonQuery();
@@ -171,7 +171,7 @@ namespace CMPT291Project
 
             // No views for query1
 
-            // Check if rentalsbybranchyr View already exists (used for query0)
+            // Check if rentalsbybranchyr View already exists (used for query 2)
             sqlCommand.CommandText = "SELECT OBJECT_ID('rentalsbybranchyr', 'V')";
             object view_check_query2 = sqlCommand.ExecuteScalar();
             if (view_check_query0 == DBNull.Value)
@@ -179,9 +179,9 @@ namespace CMPT291Project
                 // If rentalsbybranchyr view does not exist, run SQL code to create the view
                 sqlCommand.CommandText = "CREATE VIEW rentalsbybranchyr AS\r\n(select sum(times) as times, branch_id, year " +
                     "from((select count(*) as times, branch_id_return as branch_id, year(from_date) as year from Branch, Rental " +
-                    "where branch_id=branch_id_return group by year(from_date), branch_id_return) UNION ALL " +
+                    "where customer_id != 1 AND branch_id=branch_id_return group by year(from_date), branch_id_return) UNION ALL " +
                     "(select count(*) as times, branch_id_pickup as branch_id, year(from_date) as year from Branch, Rental " +
-                    "where branch_id=branch_id_pickup group by year(from_date), branch_id_pickup)) as X group by year, branch_id)";
+                    "where customer_id != 1 AND branch_id=branch_id_pickup group by year(from_date), branch_id_pickup)) as X group by year, branch_id)";
                 try
                 {
                     sqlCommand.ExecuteNonQuery();
@@ -866,7 +866,8 @@ namespace CMPT291Project
                 case 0: // string query0 = "Name and Address of Customers who Spent Over $1000 Last Year";
                     sqlCommand.CommandText = "select X.customer_id, spent, first_name, last_name, house_number, street, city, province from " +
                         "(select sum(price) as spent, R.customer_id from pricebyrental as P, (select * from Rental where year(from_date)=year(GETDATE())-1) as R " +
-                        "where R.reservation_id=P.reservation_id group by R.customer_id) as X, Customer as C where X.customer_id=C.customer_id and X.spent>=1000";
+                        "where R.reservation_id=P.reservation_id group by R.customer_id) as X, Customer as C where X.customer_id=C.customer_id and X.spent>=1000 " +
+                        "AND X.customer_id != 1;";
                     try
                     {
                         MessageBox.Show(sqlCommand.CommandText);
@@ -898,7 +899,7 @@ namespace CMPT291Project
 
                 case 1: // string query1 = "Number of Rentals by Car Type from Branches in Specified City";
                     sqlCommand.CommandText = "select C.type as 'car_type', R.branch_id_pickup as 'branch_id', count(*) as 'num_rentals' " +
-                        "from Rental R, Car C where C.vin=R.vin and R.branch_id_pickup " +
+                        "from Rental R, Car C where C.vin=R.vin and R.customer_id != 1 and R.branch_id_pickup " +
                         "in (select branch_id from Branch where city='" + combo_query_option.Text + "') " +
                         "group by R.branch_id_pickup, C.type;";
                     try
@@ -952,10 +953,10 @@ namespace CMPT291Project
 
                 case 3: // string query3 = "Percentage Share of Rentals by all Branches";
                     sqlCommand.CommandText = "select branch_id_pickup as 'pickup/return branch', " +
-                        "(count(*)*100)/(select count(*) from Rental) as 'percent' from Rental as R " +
+                        "(count(*)*100)/(select count(*) from Rental where customer_id != 1) as 'percent' from Rental as R where R.customer_ID != 1 " +
                         "group by branch_id_pickup UNION ALL select null as 'pickup/return branch', null as 'percent' UNION ALL " +
-                        "select branch_id_return as 'pickup/return branch', (count(*)*100)/(select count(*) from Rental) as 'percent' from Rental as R " +
-                        "group by branch_id_return;";
+                        "select branch_id_return as 'pickup/return branch', (count(*)*100)/(select count(*) from Rental where customer_id != 1) as 'percent' from Rental as R " +
+                        "where R.customer_id != 1 group by branch_id_return;";
                     try
                     {
                         MessageBox.Show(sqlCommand.CommandText);
